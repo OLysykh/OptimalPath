@@ -8,6 +8,6 @@ public class Executor {
     private static final Logger LOGGER = LogManager.getLogger(Executor.class);
 
     public static void main(String[] args) {
-        LOGGER.info("Let`s do it together!");
+        LOGGER.info("Let`s do it together and Roman ");
     }
 }
