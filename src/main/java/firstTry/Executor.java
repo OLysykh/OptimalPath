@@ -1,5 +1,7 @@
 package firstTry;
 
+import java.util.List;
+
 public class Executor {
 
 
@@ -39,7 +41,12 @@ public class Executor {
         graph  = DijkstraAlgorithm.calculateShortestPathFromSource(graph, nodeA);
 
       for (Node nod:graph.getNodes()){
-          System.out.println(nod.getDistance()+" "+ nod.getName());
+          System.out.print(nod.getDistance()+" "+ nod.getName());
+          List<Node> list = nod.getShortestPath();
+          for (Node ele: list){
+              System.out.println(ele.getName());
+          }
+          System.out.println("-------------");
         }
 
     }
