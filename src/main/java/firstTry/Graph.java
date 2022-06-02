@@ -8,22 +8,17 @@ public class Graph {
 
     //https://www.baeldung.com/java-dijkstra
 
-
-    public Graph() {
-    }
-
     private Set<Node> nodes = new HashSet<>();
 
-    public Set<Node> getNodes() {
-        return nodes;
+    public Graph() {
     }
 
     public Graph(Set<Node> nodes) {
         this.nodes = nodes;
     }
 
-    public void setNodes(Set<Node> nodes) {
-        this.nodes = nodes;
+    public Set<Node> getNodes() {
+        return nodes;
     }
 
     public void addNode(Node nodeA) {
