@@ -2,18 +2,21 @@ package com.solvd.optimalpath.services.algorythm;
 
 import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
+import com.solvd.optimalpath.menu.Menu;
 import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.services.DistanceCalculation;
 import com.solvd.optimalpath.services.Initialization;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Executor {
 
 
-
     public static void main(String[] args) {
-
+        final Logger LOGGER = LogManager.getLogger(Executor.class);
 //        ICitiesDao iCitiesDao = new CitiesDao();
 //        CitiesModel nodeA = iCitiesDao.getCitiesById(1);//kyiv
 //        CitiesModel nodeB = iCitiesDao.getCitiesById(2);//dnipro
@@ -35,22 +38,24 @@ public class Executor {
 //        nodeC.addDestination(nodeE, 10);
 
 
+         Menu.start();
 
+/*        Graph graph = Initialization.addCitiesFromDB();
 
-        Graph graph =  Initialization.addCitiesFromDB();
-
-        graph  = DijkstraAlgorithm.calculateShortestPathFromSource(graph,graph.getIt());
-
-      for (CitiesModel nod:graph.getNodes()){
-          System.out.println("distance is  "+nod.getDistance()+" km to "+ nod.getName());
-          List<CitiesModel> list = nod.getShortestPath();
-          System.out.println("Your paths through");
-          for (CitiesModel ele: list){
-              System.out.println(ele.getName());
-              System.out.println("-->");
-          }
-          System.out.println("-------------");
-        }
-
+        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
+        int i=0;
+        for (CitiesModel nod : graph.getNodes()) {
+                if (i ==22) {
+                    System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
+                    List<CitiesModel> list = nod.getShortestPath();
+                    System.out.println("Your paths through");
+                    for (CitiesModel ele : list) {
+                        System.out.println(ele.getName());
+                        System.out.println("-->");
+                    }
+                    System.out.println("-------------");
+                }
+            i++;
+        }*/
     }
 }
