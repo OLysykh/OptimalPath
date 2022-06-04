@@ -22,6 +22,7 @@ public class CitiesDao implements ICitiesDao {
     final String DELETE = "DELETE FROM cities WHERE id = ? ";
     final String GET = "SELECT * FROM cities WHERE id = ? ";
     private static final String GET_ALL = "SELECT * FROM cities";
+    private static final String GET_ALL_NAMES = "SELECT name FROM cities WHERE id>1";
 
     @Override
     public void createCities(CitiesModel citiesModel) {
@@ -131,6 +132,31 @@ public class CitiesDao implements ICitiesDao {
                 citiesModel.setLongitude(result.getDouble(4));
                 citiesModels.add(citiesModel);
                 citiesModel.toString();
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return citiesModels;
+    }
+
+    public List<CitiesModel> getALLCitiesNames() {
+        ArrayList<CitiesModel> citiesModels = new ArrayList<>();
+        Connection dbConnect = DataBaseConnection.getConnection();
+        try {
+            statement = dbConnect.prepareStatement(GET_ALL_NAMES);
+            result = statement.executeQuery();
+            while (result.next()) {
+                CitiesModel citiesModel = new CitiesModel();
+                citiesModel.setName(result.getString("name"));
+                citiesModels.add(citiesModel);
             }
         } catch (Exception e) {
             LOGGER.error(e);

@@ -1,19 +1,14 @@
 package com.solvd.optimalpath.services.algorythm;
 
-import com.solvd.optimalpath.dao.CitiesDao;
-import com.solvd.optimalpath.interfaces.ICitiesDao;
-import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.services.DistanceCalculation;
-import com.solvd.optimalpath.services.Initialization;
-
-import java.util.List;
+import com.solvd.optimalpath.services.ClientMenu;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Executor {
 
 
-
     public static void main(String[] args) {
-
+        final Logger LOGGER = LogManager.getLogger(Executor.class);
 //        ICitiesDao iCitiesDao = new CitiesDao();
 //        CitiesModel nodeA = iCitiesDao.getCitiesById(1);//kyiv
 //        CitiesModel nodeB = iCitiesDao.getCitiesById(2);//dnipro
@@ -35,22 +30,35 @@ public class Executor {
 //        nodeC.addDestination(nodeE, 10);
 
 
-
-
-        Graph graph =  Initialization.addCitiesFromDB();
-
-        graph  = DijkstraAlgorithm.calculateShortestPathFromSource(graph,graph.getIt());
-
-      for (CitiesModel nod:graph.getNodes()){
-          System.out.println("distance is  "+nod.getDistance()+" km to "+ nod.getName());
-          List<CitiesModel> list = nod.getShortestPath();
-          System.out.println("Your paths through");
-          for (CitiesModel ele: list){
-              System.out.println(ele.getName());
-              System.out.println("-->");
-          }
-          System.out.println("-------------");
+         ClientMenu.start();
+/*        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int min = 30;
+        int max = 550;
+        int len=1;
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++){
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
+        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+        System.out.println(random_int+sb.toString());*/
 
+/*        Graph graph = Initialization.addCitiesFromDB();
+
+        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
+        int i=0;
+        for (CitiesModel nod : graph.getNodes()) {
+                if (i ==22) {
+                    System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
+                    List<CitiesModel> list = nod.getShortestPath();
+                    System.out.println("Your paths through");
+                    for (CitiesModel ele : list) {
+                        System.out.println(ele.getName());
+                        System.out.println("-->");
+                    }
+                    System.out.println("-------------");
+                }
+            i++;
+        }*/
     }
 }
