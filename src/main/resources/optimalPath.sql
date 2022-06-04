@@ -7,13 +7,13 @@ CREATE TABLE `cities` (
   `longitude` double
 );
 
-CREATE TABLE `airline` (
+CREATE TABLE `airlines` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `citiesId` int
 );
 
-CREATE TABLE `classType` (
+CREATE TABLE `classTypes` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `typeName` varchar(255),
   `citiesId` int,
@@ -82,7 +82,7 @@ VALUES ('Kyiv','50.45','30.51'),
 ('Zaporizhzhia','47.49','35.11'),
 ('Mariupol','47.05','37.32');
 
-INSERT INTO airline (name, citiesId)
+INSERT INTO airlines (name, citiesId)
 VALUES ('Wizzair','1'),
 ('Ryanair','2'),
 ('Wizzair','3'),
@@ -107,7 +107,7 @@ VALUES ('Wizzair','1'),
 ('Ryanair','22'),
 ('Wizzair','23');
 
-INSERT INTO classType (typeName, citiesId, price)
+INSERT INTO classTypes (typeName, citiesId, price)
 VALUES ('Business','1', '400'),
 ('Ekonom','1', '200'),
 ('Business','2', '200'),
@@ -171,7 +171,7 @@ VALUES ('Cat'),
 ('Chinchilla'),
 ('Mouse');
 
-INSERT INTO tickets (animalsId, airlineId, citiesId, classTypeId, clientsId)
+INSERT INTO tickets (animalsId, airlinesId, citiesId, classTypesId, clientsId)
 VALUES ('1','1','2','1','1'),
 ('2','2','3','2','2'),
 ('3','3','4','3','3'),
