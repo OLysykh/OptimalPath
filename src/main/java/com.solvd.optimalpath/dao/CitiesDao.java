@@ -2,7 +2,7 @@ package com.solvd.optimalpath.dao;
 
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.utitity.DataBaseConnection;
+import com.solvd.optimalpath.configuration.DataBaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,12 +1,26 @@
 package com.solvd.optimalpath.models;
 
+
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public class CitiesModel {
     private int id;
     private String name;
     private Double latitude;
     private Double longitude;
+    private List<CitiesModel> shortestPath = new LinkedList<>();
+    private Integer distance = Integer.MAX_VALUE;
+    Map<CitiesModel, Integer> adjacentNodes = new HashMap<>();
 
     public CitiesModel() {
+    }
+
+    public CitiesModel(String name) {
+        this.name = name;
     }
 
     public CitiesModel(int id, String name, Double latitude, Double longitude) {
@@ -46,6 +60,34 @@ public class CitiesModel {
 
     public Double getLongitude() {
         return longitude;
+    }
+
+    public List<CitiesModel> getShortestPath() {
+        return shortestPath;
+    }
+
+    public void setShortestPath(List<CitiesModel> shortestPath) {
+        this.shortestPath = shortestPath;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public Map<CitiesModel, Integer> getAdjacentNodes() {
+        return adjacentNodes;
+    }
+
+    public void setAdjacentNodes(Map<CitiesModel, Integer> adjacentNodes) {
+        this.adjacentNodes = adjacentNodes;
+    }
+
+    public void addDestination(CitiesModel destination, int distance) {
+        adjacentNodes.put(destination, distance);
     }
 
     @Override
