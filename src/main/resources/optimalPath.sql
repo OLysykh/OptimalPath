@@ -1,3 +1,5 @@
+Use optimalPath;
+
 CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -5,13 +7,13 @@ CREATE TABLE `cities` (
   `longitude` double
 );
 
-CREATE TABLE `airlane` (
+CREATE TABLE `airlines` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `citiesId` int
 );
 
-CREATE TABLE `classType` (
+CREATE TABLE `classTypes` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `typeName` varchar(255),
   `citiesId` int,
@@ -34,24 +36,24 @@ CREATE TABLE `animals` (
 CREATE TABLE `tickets` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `animalsId` int,
-  `airlaneId` int,
+  `airlinesId` int,
   `citiesId` int,
-  `classTypeId` int,
+  `classTypesId` int,
   `clientsId` int,
   `seatsNum` int
 );
 
-ALTER TABLE `airlane` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE `airlines` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
-ALTER TABLE `classType` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE `classTypes` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`animalsId`) REFERENCES `animals` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`airlaneId`) REFERENCES `airlane` (`id`);
+ALTER TABLE `tickets` ADD FOREIGN KEY (`airlinesId`) REFERENCES `airlines` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypeId`) REFERENCES `classType` (`id`);
+ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypesId`) REFERENCES `classTypes` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`clientsId`) REFERENCES `clients` (`id`);
 
@@ -80,7 +82,7 @@ VALUES ('Kyiv','50.45','30.51'),
 ('Zaporizhzhia','47.49','35.11'),
 ('Mariupol','47.05','37.32');
 
-INSERT INTO airlane (name, citiesId)
+INSERT INTO airlines (name, citiesId)
 VALUES ('Wizzair','1'),
 ('Ryanair','2'),
 ('Wizzair','3'),
@@ -105,7 +107,7 @@ VALUES ('Wizzair','1'),
 ('Ryanair','22'),
 ('Wizzair','23');
 
-INSERT INTO classtype (typeName, citiesId, price)
+INSERT INTO classTypes (typeName, citiesId, price)
 VALUES ('Business','1', '400'),
 ('Ekonom','1', '200'),
 ('Business','2', '200'),
@@ -169,9 +171,16 @@ VALUES ('Cat'),
 ('Chinchilla'),
 ('Mouse');
 
-INSERT INTO tickets (animalsId, airlaneId, citiesId, classTypeId, clientsId)
+INSERT INTO tickets (animalsId, airlinesId, citiesId, classTypesId, clientsId)
 VALUES ('1','1','2','1','1'),
 ('2','2','3','2','2'),
 ('3','3','4','3','3'),
 ('4','4','5','4','4'),
 ('5','5','6','5','5');
+
+
+
+
+
+
+
