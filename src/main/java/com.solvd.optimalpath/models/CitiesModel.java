@@ -12,6 +12,7 @@ public class CitiesModel {
     private String name;
     private Double latitude;
     private Double longitude;
+    private List<AirlinesModel> airlinesModelList;
     private List<CitiesModel> shortestPath = new LinkedList<>();
     private Integer distance = Integer.MAX_VALUE;
     Map<CitiesModel, Integer> adjacentNodes = new HashMap<>();

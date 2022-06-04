@@ -36,24 +36,24 @@ CREATE TABLE `animals` (
 CREATE TABLE `tickets` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `animalsId` int,
-  `airlineId` int,
+  `airlinesId` int,
   `citiesId` int,
-  `classTypeId` int,
+  `classTypesId` int,
   `clientsId` int,
   `seatsNum` int
 );
 
-ALTER TABLE `airline` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE `airlines` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
-ALTER TABLE `classType` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE `classTypes` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`animalsId`) REFERENCES `animals` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`airlineId`) REFERENCES `airline` (`id`);
+ALTER TABLE `tickets` ADD FOREIGN KEY (`airlinesId`) REFERENCES `airlines` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypeId`) REFERENCES `classType` (`id`);
+ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypesId`) REFERENCES `classTypes` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`clientsId`) REFERENCES `clients` (`id`);
 
