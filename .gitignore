@@ -25,3 +25,5 @@ hs_err_pid*
 target
 desktop.ini
 OptimalPath.iml
+db.properties
+Main.java
