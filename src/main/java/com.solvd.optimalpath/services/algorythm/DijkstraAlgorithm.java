@@ -1,6 +1,7 @@
-package firstTry;
+package com.solvd.optimalpath.services.algorythm;
 
-import java.security.KeyStore;
+import com.solvd.optimalpath.models.CitiesModel;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -8,20 +9,20 @@ import java.util.Set;
 
 public class DijkstraAlgorithm {
 
-    public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
+    public static Graph calculateShortestPathFromSource(Graph graph, CitiesModel source) {
         source.setDistance(0);
 
-        Set<Node> settledNodes = new HashSet<>();
-        Set<Node> unsettledNodes = new HashSet<>();
+        Set<CitiesModel> settledNodes = new HashSet<>();
+        Set<CitiesModel> unsettledNodes = new HashSet<>();
 
         unsettledNodes.add(source);
 
         while (unsettledNodes.size() != 0) {
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            CitiesModel currentNode = getLowestDistanceNode(unsettledNodes);
             unsettledNodes.remove(currentNode);
-            for (Map.Entry<Node, Integer> adjacencyPair:
+            for (Map.Entry<CitiesModel, Integer> adjacencyPair:
                     currentNode.getAdjacentNodes().entrySet()) {
-                Node adjacentNode = adjacencyPair.getKey();
+                CitiesModel adjacentNode = adjacencyPair.getKey();
                 Integer edgeWeight = adjacencyPair.getValue();
                 if (!settledNodes.contains(adjacentNode)) {
                     calculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
@@ -33,10 +34,10 @@ public class DijkstraAlgorithm {
         return graph;
     }
 
-    private static Node getLowestDistanceNode(Set < Node > unsettledNodes) {
-        Node lowestDistanceNode = null;
+    private static CitiesModel getLowestDistanceNode(Set < CitiesModel > unsettledNodes) {
+        CitiesModel lowestDistanceNode = null;
         int lowestDistance = Integer.MAX_VALUE;
-        for (Node node: unsettledNodes) {
+        for (CitiesModel node: unsettledNodes) {
             int nodeDistance = node.getDistance();
             if (nodeDistance < lowestDistance) {
                 lowestDistance = nodeDistance;
@@ -46,12 +47,12 @@ public class DijkstraAlgorithm {
         return lowestDistanceNode;
     }
 
-    private static void calculateMinimumDistance(Node evaluationNode,
-                                                 Integer edgeWeigh, Node sourceNode) {
+    private static void calculateMinimumDistance(CitiesModel evaluationNode,
+                                                 Integer edgeWeigh, CitiesModel sourceNode) {
         Integer sourceDistance = sourceNode.getDistance();
         if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
             evaluationNode.setDistance(sourceDistance + edgeWeigh);
-            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+            LinkedList<CitiesModel> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
             shortestPath.add(sourceNode);
             evaluationNode.setShortestPath(shortestPath);
         }
