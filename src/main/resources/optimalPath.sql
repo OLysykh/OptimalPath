@@ -1,3 +1,5 @@
+Use optimalPath;
+
 CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -5,7 +7,7 @@ CREATE TABLE `cities` (
   `longitude` double
 );
 
-CREATE TABLE `airlane` (
+CREATE TABLE `airline` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `citiesId` int
@@ -34,20 +36,20 @@ CREATE TABLE `animals` (
 CREATE TABLE `tickets` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `animalsId` int,
-  `airlaneId` int,
+  `airlineId` int,
   `citiesId` int,
   `classTypeId` int,
   `clientsId` int,
   `seatsNum` int
 );
 
-ALTER TABLE `airlane` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE `airline` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
 ALTER TABLE `classType` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`animalsId`) REFERENCES `animals` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`airlaneId`) REFERENCES `airlane` (`id`);
+ALTER TABLE `tickets` ADD FOREIGN KEY (`airlineId`) REFERENCES `airline` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
@@ -80,7 +82,7 @@ VALUES ('Kyiv','50.45','30.51'),
 ('Zaporizhzhia','47.49','35.11'),
 ('Mariupol','47.05','37.32');
 
-INSERT INTO airlane (name, citiesId)
+INSERT INTO airline (name, citiesId)
 VALUES ('Wizzair','1'),
 ('Ryanair','2'),
 ('Wizzair','3'),
@@ -105,7 +107,7 @@ VALUES ('Wizzair','1'),
 ('Ryanair','22'),
 ('Wizzair','23');
 
-INSERT INTO classtype (typeName, citiesId, price)
+INSERT INTO classType (typeName, citiesId, price)
 VALUES ('Business','1', '400'),
 ('Ekonom','1', '200'),
 ('Business','2', '200'),
@@ -169,9 +171,16 @@ VALUES ('Cat'),
 ('Chinchilla'),
 ('Mouse');
 
-INSERT INTO tickets (animalsId, airlaneId, citiesId, classTypeId, clientsId)
+INSERT INTO tickets (animalsId, airlineId, citiesId, classTypeId, clientsId)
 VALUES ('1','1','2','1','1'),
 ('2','2','3','2','2'),
 ('3','3','4','3','3'),
 ('4','4','5','4','4'),
 ('5','5','6','5','5');
+
+
+
+
+
+
+
