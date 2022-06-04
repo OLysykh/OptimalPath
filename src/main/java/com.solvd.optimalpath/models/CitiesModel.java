@@ -16,6 +16,8 @@ public class CitiesModel {
     private List<CitiesModel> shortestPath = new LinkedList<>();
     private Integer distance = Integer.MAX_VALUE;
     Map<CitiesModel, Integer> adjacentNodes = new HashMap<>();
+    private List<ClassTypesModel> classTypesModels = new LinkedList<>();
+
 
     public CitiesModel() {
     }
