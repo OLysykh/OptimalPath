@@ -13,8 +13,7 @@ public class Node {
 
     private Integer distance = Integer.MAX_VALUE;
 
-    Map<Node, Integer> adjacentNodes = new HashMap<>(); //смежные
-
+    Map<Node, Integer> adjacentNodes = new HashMap<>();
 
     public String getName() {
         return name;
