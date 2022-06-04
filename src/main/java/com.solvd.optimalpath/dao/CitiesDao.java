@@ -17,10 +17,10 @@ public class CitiesDao implements ICitiesDao {
     private static final Logger LOGGER = LogManager.getLogger(CitiesDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO cities VALUES (?, ?, ?,?)";
-    final String UPDATE = "UPDATE cities SET name=? WHERE id=?";
-    final String DELETE = "DELETE FROM cities WHERE id = ?";
-    final String GET = "SELECT * FROM cities WHERE id=?";
+    final String INSERT = "INSERT INTO cities VALUES (?, ?, ?, ?)";
+    final String UPDATE = "UPDATE cities SET name = ? WHERE id = ?";
+    final String DELETE = "DELETE FROM cities WHERE id = ? ";
+    final String GET = "SELECT * FROM cities WHERE id = ? ";
     private static final String GET_ALL = "SELECT * FROM cities";
 
     @Override
