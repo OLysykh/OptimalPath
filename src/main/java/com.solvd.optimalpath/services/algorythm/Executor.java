@@ -1,16 +1,8 @@
 package com.solvd.optimalpath.services.algorythm;
 
-import com.solvd.optimalpath.dao.CitiesDao;
-import com.solvd.optimalpath.interfaces.ICitiesDao;
-import com.solvd.optimalpath.menu.Menu;
-import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.services.DistanceCalculation;
-import com.solvd.optimalpath.services.Initialization;
+import com.solvd.optimalpath.services.ClientMenu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Executor {
 
@@ -38,7 +30,18 @@ public class Executor {
 //        nodeC.addDestination(nodeE, 10);
 
 
-         Menu.start();
+         ClientMenu.start();
+/*        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int min = 30;
+        int max = 550;
+        int len=1;
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++){
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+        System.out.println(random_int+sb.toString());*/
 
 /*        Graph graph = Initialization.addCitiesFromDB();
 
