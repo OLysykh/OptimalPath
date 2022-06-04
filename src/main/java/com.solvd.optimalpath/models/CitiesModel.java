@@ -113,6 +113,10 @@ public class CitiesModel {
     public void setClassTypesModels(List<ClassTypesModel> classTypesModels) {
         this.classTypesModels = classTypesModels;
     }
+    public void addDestination(CitiesModel destination, int distance) {
+        adjacentNodes.put(destination, distance);
+    }
+
 
     @Override
     public String toString() {
