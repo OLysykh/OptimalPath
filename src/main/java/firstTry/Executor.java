@@ -1,5 +1,7 @@
 package firstTry;
 
+import java.util.List;
+
 public class Executor {
 
 
@@ -14,7 +16,7 @@ public class Executor {
         Node nodeF = new Node("F");
 
 //will be added from SQL
-        nodeA.addDestination(nodeB, 10);
+        nodeA.addDestination(nodeB, 10); //adding neighboors
         nodeA.addDestination(nodeC, 15);
 
         nodeB.addDestination(nodeD, 12);
@@ -39,7 +41,12 @@ public class Executor {
         graph  = DijkstraAlgorithm.calculateShortestPathFromSource(graph, nodeA);
 
       for (Node nod:graph.getNodes()){
-          System.out.println(nod.getDistance());
+          System.out.print(nod.getDistance()+" "+ nod.getName());
+          List<Node> list = nod.getShortestPath();
+          for (Node ele: list){
+              System.out.println(ele.getName());
+          }
+          System.out.println("-------------");
         }
 
     }
