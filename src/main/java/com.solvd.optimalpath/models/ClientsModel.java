@@ -11,18 +11,19 @@ public class ClientsModel {
     private String lastName;
     private String passportNum;
     private String phoneNum;
-   // private List<Tickets> tickets = new LinkedList<>();
+    private List<TicketsModel> ticketsModelList = new LinkedList<>();
 
 public ClientsModel() {
 
 }
 
-    public ClientsModel(int id, String firstName, String lastName, String passportNum, String phoneNum) {
+    public ClientsModel(int id, String firstName, String lastName, String passportNum, String phoneNum, List<TicketsModel> ticketsModelList) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNum = passportNum;
         this.phoneNum = phoneNum;
+        this.ticketsModelList = ticketsModelList;
     }
 
     public int getId() {
@@ -63,6 +64,14 @@ public ClientsModel() {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
+    }
+
+    public List<TicketsModel> getTicketsModelList() {
+        return ticketsModelList;
+    }
+
+    public void setTicketsModelList(List<TicketsModel> ticketsModelList) {
+        this.ticketsModelList = ticketsModelList;
     }
 
     @Override
