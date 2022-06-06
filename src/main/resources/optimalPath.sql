@@ -1,5 +1,3 @@
-Use optimalPath;
-
 CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -16,8 +14,7 @@ CREATE TABLE `airlines` (
 CREATE TABLE `classTypes` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `typeName` varchar(255),
-  `citiesId` int,
-  `price` int
+  `citiesId` int
 );
 
 CREATE TABLE `clients` (
@@ -30,24 +27,25 @@ CREATE TABLE `clients` (
 
 CREATE TABLE `animals` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `typeOfAnimal` varchar(255)
+  `typeOfAnimal` varchar(255),
+  `ticketsId` int
 );
 
 CREATE TABLE `tickets` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `animalsId` int,
   `airlinesId` int,
   `citiesId` int,
   `classTypesId` int,
   `clientsId` int,
-  `seatsNum` int
+  `seatsNum` int,
+  `price` int
 );
 
 ALTER TABLE `airlines` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
 ALTER TABLE `classTypes` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`animalsId`) REFERENCES `animals` (`id`);
+ALTER TABLE `animals` ADD FOREIGN KEY (`ticketsId`) REFERENCES `tickets` (`id`);
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`airlinesId`) REFERENCES `airlines` (`id`);
 
@@ -82,6 +80,54 @@ VALUES ('Kyiv','50.45','30.51'),
 ('Zaporizhzhia','47.49','35.11'),
 ('Mariupol','47.05','37.32');
 
+INSERT INTO classTypes (typeName, citiesId)
+VALUES ('Business','1'),
+('Ekonom','1'),
+('Business','2'),
+('Ekonom','2'),
+('Business','3'),
+('Ekonom','3'),
+('Business','4'),
+('Ekonom','4'),
+('Business','5'),
+('Ekonom','5'),
+('Business','6'),
+('Ekonom','6'),
+('Business','7'),
+('Ekonom','7'),
+('Business','8'),
+('Ekonom','8'),
+('Business','9'),
+('Ekonom','9'),
+('Business','10'),
+('Ekonom','10'),
+('Business','11'),
+('Ekonom','11'),
+('Business','12'),
+('Ekonom','12'),
+('Business','13'),
+('Ekonom','13'),
+('Business','14'),
+('Ekonom','14'),
+('Business','15'),
+('Ekonom','15'),
+('Business','16'),
+('Ekonom','16'),
+('Business','17'),
+('Ekonom','17'),
+('Business','18'),
+('Ekonom','18'),
+('Business','19'),
+('Ekonom','19'),
+('Business','20'),
+('Ekonom','20'),
+('Business','21'),
+('Ekonom','21'),
+('Business','22'),
+('Ekonom','22'),
+('Business','23'),
+('Ekonom','23');
+
 INSERT INTO airlines (name, citiesId)
 VALUES ('Wizzair','1'),
 ('Ryanair','2'),
@@ -107,54 +153,6 @@ VALUES ('Wizzair','1'),
 ('Ryanair','22'),
 ('Wizzair','23');
 
-INSERT INTO classTypes (typeName, citiesId, price)
-VALUES ('Business','1', '400'),
-('Ekonom','1', '200'),
-('Business','2', '200'),
-('Ekonom','2', '50'),
-('Business','3', '200'),
-('Ekonom','3', '50'),
-('Business','4', '400'),
-('Ekonom','4', '200'),
-('Business','5', '400'),
-('Ekonom','5', '200'),
-('Business','6', '200'),
-('Ekonom','6', '50'),
-('Business','7', '200'),
-('Ekonom','7', '50'),
-('Business','8', '400'),
-('Ekonom','8', '200'),
-('Business','9', '400'),
-('Ekonom','9', '200'),
-('Business','10', '200'),
-('Ekonom','10', '50'),
-('Business','11', '200'),
-('Ekonom','11', '50'),
-('Business','12', '400'),
-('Ekonom','12', '200'),
-('Business','13', '400'),
-('Ekonom','13', '200'),
-('Business','14', '200'),
-('Ekonom','14', '50'),
-('Business','15', '200'),
-('Ekonom','15', '50'),
-('Business','16', '400'),
-('Ekonom','16', '200'),
-('Business','17', '400'),
-('Ekonom','17', '200'),
-('Business','18', '200'),
-('Ekonom','18', '50'),
-('Business','19', '200'),
-('Ekonom','19', '50'),
-('Business','20', '400'),
-('Ekonom','20', '200'),
-('Business','21', '400'),
-('Ekonom','21', '200'),
-('Business','22', '200'),
-('Ekonom','22', '50'),
-('Business','23', '200'),
-('Ekonom','23', '50');
-
 INSERT INTO clients (firstName, lastName, passportNum, phoneNum)
 VALUES ('Peter','Vasilishvili', 'CE280564', "+38067101010"),
 ('Mark','Arthurs', 'VK280565', "+38067101011"),
@@ -164,23 +162,16 @@ VALUES ('Peter','Vasilishvili', 'CE280564', "+38067101010"),
 ('Lilia','Flower', 'OP2805659', "+38069701041"),
 ('Alon','Freeman', 'PT2805653', "+38067102311");
 
-INSERT INTO animals (typeOfAnimal)
-VALUES ('Cat'),
-('Dog'),
-('Rabbit'),
-('Chinchilla'),
-('Mouse');
+INSERT INTO tickets (airlinesId, citiesId, classTypesId, clientsId, price)
+VALUES ('1','1','2','1','400'),
+('2','2','3','2','200'),
+('3','3','4','3','400'),
+('4','4','5','4','200'),
+('5','5','6','5','50');
 
-INSERT INTO tickets (animalsId, airlinesId, citiesId, classTypesId, clientsId)
-VALUES ('1','1','2','1','1'),
-('2','2','3','2','2'),
-('3','3','4','3','3'),
-('4','4','5','4','4'),
-('5','5','6','5','5');
-
-
-
-
-
-
-
+INSERT INTO animals (typeOfAnimal, ticketsId)
+VALUES ('Cat', 1),
+('Dog', 2),
+('Rabbit', 3),
+('Chinchilla', 4),
+('Mouse', 5);

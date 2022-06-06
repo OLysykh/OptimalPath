@@ -1,25 +1,29 @@
 package com.solvd.optimalpath.models;
 
+import java.util.List;
+
 public class TicketsModel {
     private int id;
-    private AnimalsModel animalsModel;
     private AirlinesModel airlinesModel;
     private CitiesModel citiesModel;
     private ClassTypesModel classTypesModel;
     private ClientsModel clientsModel;
+    private List<AnimalsModel> animalsModelsList;
     private int seatsNum;
+    private int price;
 
     public TicketsModel() {
     }
 
-    public TicketsModel(int id, AnimalsModel animalsModel, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, int seatsNum) {
+    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, int seatsNum, int price) {
         this.id = id;
-        this.animalsModel = animalsModel;
         this.airlinesModel = airlinesModel;
         this.citiesModel = citiesModel;
         this.classTypesModel = classTypesModel;
         this.clientsModel = clientsModel;
+        this.animalsModelsList = animalsModelsList;
         this.seatsNum = seatsNum;
+        this.price = price;
     }
 
     public int getId() {
@@ -28,14 +32,6 @@ public class TicketsModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public AnimalsModel getAnimalsModel() {
-        return animalsModel;
-    }
-
-    public void setAnimalsModel(AnimalsModel animalsModel) {
-        this.animalsModel = animalsModel;
     }
 
     public AirlinesModel getAirlinesModel() {
@@ -70,6 +66,14 @@ public class TicketsModel {
         this.clientsModel = clientsModel;
     }
 
+    public List<AnimalsModel> getAnimalsModelsList() {
+        return animalsModelsList;
+    }
+
+    public void setAnimalsModelsList(List<AnimalsModel> animalsModelsList) {
+        this.animalsModelsList = animalsModelsList;
+    }
+
     public int getSeatsNum() {
         return seatsNum;
     }
@@ -78,16 +82,25 @@ public class TicketsModel {
         this.seatsNum = seatsNum;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "TicketsModel{" +
                 "id=" + id +
-                ", animalsModel=" + animalsModel +
                 ", airlinesModel=" + airlinesModel +
                 ", citiesModel=" + citiesModel +
                 ", classTypesModel=" + classTypesModel +
                 ", clientsModel=" + clientsModel +
+                ", animalsModelsList=" + animalsModelsList +
                 ", seatsNum=" + seatsNum +
+                ", price=" + price +
                 '}';
     }
 }
