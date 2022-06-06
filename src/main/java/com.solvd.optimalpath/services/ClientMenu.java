@@ -78,8 +78,11 @@ public class ClientMenu {
                     seatsAndType = chooseYourSeat();
                     animalsId = animals();
                     personal = inputPersonalInfo();
-                    System.out.println("sdfsdfsdf" + citiesId + seatsAndType[0] + seatsAndType[1] + animalsId + Arrays.toString(personal));
-                    //chooseYourSeat();
+
+                    System.out.println("Thanks for use our service.");
+
+                    System.out.println("Info about ticket " + " id of city: " + citiesId + " class ticket: " + seatsAndType[0] + " plase of client: "
+                            + seatsAndType[1] + " id animals: " + animalsId + " Inf about client: " + Arrays.toString(personal));
                     break;
                 case 3:
                     infoAboutSystem();
@@ -264,9 +267,6 @@ public class ClientMenu {
         LOGGER.info("What is your phoneNum");
         phoneNum = in.nextLine();
         personal[3] = phoneNum;
-
-        //ClientsModel clientsModel = new ClientsModel(id, firstName, lastName, passportNum, phoneNum, 22);
-
         return (personal);
     }
 
