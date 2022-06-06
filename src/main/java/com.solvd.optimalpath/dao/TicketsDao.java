@@ -17,7 +17,7 @@ public class TicketsDao implements ITicketsDao {
     private static final Logger LOGGER = LogManager.getLogger(TicketsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?, ?)";
+    final String INSERT = "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE tickets SET seatsNum = ? WHERE id = ?";
     final String DELETE = "DELETE FROM tickets WHERE id = ? ";
     final String GET = "SELECT * FROM tickets WHERE id = ? ";
@@ -33,8 +33,9 @@ public class TicketsDao implements ITicketsDao {
             statement.setInt(3, ticketsModel.getCitiesModel().getId());
             statement.setInt(4, ticketsModel.getClassTypesModel().getId());
             statement.setInt(5, ticketsModel.getClientsModel().getId());
-            statement.setInt(6, ticketsModel.getSeatsNum());
-            statement.setInt(7, ticketsModel.getPrice());
+            statement.setInt(6, ticketsModel.getDestinationCity();
+            statement.setInt(7, ticketsModel.getSeatsNum());
+            statement.setInt(8, ticketsModel.getPrice());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -116,8 +117,9 @@ public class TicketsDao implements ITicketsDao {
                 ticketsModel.setClassTypesModel(classTypesModel);
                 clientsModel.setId(result.getInt(5));
                 ticketsModel.setClientsModel(clientsModel);
-                ticketsModel.setSeatsNum(result.getInt(6));
-                ticketsModel.setPrice(result.getInt(7));
+                ticketsModel.setDestinationCity(result.getString(6));
+                ticketsModel.setSeatsNum(result.getInt(7));
+                ticketsModel.setPrice(result.getInt(8));
                 ticketsModel.toString();
             }
         } catch (Exception e) {

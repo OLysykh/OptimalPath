@@ -37,6 +37,7 @@ CREATE TABLE `tickets` (
   `citiesId` int,
   `classTypesId` int,
   `clientsId` int,
+  `destinationCity` varchar(255),
   `seatsNum` int,
   `price` int
 );
@@ -175,3 +176,4 @@ VALUES ('Cat', 1),
 ('Rabbit', 3),
 ('Chinchilla', 4),
 ('Mouse', 5);
+
