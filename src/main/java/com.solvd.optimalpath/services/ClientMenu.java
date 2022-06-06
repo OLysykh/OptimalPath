@@ -1,6 +1,8 @@
 package com.solvd.optimalpath.services;
 
+import com.solvd.optimalpath.dao.AirlinesDao;
 import com.solvd.optimalpath.dao.CitiesDao;
+import com.solvd.optimalpath.interfaces.IAirlinesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
@@ -17,6 +19,7 @@ public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
 
     public static void start() {
+        // создаьть объект тикет
         ICitiesDao iCitiesDao = new CitiesDao();
         System.out.println(iCitiesDao.getCitiesById(7));
         LOGGER.info("Welcome to our airport! Choose a city in which you want to fly:");
@@ -101,6 +104,7 @@ public class ClientMenu {
     }
 
     public static void showInfo(int number) {
+        IAirlinesDao airlinesDao = new AirlinesDao();
         Graph graph = Initialization.addCitiesFromDB();
 
         graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
@@ -115,7 +119,7 @@ public class ClientMenu {
                     LOGGER.info("-->");
                 }
                 ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName());
+                LOGGER.info(iCity.getCitiesById(number).getName()+ "your airline is: "+airlinesDao.getAirlinesById(number) );
                 System.out.println("-------------");
             }
         }
