@@ -3,20 +3,107 @@ package com.solvd.optimalpath.services;
 import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
+import com.solvd.optimalpath.models.ClientsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
 
-    public static void start() {
+    public static void start0() {
+        int animalsId = 0;
+        int airlinesId = 0;
+        int citiesId = 0;
+        int clientsId = 0;
+        String [] personal = new String[5];
+
+
+        Scanner in = new Scanner(System.in);
+        LOGGER.info("Please choose a mode of work you need:");
+        LOGGER.info("*************************************************");
+        LOGGER.info("Press 1 to choose administrate mode");
+        LOGGER.info("Press 2 to choose customs mode");
+        LOGGER.info("Press 3 to see information about program");
+        LOGGER.info("Press 4 to EXIT from program\n");
+        int optionClass = 0;
+        try {
+            optionClass = in.nextInt();
+            switch (optionClass) {
+                case 1:
+                    try {
+                        LOGGER.info("Please choose a mode of administrator you need:");
+                        LOGGER.info("----------------------------------------------------------");
+                        LOGGER.info("Press 1 choose load new date");
+                        LOGGER.info("Press 2 choose information about free place");
+                        LOGGER.info("Press 3 to back to main menu");
+                        LOGGER.info("Press 4 to EXIT from program");
+                        try {
+                            optionClass = in.nextInt();
+                            switch (optionClass) {
+                                case 1:
+                                    inputDate();
+                                case 2:
+                                    info();
+                                    start0();
+                                case 3:
+                                    start0();
+                                    break;
+                                case 4:
+                                    LOGGER.info("You have selected to exit our program! Thanks for visiting!");
+                                    System.exit(0);
+                                default:
+                                    LOGGER.info("Incorrect option selected. Please try again.");
+                                    break;
+                            }
+                        } catch (InputMismatchException e) {
+                            LOGGER.error("Invalid selection! Please try again! Enter any character to continue");
+                            optionClass = -1;
+                            in.next();
+                        } catch (IndexOutOfBoundsException e) {
+                            LOGGER.error("IndexOutOfBounds! You have tried to reference an unassigned index!");
+                        } catch (Exception e) {
+                            LOGGER.error("General type of exception was thrown!" + e.getClass());
+                        }
+                    } catch (InputMismatchException e) {
+                        LOGGER.error("Exception in you method!");
+                    }
+                    break;
+                case 2:
+                    int [] seatsAndType = new int[2];
+                    citiesId = start();
+                    seatsAndType = chooseYourSeat();
+                    animalsId = animals();
+                    personal = inputPersonalInfo();
+                    System.out.println("sdfsdfsdf" + citiesId + seatsAndType[0] + seatsAndType[1] + animalsId + Arrays.toString(personal));
+                    //chooseYourSeat();
+                    break;
+                case 3:
+                    infoAboutSystem();
+                    start0();
+                case 4:
+                    LOGGER.info("You have selected to exit our program! Thanks for visiting!");
+                    System.exit(0);
+                default:
+                    LOGGER.info("Incorrect option selected. Please try again.");
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            LOGGER.error("Invalid selection! Please try again! Enter any character to continue");
+            optionClass = -1;
+            in.next();
+        } catch (IndexOutOfBoundsException e) {
+            LOGGER.error("IndexOutOfBounds! You have tried to reference an unassigned index!");
+        } catch (Exception e) {
+            LOGGER.error("General type of exception was thrown!" + e.getClass());
+        }
+
+    }
+
+    public static int start() {
         ICitiesDao iCitiesDao = new CitiesDao();
         System.out.println(iCitiesDao.getCitiesById(7));
         LOGGER.info("Welcome to our airport! Choose a city in which you want to fly:");
@@ -55,15 +142,19 @@ public class ClientMenu {
             cityId = Integer.parseInt(line);
             showInfo(cityId);
         }
+        return cityId;
     }
 
-    public static void chooseYourSeat() {
+    public static int[] chooseYourSeat() {
+
+        int [] seatAndClass = new int[2];
         LOGGER.info("Please choose class in which you want to fly:");
         LOGGER.info("*************************************************");
         LOGGER.info("Press 1 to choose business class");
         LOGGER.info("Press 2 to choose economy class");
         LOGGER.info("Press 3 to back to main menu");
         LOGGER.info("Press 4 to EXIT from program");
+
 
         Scanner in = new Scanner(System.in);
         String line;
@@ -72,8 +163,10 @@ public class ClientMenu {
             System.out.println("Wrong input, please try again");
             chooseYourSeat();
         } else {
+
             switch (line) {
                 case "1" -> {
+                    seatAndClass[0] = Integer.parseInt(line);
                     LOGGER.info("Please choose a place in the cabin where you want to fly:");
                     LOGGER.info("----------------------------------------------------------");
                     LOGGER.info("Press 1 to choose A1");
@@ -89,16 +182,94 @@ public class ClientMenu {
                         System.out.println("Wrong input, please try again");
                         chooseYourSeat();
                     } else {
-                        LOGGER.info("we should add here method saving into DB place!");
+                        seatAndClass[1] = Integer.parseInt(temp);
+                        return seatAndClass;
                     }
                 }
-                case "2" -> generateRandomPlace();
-                case "3" -> start();
+                case "2" -> {
+                    seatAndClass[0] = Integer.parseInt(line);
+                    seatAndClass[1] = generateRandomPlace();
+                    return seatAndClass;
+                }
+                case "3" -> start0();
                 case "4" -> LOGGER.info("We should add here exit OR something else");
                 default -> LOGGER.info("Incorrect option selected. Please try again.");
             }
         }
+
+        return seatAndClass;
     }
+
+    public static int animals() {
+
+        LOGGER.info("Please choose will be fly any animals with you:");
+        LOGGER.info("*************************************************");
+        LOGGER.info("Press 1 to choose no");
+        LOGGER.info("Press 2 to choose yes");
+
+        Scanner in = new Scanner(System.in);
+        String line;
+        line = in.nextLine();
+        if (!line.matches("[1-2]")) {
+            System.out.println("Wrong input, please try again");
+            chooseYourSeat();
+        } else {
+
+            switch (line) {
+                case "1" -> {
+                    return 0;
+                }
+                case "2" -> {
+                    LOGGER.info("Please choose a type of animal:");
+                    LOGGER.info("----------------------------------------------------------");
+                    LOGGER.info("Press 1 to choose Cat");
+                    LOGGER.info("Press 2 to choose Dog");
+                    LOGGER.info("Press 3 to choose Rabbit");
+                    LOGGER.info("Press 4 to choose Chinchilla");
+                    LOGGER.info("Press 5 to choose Mouse");
+                    Scanner in1 = new Scanner(System.in);
+                    String type;
+                    type = in.nextLine();
+                    return Integer.parseInt(type);
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    public static String[] inputPersonalInfo() {
+        String [] personal = new String[4];
+        Scanner in = new Scanner(System.in);
+        String firstName;
+        String lastName;
+        String passportNum;
+        String phoneNum;
+        int id=22;
+
+        LOGGER.info("Please input your personal date:");
+        LOGGER.info("*************************************************");
+        LOGGER.info("What is your surname");
+        firstName = in.nextLine();
+        personal[0] = firstName;
+
+        LOGGER.info("What is your last name");
+        lastName = in.nextLine();
+        personal[1] = lastName;
+
+        LOGGER.info("What is your passportNum");
+        passportNum = in.nextLine();
+        personal[2] = passportNum;
+
+        LOGGER.info("What is your phoneNum");
+        phoneNum = in.nextLine();
+        personal[3] = phoneNum;
+
+        //ClientsModel clientsModel = new ClientsModel(id, firstName, lastName, passportNum, phoneNum, 22);
+
+        return (personal);
+    }
+
 
     public static void showInfo(int number) {
         Graph graph = Initialization.addCitiesFromDB();
@@ -119,10 +290,9 @@ public class ClientMenu {
                 System.out.println("-------------");
             }
         }
-        chooseYourSeat();
     }
 
-    public static void generateRandomPlace() {
+    public static int generateRandomPlace() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int min = 30;
         int max = 550;
@@ -134,6 +304,21 @@ public class ClientMenu {
         }
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
         LOGGER.info(random_int + sb.toString());
+        return min;
+    }
+
+    public static void info() {
+        LOGGER.info("Number of free seats on the flight number MH18 is 45");
+    }
+
+    public static void inputDate() {
+        LOGGER.info("Please, input new date");
+        start0();
+    }
+
+    public static void infoAboutSystem() {
+        LOGGER.info("Version number 1.0");
+        start0();
     }
 
 }

@@ -30,7 +30,7 @@ public class Executor {
 //        nodeC.addDestination(nodeE, 10);
 
 
-         ClientMenu.start();
+         ClientMenu.start0();
 /*        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int min = 30;
         int max = 550;
