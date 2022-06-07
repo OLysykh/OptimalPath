@@ -25,4 +25,4 @@ hs_err_pid*
 target
 desktop.ini
 OptimalPath.iml
-db.properties
+src/main/resources/db.properties

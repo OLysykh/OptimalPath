@@ -2,8 +2,10 @@ package com.solvd.optimalpath.services;
 
 import com.solvd.optimalpath.dao.AirlinesDao;
 import com.solvd.optimalpath.dao.CitiesDao;
+import com.solvd.optimalpath.dao.TicketsDao;
 import com.solvd.optimalpath.interfaces.IAirlinesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
+import com.solvd.optimalpath.interfaces.ITicketsDao;
 import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
@@ -19,6 +21,9 @@ import java.util.Scanner;
 public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
     private static TicketsModel ticket = new TicketsModel();
+    private static ITicketsDao iTicketsDao = new TicketsDao();
+
+
 
     public static void start() {
 
@@ -58,7 +63,16 @@ public class ClientMenu {
             start();
         } else {
             cityId = Integer.parseInt(line);
-            //ticket. to ad to the ticket information!!!!!
+            ticket.setId(cityId);
+//            ICitiesDao iCitiesDao1 = new CitiesDao();
+            IAirlinesDao iAirlinesDao = new AirlinesDao();
+            ticket.setPrice(iCitiesDao.getCitiesById(cityId).getStandartTariff());
+            ticket.setAirlineName(iAirlinesDao.getAirlinesById(cityId).getName());
+            ticket.setCityArrival(iCitiesDao.getCitiesById(cityId).getName());
+
+            double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(),iCitiesDao.getCitiesById(1).getLongitude(),iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
+            System.out.println("kvigijgijgijg"+ distance);
+            ticket.setTimeFlight(Math.round(distance/950.00+0.85)); //два знака после запятой реализация!
             showInfo(cityId);
         }
     }
@@ -120,11 +134,15 @@ public class ClientMenu {
                         chooseYourSeat();
                     } else {
                         LOGGER.info("we should add here method saving into DB place!");
+                        ticket.setPrice(ticket.getPrice()+300);
                         // add to Ticket price+300;
                         // add to ticket place
                     }
                 }
-                case "2" -> generateRandomPlace();
+                case "2" -> {generateRandomPlace();
+
+
+                }
                 case "3" -> start();
                 case "4" -> {
                     LOGGER.info("Thank you for visiting our Airport, will be glad see you soon");
@@ -149,7 +167,14 @@ public class ClientMenu {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
-        LOGGER.info(random_int + sb.toString());
+        LOGGER.info("Your seat is: "+sb.toString()+ random_int);
+        ticket.setSeatsNum(sb.toString() + random_int);
+        LOGGER.info(ticket);
     }
 
+    public static void animalTicket(){
+        //do you have animal?
+        //Ianima animal= animalDAO
+
+    }
 }

@@ -13,6 +13,7 @@ public class CitiesModel {
     private Double latitude;
     private Double longitude;
     private List<AirlinesModel> airlinesModelList;
+    private int standartTariff;
     private List<CitiesModel> shortestPath = new LinkedList<>();
     private Integer distance = Integer.MAX_VALUE;
     Map<CitiesModel, Integer> adjacentNodes = new HashMap<>();
@@ -26,11 +27,14 @@ public class CitiesModel {
         this.name = name;
     }
 
-    public CitiesModel(int id, String name, Double latitude, Double longitude) {
+    public CitiesModel(int id, String name, Double latitude, Double longitude, List<AirlinesModel> airlinesModelList, int standartTariff, List<ClassTypesModel> classTypesModels) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.airlinesModelList = airlinesModelList;
+        this.standartTariff = standartTariff;
+        this.classTypesModels = classTypesModels;
     }
 
     public void setId(int id) {
@@ -63,6 +67,26 @@ public class CitiesModel {
 
     public Double getLongitude() {
         return longitude;
+    }
+
+    public List<AirlinesModel> getAirlinesModelList() {
+        return airlinesModelList;
+    }
+
+    public void setAirlinesModelList(List<AirlinesModel> airlinesModelList) {
+        this.airlinesModelList = airlinesModelList;
+    }
+
+    public int getStandartTariff() {
+        return standartTariff;
+    }
+
+    public void setStandartTariff(int standartTariff) {
+        this.standartTariff = standartTariff;
+    }
+
+    public List<ClassTypesModel> getClassTypesModels() {
+        return classTypesModels;
     }
 
     public List<CitiesModel> getShortestPath() {
@@ -104,6 +128,12 @@ public class CitiesModel {
                 ", name='" + name + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", airlinesModelList=" + airlinesModelList +
+                ", standartTariff=" + standartTariff +
+                ", shortestPath=" + shortestPath +
+                ", distance=" + distance +
+                ", adjacentNodes=" + adjacentNodes +
+                ", classTypesModels=" + classTypesModels +
                 '}';
     }
 }

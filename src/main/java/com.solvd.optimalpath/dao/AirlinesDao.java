@@ -113,7 +113,6 @@ public class AirlinesDao implements IAirlinesDao {
                 e.printStackTrace();
             }
         }
-        LOGGER.info(airlinesModel);
         return airlinesModel;
 
 

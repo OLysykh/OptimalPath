@@ -5,16 +5,16 @@ import java.util.List;
 public class AnimalsModel {
     private int id;
     private String typeOfAnimal;
-    private List <TicketsModel> ticketsModelList;
+    private TicketsModel ticketsModel;
 
     public AnimalsModel() {
     }
 
-    public AnimalsModel(int id, String typeOfAnimal, List <TicketsModel> ticketsModelList) {
+
+    public AnimalsModel(int id, String typeOfAnimal, TicketsModel ticketsModel) {
         this.id = id;
         this.typeOfAnimal = typeOfAnimal;
-        this.ticketsModelList = ticketsModelList;
-
+        this.ticketsModel = ticketsModel;
     }
 
     public int getId() {
@@ -33,12 +33,12 @@ public class AnimalsModel {
         this.typeOfAnimal = typeOfAnimal;
     }
 
-    public List<TicketsModel> getTicketsModelList() {
-        return ticketsModelList;
+    public TicketsModel getTicketsModel() {
+        return ticketsModel;
     }
 
-    public void setTicketsModelList(List<TicketsModel> ticketsModelList) {
-        this.ticketsModelList = ticketsModelList;
+    public void setTicketsModel(TicketsModel ticketsModel) {
+        this.ticketsModel = ticketsModel;
     }
 
     @Override
@@ -46,6 +46,7 @@ public class AnimalsModel {
         return "AnimalsModel{" +
                 "id=" + id +
                 ", typeOfAnimal='" + typeOfAnimal + '\'' +
+                ", ticketsModel=" + ticketsModel +
                 '}';
     }
 }
