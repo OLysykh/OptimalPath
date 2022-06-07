@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketsDao implements ITicketsDao {
@@ -140,6 +141,40 @@ public class TicketsDao implements ITicketsDao {
 
     @Override
     public List<TicketsModel> getALLTickets() {
-        return null;
+        ArrayList<TicketsModel> ticketsModels = new ArrayList<>();
+        Connection dbConnect = DataBaseConnection.getConnection();
+        try {
+            statement = dbConnect.prepareStatement(GET_ALL);
+            result = statement.executeQuery();
+            while (result.next()) {
+                TicketsModel ticketsModel = new TicketsModel();
+                ticketsModel.setId(result.getInt(1));
+                AirlinesDao airlinesDao = new AirlinesDao();
+                ticketsModel.setAirlinesModel(airlinesDao.getAirlinesById(result.getInt("airlinesId")));
+                CitiesDao citiesDao = new CitiesDao();
+                ticketsModel.setCitiesModel(citiesDao.getCitiesById(result.getInt("citiesId")));
+                ClassTypesDao classTypesDao = new ClassTypesDao();
+                ticketsModel.setClassTypesModel(classTypesDao.getClassTypesById(result.getInt("classTypesId")));
+                ClientsDao clientsDao = new ClientsDao();
+                ticketsModel.setClientsModel(clientsDao.getClientsById(result.getInt("clientsId")));
+                ticketsModel.setDestinationCity(result.getString(6));
+                ticketsModel.setSeatsNum(result.getString(7));
+                ticketsModel.setPrice(result.getInt(8));
+                ticketsModels.add(ticketsModel);
+                ticketsModels.toString();
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ticketsModels;
     }
+
 }

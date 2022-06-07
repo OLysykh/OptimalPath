@@ -100,4 +100,18 @@ public class TicketsModel {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "TicketsModel{" +
+                "id=" + id +
+                ", airlinesModel=" + airlinesModel +
+                ", citiesModel=" + citiesModel +
+                ", classTypesModel=" + classTypesModel +
+                ", clientsModel=" + clientsModel +
+                ", animalsModelsList=" + animalsModelsList +
+                ", destinationCity='" + destinationCity + '\'' +
+                ", seatsNum='" + seatsNum + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
