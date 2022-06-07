@@ -33,8 +33,8 @@ public class TicketsDao implements ITicketsDao {
             statement.setInt(3, ticketsModel.getCitiesModel().getId());
             statement.setInt(4, ticketsModel.getClassTypesModel().getId());
             statement.setInt(5, ticketsModel.getClientsModel().getId());
-            statement.setInt(6, ticketsModel.getDestinationCity();
-            statement.setInt(7, ticketsModel.getSeatsNum());
+            statement.setString(6, ticketsModel.getDestinationCity());
+            statement.setString(7, ticketsModel.getSeatsNum());
             statement.setInt(8, ticketsModel.getPrice());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
@@ -56,7 +56,7 @@ public class TicketsDao implements ITicketsDao {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(UPDATE);
-            statement.setInt(1, ticketsModel.getSeatsNum());
+            statement.setString(1, ticketsModel.getSeatsNum());
             statement.setInt(2, ticketsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
@@ -118,7 +118,7 @@ public class TicketsDao implements ITicketsDao {
                 clientsModel.setId(result.getInt(5));
                 ticketsModel.setClientsModel(clientsModel);
                 ticketsModel.setDestinationCity(result.getString(6));
-                ticketsModel.setSeatsNum(result.getInt(7));
+                ticketsModel.setSeatsNum(result.getString(7));
                 ticketsModel.setPrice(result.getInt(8));
                 ticketsModel.toString();
             }

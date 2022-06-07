@@ -10,13 +10,13 @@ public class TicketsModel {
     private ClientsModel clientsModel;
     private List<AnimalsModel> animalsModelsList;
     private String destinationCity;
-    private int seatsNum;
+    private String seatsNum;
     private int price;
 
     public TicketsModel() {
     }
 
-    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity, int seatsNum, int price) {
+    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity, String seatsNum, int price) {
         this.id = id;
         this.airlinesModel = airlinesModel;
         this.citiesModel = citiesModel;
@@ -84,11 +84,11 @@ public class TicketsModel {
         this.destinationCity = destinationCity;
     }
 
-    public int getSeatsNum() {
+    public String getSeatsNum() {
         return seatsNum;
     }
 
-    public void setSeatsNum(int seatsNum) {
+    public void setSeatsNum(String seatsNum) {
         this.seatsNum = seatsNum;
     }
 
@@ -100,18 +100,4 @@ public class TicketsModel {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "TicketsModel{" +
-                "id=" + id +
-                ", airlinesModel=" + airlinesModel +
-                ", citiesModel=" + citiesModel +
-                ", classTypesModel=" + classTypesModel +
-                ", clientsModel=" + clientsModel +
-                ", animalsModelsList=" + animalsModelsList +
-                ", destinationCity='" + destinationCity + '\'' +
-                ", seatsNum=" + seatsNum +
-                ", price=" + price +
-                '}';
-    }
 }

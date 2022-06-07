@@ -2,7 +2,8 @@ CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `latitude` double,
-  `longitude` double
+  `longitude` double,
+  `standartTariff` int 
 );
 
 CREATE TABLE `airlines` (
@@ -38,7 +39,7 @@ CREATE TABLE `tickets` (
   `classTypesId` int,
   `clientsId` int,
   `destinationCity` varchar(255),
-  `seatsNum` int,
+  `seatsNum` varchar(255),
   `price` int
 );
 
