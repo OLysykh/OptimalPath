@@ -33,7 +33,7 @@ public class TicketsDao implements ITicketsDao {
             statement.setInt(3, ticketsModel.getCitiesModel().getId());
             statement.setInt(4, ticketsModel.getClassTypesModel().getId());
             statement.setInt(5, ticketsModel.getClientsModel().getId());
-            statement.setInt(6, ticketsModel.getDestinationCity();
+            statement.setString(6, ticketsModel.getDestinationCity());
             statement.setInt(7, ticketsModel.getSeatsNum());
             statement.setInt(8, ticketsModel.getPrice());
             int i = statement.executeUpdate();
