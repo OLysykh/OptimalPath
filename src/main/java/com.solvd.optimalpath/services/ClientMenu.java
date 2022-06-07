@@ -5,6 +5,7 @@ import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.interfaces.IAirlinesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
+import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
 import org.apache.logging.log4j.LogManager;
@@ -17,11 +18,12 @@ import java.util.Scanner;
 
 public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
+    private static TicketsModel ticket = new TicketsModel();
 
     public static void start() {
-        // создаьть объект тикет
+
         ICitiesDao iCitiesDao = new CitiesDao();
-        System.out.println(iCitiesDao.getCitiesById(7));
+
         LOGGER.info("Welcome to our airport! Choose a city in which you want to fly:");
         LOGGER.info("------------------------------------------");
         LOGGER.info("Press 2 if you choose Dnipro");
@@ -56,8 +58,32 @@ public class ClientMenu {
             start();
         } else {
             cityId = Integer.parseInt(line);
+            //ticket. to ad to the ticket information!!!!!
             showInfo(cityId);
         }
+    }
+
+    public static void showInfo(int number) {
+        IAirlinesDao airlinesDao = new AirlinesDao();
+        Graph graph = Initialization.addCitiesFromDB();
+
+        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
+
+        for (CitiesModel nod : graph.getNodes()) {
+            if (nod.getId() == number) {
+                System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
+                List<CitiesModel> list = nod.getShortestPath();
+                System.out.println("Your paths through");
+                for (CitiesModel ele : list) {
+                    LOGGER.info(ele.getName());
+                    LOGGER.info("-->");
+                }
+                ICitiesDao iCity = new CitiesDao();
+                LOGGER.info(iCity.getCitiesById(number).getName() + "your airline is: " + airlinesDao.getAirlinesById(number));
+                System.out.println("-------------");
+            }
+        }
+        chooseYourSeat();
     }
 
     public static void chooseYourSeat() {
@@ -79,6 +105,7 @@ public class ClientMenu {
                 case "1" -> {
                     LOGGER.info("Please choose a place in the cabin where you want to fly:");
                     LOGGER.info("----------------------------------------------------------");
+                    // add random to business class;
                     LOGGER.info("Press 1 to choose A1");
                     LOGGER.info("Press 2 to choose B1");
                     LOGGER.info("Press 3 to choose C1");
@@ -93,37 +120,22 @@ public class ClientMenu {
                         chooseYourSeat();
                     } else {
                         LOGGER.info("we should add here method saving into DB place!");
+                        // add to Ticket price+300;
+                        // add to ticket place
                     }
                 }
                 case "2" -> generateRandomPlace();
                 case "3" -> start();
-                case "4" -> LOGGER.info("We should add here exit OR something else");
-                default -> LOGGER.info("Incorrect option selected. Please try again.");
-            }
-        }
-    }
-
-    public static void showInfo(int number) {
-        IAirlinesDao airlinesDao = new AirlinesDao();
-        Graph graph = Initialization.addCitiesFromDB();
-
-        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
-
-        for (CitiesModel nod : graph.getNodes()) {
-            if (nod.getId() == number) {
-                System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
-                List<CitiesModel> list = nod.getShortestPath();
-                System.out.println("Your paths through");
-                for (CitiesModel ele : list) {
-                    LOGGER.info(ele.getName());
-                    LOGGER.info("-->");
+                case "4" -> {
+                    LOGGER.info("Thank you for visiting our Airport, will be glad see you soon");
+                    System.exit(0);
                 }
-                ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName()+ "your airline is: "+airlinesDao.getAirlinesById(number) );
-                System.out.println("-------------");
+                default -> {
+                    LOGGER.info("Incorrect option selected. Please try again.");
+                    chooseYourSeat();
+                }
             }
         }
-        chooseYourSeat();
     }
 
     public static void generateRandomPlace() {

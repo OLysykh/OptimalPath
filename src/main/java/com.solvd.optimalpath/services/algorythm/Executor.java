@@ -11,7 +11,7 @@ public class Executor {
         final Logger LOGGER = LogManager.getLogger(Executor.class);
 
 
-//        Weather.getWeather();//this feature is in production!
+        WeatherMethods.createCityRequest(50.0755, 14.4378);//this feature is in production!
          ClientMenu.start();
 
     }
