@@ -4,6 +4,7 @@ import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.ClientsModel;
+import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
 import org.apache.logging.log4j.LogManager;
@@ -19,60 +20,60 @@ public class ClientMenu {
         int airlinesId = 0;
         int citiesId = 0;
         int clientsId = 0;
+
         String [] personal = new String[5];
 
-
-        Scanner in = new Scanner(System.in);
         LOGGER.info("Please choose a mode of work you need:");
         LOGGER.info("*************************************************");
         LOGGER.info("Press 1 to choose administrate mode");
-        LOGGER.info("Press 2 to choose customs mode");
+        LOGGER.info("Press 2 to choose clients mode");
         LOGGER.info("Press 3 to see information about program");
         LOGGER.info("Press 4 to EXIT from program\n");
-        int optionClass = 0;
-        try {
-            optionClass = in.nextInt();
-            switch (optionClass) {
-                case 1:
-                    try {
-                        LOGGER.info("Please choose a mode of administrator you need:");
-                        LOGGER.info("----------------------------------------------------------");
-                        LOGGER.info("Press 1 choose load new date");
-                        LOGGER.info("Press 2 choose information about free place");
-                        LOGGER.info("Press 3 to back to main menu");
-                        LOGGER.info("Press 4 to EXIT from program");
-                        try {
-                            optionClass = in.nextInt();
-                            switch (optionClass) {
-                                case 1:
-                                    inputDate();
-                                case 2:
-                                    info();
-                                    start0();
-                                case 3:
-                                    start0();
-                                    break;
-                                case 4:
-                                    LOGGER.info("You have selected to exit our program! Thanks for visiting!");
-                                    System.exit(0);
-                                default:
-                                    LOGGER.info("Incorrect option selected. Please try again.");
-                                    break;
-                            }
-                        } catch (InputMismatchException e) {
-                            LOGGER.error("Invalid selection! Please try again! Enter any character to continue");
-                            optionClass = -1;
-                            in.next();
-                        } catch (IndexOutOfBoundsException e) {
-                            LOGGER.error("IndexOutOfBounds! You have tried to reference an unassigned index!");
-                        } catch (Exception e) {
-                            LOGGER.error("General type of exception was thrown!" + e.getClass());
+        Scanner in = new Scanner(System.in);
+        String line;
+        line = in.nextLine();
+        if (!line.matches("[1-4]")) {
+            System.out.println("Wrong input, please try again");
+            start();
+        } else {
+            switch (line) {
+                case "1":
+                    ckeckPassword();
+                    LOGGER.info("----------------------------------------------------------");
+                    LOGGER.info("Press 1 choose delete ticket");
+                    LOGGER.info("Press 2 choose information about sold place");
+                    LOGGER.info("Press 3 choose information about programm software");
+                    LOGGER.info("Press 4 to back to main menu");
+                    LOGGER.info("Press 5 to EXIT from program");
+
+                    line = in.nextLine();
+                    if (!line.matches("[1-5]")) {
+                        System.out.println("Wrong input, please try again");
+                        start();
+                    } else {
+                        switch (line) {
+                            case "1":
+                                deleteTicket();
+                                start0();
+                            case "2":
+                                infoSeatsSold();
+                                start0();
+                            case "3":
+                                infoAboutSystem();
+                                start0();
+                                break;
+                            case "4":
+                                start0();
+                            case "5":
+                                LOGGER.info("You have selected to exit our program! Thanks for visiting!");
+                                System.exit(0);
+                            default:
+                                LOGGER.info("Incorrect option selected. Please try again.");
+                                break;
                         }
-                    } catch (InputMismatchException e) {
-                        LOGGER.error("Exception in you method!");
                     }
                     break;
-                case 2:
+                case "2":
                     int [] seatsAndType = new int[2];
                     citiesId = start();
                     seatsAndType = chooseYourSeat();
@@ -84,25 +85,18 @@ public class ClientMenu {
                     System.out.println("Info about ticket " + " id of city: " + citiesId + " class ticket: " + seatsAndType[0] + " plase of client: "
                             + seatsAndType[1] + " id animals: " + animalsId + " Inf about client: " + Arrays.toString(personal));
                     break;
-                case 3:
+                case "3":
                     infoAboutSystem();
                     start0();
-                case 4:
+                case "4":
                     LOGGER.info("You have selected to exit our program! Thanks for visiting!");
                     System.exit(0);
                 default:
                     LOGGER.info("Incorrect option selected. Please try again.");
                     break;
             }
-        } catch (InputMismatchException e) {
-            LOGGER.error("Invalid selection! Please try again! Enter any character to continue");
-            optionClass = -1;
-            in.next();
-        } catch (IndexOutOfBoundsException e) {
-            LOGGER.error("IndexOutOfBounds! You have tried to reference an unassigned index!");
-        } catch (Exception e) {
-            LOGGER.error("General type of exception was thrown!" + e.getClass());
         }
+
 
     }
 
@@ -162,7 +156,7 @@ public class ClientMenu {
         Scanner in = new Scanner(System.in);
         String line;
         line = in.nextLine();
-        if (!line.matches("[0-4]")) {
+        if (!line.matches("[1-4]")) {
             System.out.println("Wrong input, please try again");
             chooseYourSeat();
         } else {
@@ -215,9 +209,8 @@ public class ClientMenu {
         line = in.nextLine();
         if (!line.matches("[1-2]")) {
             System.out.println("Wrong input, please try again");
-            chooseYourSeat();
+            animals();
         } else {
-
             switch (line) {
                 case "1" -> {
                     return 0;
@@ -230,10 +223,14 @@ public class ClientMenu {
                     LOGGER.info("Press 3 to choose Rabbit");
                     LOGGER.info("Press 4 to choose Chinchilla");
                     LOGGER.info("Press 5 to choose Mouse");
-                    Scanner in1 = new Scanner(System.in);
-                    String type;
-                    type = in.nextLine();
-                    return Integer.parseInt(type);
+                    String line1;
+                    line1 = in.nextLine();
+                    if (!line1.matches("[1-5]")) {
+                        System.out.println("Wrong input, please try again");
+                        animals();
+                    } else {
+                        return Integer.parseInt(line1);
+                    }
                 }
             }
         }
@@ -248,28 +245,55 @@ public class ClientMenu {
         String lastName;
         String passportNum;
         String phoneNum;
-        int id=22;
 
         LOGGER.info("Please input your personal date:");
         LOGGER.info("*************************************************");
-        LOGGER.info("What is your surname");
-        firstName = in.nextLine();
-        personal[0] = firstName;
 
-        LOGGER.info("What is your last name");
-        lastName = in.nextLine();
-        personal[1] = lastName;
+        while(true) {
+            LOGGER.info("What is your surname");
+            firstName = in.nextLine();
+            if (!firstName.matches("^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$")) {
+                System.out.println("Wrong input, please try again");
+            } else {
+                personal[0] = firstName;
+                break;
+            }
+        }
 
-        LOGGER.info("What is your passportNum");
-        passportNum = in.nextLine();
-        personal[2] = passportNum;
+        while(true) {
+            LOGGER.info("What is your last name");
+            lastName = in.nextLine();
+            if (!lastName.matches("^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$")) {
+                System.out.println("Wrong input, please try again");
+            } else {
+                personal[1] = lastName;
+                break;
+            }
+        }
 
-        LOGGER.info("What is your phoneNum");
-        phoneNum = in.nextLine();
-        personal[3] = phoneNum;
-        return (personal);
+        while(true) {
+            LOGGER.info("What is your passportNum");
+            passportNum = in.nextLine();
+            if (!passportNum.matches("^[а-яА-ЯёЁa-zA-Z0-9]+$")) {
+                System.out.println("Wrong input, please try again");
+            }  else {
+                personal[2] = passportNum;
+                break;
+            }
+        }
+
+        while(true) {
+            LOGGER.info("What is your phoneNum");
+            phoneNum = in.nextLine();
+            if (!phoneNum.matches("^(\\+)?((\\d{2,3}) ?\\d|\\d)(([ -]?\\d)|( ?(\\d{2,3}) ?)){5,12}\\d$")) {
+                System.out.println("Wrong input, please try again");
+            }   else {
+                personal[3] = phoneNum;
+                break;
+            }
+        }
+        return personal;
     }
-
 
     public static void showInfo(int number) {
         Graph graph = Initialization.addCitiesFromDB();
@@ -307,18 +331,44 @@ public class ClientMenu {
         return min;
     }
 
-    public static void info() {
-        LOGGER.info("Number of free seats on the flight number MH18 is 45");
+    public static void infoSeatsSold() {
+        LOGGER.info("Number of sold seats on the flight number 1a1 is 45");
+
     }
 
-    public static void inputDate() {
-        LOGGER.info("Please, input new date");
-        start0();
+    public static void deleteTicket() {
+        LOGGER.info("Please, input number of ticket");
+        //deleteTicketsById(TicketsModel ticketsModel);
     }
 
     public static void infoAboutSystem() {
-        LOGGER.info("Version number 1.0");
-        start0();
+        LOGGER.info("Ticketing system. Version 1.0. Written by a team of SOLVD's interns. May of 2022.");
     }
+
+    public static void ckeckPassword() {
+        Scanner sc = new Scanner(System.in);
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Enter admin's name:");
+            String userName = sc.nextLine();
+            System.out.println("Enter password:");
+            String password = sc.nextLine();
+            if ("admin".equals(userName) && "12345".equals(password)) {
+                LOGGER.info("Welkome, " + userName + "!");
+                LOGGER.info("Please choose a mode of administrator you need:");
+                break;
+            } else {
+                if(i == 2) {
+                    LOGGER.info("You have exhausted all attempts.");
+                    System.exit(0);
+                }
+                else{
+                    LOGGER.info("Login or pasword is not correct. Try again.");
+                }
+            }
+        }
+        LOGGER.info("Login or pasword is not correct. Try again.");
+    }
+
 
 }
