@@ -2,7 +2,8 @@ CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
   `latitude` double,
-  `longitude` double
+  `longitude` double,
+  `standartTariff` int 
 );
 
 CREATE TABLE `airlines` (
@@ -38,7 +39,11 @@ CREATE TABLE `tickets` (
   `classTypesId` int,
   `clientsId` int,
   `destinationCity` varchar(255),
+<<<<<<< HEAD:src/main/resources/optimalPath.sql
   `seatsNum` int,
+=======
+  `seatsNum` varchar(255),
+>>>>>>> 30557b5609514c365fbda19a5eff1b918a1e9e55:src/main/resources/OptimalPath.sql
   `price` int
 );
 

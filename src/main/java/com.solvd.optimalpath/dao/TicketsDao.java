@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketsDao implements ITicketsDao {
@@ -34,7 +35,7 @@ public class TicketsDao implements ITicketsDao {
             statement.setInt(4, ticketsModel.getClassTypesModel().getId());
             statement.setInt(5, ticketsModel.getClientsModel().getId());
             statement.setString(6, ticketsModel.getDestinationCity());
-            statement.setInt(7, ticketsModel.getSeatsNum());
+            statement.setString(7, ticketsModel.getSeatsNum());
             statement.setInt(8, ticketsModel.getPrice());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
@@ -55,7 +56,7 @@ public class TicketsDao implements ITicketsDao {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(UPDATE);
-            statement.setInt(1, ticketsModel.getSeatsNum());
+            statement.setString(1, ticketsModel.getSeatsNum());
             statement.setInt(2, ticketsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
@@ -115,7 +116,7 @@ public class TicketsDao implements ITicketsDao {
                 clientsModel.setId(result.getInt(5));
                 ticketsModel.setClientsModel(clientsModel);
                 ticketsModel.setDestinationCity(result.getString(6));
-                ticketsModel.setSeatsNum(result.getInt(7));
+                ticketsModel.setSeatsNum(result.getString(7));
                 ticketsModel.setPrice(result.getInt(8));
                 ticketsModel.toString();
             }
@@ -135,6 +136,43 @@ public class TicketsDao implements ITicketsDao {
 
     @Override
     public List<TicketsModel> getALLTickets() {
-        return null;
+        ArrayList<TicketsModel> ticketsModels = new ArrayList<>();
+        Connection dbConnect = DataBaseConnection.getConnection();
+        try {
+            statement = dbConnect.prepareStatement(GET_ALL);
+            result = statement.executeQuery();
+            while (result.next()) {
+                TicketsModel ticketsModel = new TicketsModel();
+                ticketsModel.setId(result.getInt(1));
+                AirlinesDao airlinesDao = new AirlinesDao();
+                ticketsModel.setAirlinesModel(airlinesDao.getAirlinesById(result.getInt("airlinesId")));
+                CitiesDao citiesDao = new CitiesDao();
+                ticketsModel.setCitiesModel(citiesDao.getCitiesById(result.getInt("citiesId")));
+                ClassTypesDao classTypesDao = new ClassTypesDao();
+                ticketsModel.setClassTypesModel(classTypesDao.getClassTypesById(result.getInt("classTypesId")));
+                ClientsDao clientsDao = new ClientsDao();
+                ticketsModel.setClientsModel(clientsDao.getClientsById(result.getInt("clientsId")));
+                ticketsModel.setDestinationCity(result.getString(6));
+                ticketsModel.setSeatsNum(result.getString(7));
+                ticketsModel.setPrice(result.getInt(8));
+                ticketsModels.add(ticketsModel);
+                ticketsModels.toString();
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return ticketsModels;
     }
+
 }
+
+
+

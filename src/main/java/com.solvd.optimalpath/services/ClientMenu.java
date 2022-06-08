@@ -1,10 +1,18 @@
 package com.solvd.optimalpath.services;
 
+import com.solvd.optimalpath.dao.AirlinesDao;
 import com.solvd.optimalpath.dao.CitiesDao;
+import com.solvd.optimalpath.dao.TicketsDao;
+import com.solvd.optimalpath.interfaces.IAirlinesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
+import com.solvd.optimalpath.interfaces.ITicketsDao;
 import com.solvd.optimalpath.models.CitiesModel;
+import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
+import com.solvd.optimalpath.services.algorythm.Weather.Main;
+import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
+import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,10 +24,15 @@ import java.util.Scanner;
 
 public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
+    private static TicketsModel ticket = new TicketsModel();
+    private static ITicketsDao iTicketsDao = new TicketsDao();
+
+
 
     public static void start() {
+
         ICitiesDao iCitiesDao = new CitiesDao();
-        System.out.println(iCitiesDao.getCitiesById(7));
+
         LOGGER.info("Welcome to our airport! Choose a city in which you want to fly:");
         LOGGER.info("------------------------------------------");
         LOGGER.info("Press 2 if you choose Dnipro");
@@ -54,8 +67,45 @@ public class ClientMenu {
             start();
         } else {
             cityId = Integer.parseInt(line);
+            ticket.setId(cityId);
+//            ICitiesDao iCitiesDao1 = new CitiesDao();
+            IAirlinesDao iAirlinesDao = new AirlinesDao();
+            ticket.setPrice(iCitiesDao.getCitiesById(cityId).getStandartTariff());
+            ticket.setAirlineName(iAirlinesDao.getAirlinesById(cityId).getName());
+            ticket.setCityArrival(iCitiesDao.getCitiesById(cityId).getName());
+
+            double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(),iCitiesDao.getCitiesById(1).getLongitude(),iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
+            System.out.println("kvigijgijgijg"+ distance);
+            ticket.setTimeFlight(Math.round(distance/950.00+0.85)); //два знака после запятой реализация!
             showInfo(cityId);
         }
+    }
+
+    public static void showInfo(int number) {
+        IAirlinesDao airlinesDao = new AirlinesDao();
+        ICitiesDao iCitiesDao = new CitiesDao();
+        Graph graph = Initialization.addCitiesFromDB();
+
+        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
+
+        for (CitiesModel nod : graph.getNodes()) {
+            if (nod.getId() == number) {
+                System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
+                List<CitiesModel> list = nod.getShortestPath();
+                System.out.println("Your paths through");
+                for (CitiesModel ele : list) {
+                    LOGGER.info(ele.getName());
+                    LOGGER.info("-->");
+                }
+                ICitiesDao iCity = new CitiesDao();
+                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number));
+                System.out.println("-------------");
+                WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
+                WeatherData weatherData = WeatherMethods.readFromJson();
+                LOGGER.info(weatherData);
+            }
+        }
+        chooseYourSeat();
     }
 
     public static void chooseYourSeat() {
@@ -77,6 +127,7 @@ public class ClientMenu {
                 case "1" -> {
                     LOGGER.info("Please choose a place in the cabin where you want to fly:");
                     LOGGER.info("----------------------------------------------------------");
+                    // add random to business class;
                     LOGGER.info("Press 1 to choose A1");
                     LOGGER.info("Press 2 to choose B1");
                     LOGGER.info("Press 3 to choose C1");
@@ -91,36 +142,28 @@ public class ClientMenu {
                         chooseYourSeat();
                     } else {
                         LOGGER.info("we should add here method saving into DB place!");
+                        ticket.setPrice(ticket.getPrice()+300);
+                        // add to Ticket price+300;
+                        // add to ticket place
+                        foodTicket();
                     }
                 }
-                case "2" -> generateRandomPlace();
-                case "3" -> start();
-                case "4" -> LOGGER.info("We should add here exit OR something else");
-                default -> LOGGER.info("Incorrect option selected. Please try again.");
-            }
-        }
-    }
+                case "2" -> {generateRandomPlace();
+                    foodTicket();
 
-    public static void showInfo(int number) {
-        Graph graph = Initialization.addCitiesFromDB();
 
-        graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
-
-        for (CitiesModel nod : graph.getNodes()) {
-            if (nod.getId() == number) {
-                System.out.println("distance is  " + nod.getDistance() + " km to " + nod.getName());
-                List<CitiesModel> list = nod.getShortestPath();
-                System.out.println("Your paths through");
-                for (CitiesModel ele : list) {
-                    LOGGER.info(ele.getName());
-                    LOGGER.info("-->");
                 }
-                ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName());
-                System.out.println("-------------");
+                case "3" -> start();
+                case "4" -> {
+                    LOGGER.info("Thank you for visiting our Airport, will be glad see you soon");
+                    System.exit(0);
+                }
+                default -> {
+                    LOGGER.info("Incorrect option selected. Please try again.");
+                    chooseYourSeat();
+                }
             }
         }
-        chooseYourSeat();
     }
 
     public static void generateRandomPlace() {
@@ -134,7 +177,9 @@ public class ClientMenu {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
-        LOGGER.info(random_int + sb.toString());
+        LOGGER.info("Your seat is: "+sb.toString()+ random_int);
+        ticket.setSeatsNum(sb.toString() + random_int);
+        LOGGER.info(ticket);
     }
     public static void foodTicket(){
         LOGGER.info("Do you want added some meal?");
@@ -153,7 +198,7 @@ public class ClientMenu {
             switch (line) {
                 case "1" -> {
                     LOGGER.info("Please, write number of meal: ");
-                   // ticket.setPrice(ticket.getPrice()+30);
+                    ticket.setPrice(ticket.getPrice()+30);
                 }
                 case "2" -> LOGGER.info(" add here next step") ;
                 case "3" -> start();
@@ -164,4 +209,9 @@ public class ClientMenu {
     }
 
 
+    public static void animalTicket(){
+        //do you have animal?
+        //Ianima animal= animalDAO
+
+    }
 }

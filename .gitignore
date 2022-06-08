@@ -25,11 +25,11 @@ hs_err_pid*
 target
 desktop.ini
 OptimalPath.iml
+<<<<<<< HEAD
 
-db.properties
 Main.java
 .DS_Store
 optimalPathModel.mwb.beforefix
 
-
+src/main/resources/db.properties
 

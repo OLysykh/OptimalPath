@@ -10,13 +10,18 @@ public class TicketsModel {
     private ClientsModel clientsModel;
     private List<AnimalsModel> animalsModelsList;
     private String destinationCity;
-    private int seatsNum;
+    private String seatsNum;
+    private String airlineName;
+    private String cityArrival;
     private int price;
+    private double timeFlight;
 
     public TicketsModel() {
     }
 
-    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity, int seatsNum, int price) {
+    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel,
+                        ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity,
+                        String seatsNum, String airlineName, String cityArrival, int price, double timeFlight) {
         this.id = id;
         this.airlinesModel = airlinesModel;
         this.citiesModel = citiesModel;
@@ -25,8 +30,12 @@ public class TicketsModel {
         this.animalsModelsList = animalsModelsList;
         this.destinationCity = destinationCity;
         this.seatsNum = seatsNum;
+        this.airlineName = airlineName;
+        this.cityArrival = cityArrival;
         this.price = price;
+        this.timeFlight = timeFlight;
     }
+
 
     public int getId() {
         return id;
@@ -84,12 +93,28 @@ public class TicketsModel {
         this.destinationCity = destinationCity;
     }
 
-    public int getSeatsNum() {
+    public String getSeatsNum() {
         return seatsNum;
     }
 
-    public void setSeatsNum(int seatsNum) {
+    public void setSeatsNum(String seatsNum) {
         this.seatsNum = seatsNum;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
+    }
+
+    public String getCityArrival() {
+        return cityArrival;
+    }
+
+    public void setCityArrival(String cityArrival) {
+        this.cityArrival = cityArrival;
     }
 
     public int getPrice() {
@@ -98,6 +123,14 @@ public class TicketsModel {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public double getTimeFlight() {
+        return timeFlight;
+    }
+
+    public void setTimeFlight(double timeFlight) {
+        this.timeFlight = timeFlight;
     }
 
     @Override
@@ -110,8 +143,12 @@ public class TicketsModel {
                 ", clientsModel=" + clientsModel +
                 ", animalsModelsList=" + animalsModelsList +
                 ", destinationCity='" + destinationCity + '\'' +
-                ", seatsNum=" + seatsNum +
+                ", seatsNum='" + seatsNum + '\'' +
+                ", airlineName='" + airlineName + '\'' +
+                ", cityArrival='" + cityArrival + '\'' +
                 ", price=" + price +
+                ", timeFlight=" + timeFlight +
                 '}';
     }
 }
+
