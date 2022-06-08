@@ -26,4 +26,4 @@ target
 desktop.ini
 OptimalPath.iml
 src/main/resources/db.properties
-Main.java
+src/main/java/com.solvd.optimalpath/Main.java
