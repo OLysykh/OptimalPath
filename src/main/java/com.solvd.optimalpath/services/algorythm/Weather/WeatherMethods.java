@@ -1,8 +1,11 @@
-package com.solvd.optimalpath.services.algorythm;
+package com.solvd.optimalpath.services.algorythm.Weather;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.solvd.optimalpath.services.algorythm.Executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,10 +13,13 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class WeatherMethods {
 
-    final Logger LOGGER = LogManager.getLogger(WeatherMethods.class);
+    private static final Logger LOGGER = LogManager.getLogger(Executor.class);
 
 //    private static String query = "https://api.openweathermap.org/data/2.5/weather?lat=50.0755&lon=14.4378&appid=46ad646a46ebd0606746c40d0f19d357&units=metric";
     private static String queryStart = "https://api.openweathermap.org/data/2.5/weather?lat=";
@@ -42,7 +48,6 @@ public class WeatherMethods {
                     sb.append("\n");
                     result = sb.toString();
                 }
-                System.out.println(sb);
             }
         } catch (Exception cause) {
             cause.printStackTrace();
@@ -58,4 +63,23 @@ public class WeatherMethods {
             e.printStackTrace();
         }
     }
-}
+
+    public static WeatherData readFromJson() {
+        File file = new File("src/main/resources/test.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        WeatherData weatherData = new WeatherData();
+        try {
+//            String result = RequestHolding.getStringFromResponse(lat, lon);
+//            StringReader reader = new StringReader(result);
+            weatherData = objectMapper.readValue(file, WeatherData.class);
+//            objectMapper.writeValue(new File(path), weatherInfo);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return weatherData;
+    }
+
+
+
+    }
+

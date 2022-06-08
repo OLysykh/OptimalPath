@@ -10,6 +10,8 @@ import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
+import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
+import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -79,6 +81,7 @@ public class ClientMenu {
 
     public static void showInfo(int number) {
         IAirlinesDao airlinesDao = new AirlinesDao();
+        ICitiesDao iCitiesDao = new CitiesDao();
         Graph graph = Initialization.addCitiesFromDB();
 
         graph = DijkstraAlgorithm.calculateShortestPathFromSource(graph, graph.getIt());
@@ -95,6 +98,9 @@ public class ClientMenu {
                 ICitiesDao iCity = new CitiesDao();
                 LOGGER.info(iCity.getCitiesById(number).getName() + "your airline is: " + airlinesDao.getAirlinesById(number));
                 System.out.println("-------------");
+                WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
+                WeatherData weatherData = WeatherMethods.readFromJson();
+                LOGGER.info(weatherData);
             }
         }
         chooseYourSeat();
