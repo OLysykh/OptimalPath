@@ -1,0 +1,43 @@
+{
+  "coord": {
+    "lon": 14.4378,
+    "lat": 50.0755
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 18.66,
+    "feels_like": 18.67,
+    "temp_min": 18.09,
+    "temp_max": 20.48,
+    "pressure": 1013,
+    "humidity": 80
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 3.6,
+    "deg": 200
+  },
+  "clouds": {
+    "all": 75
+  },
+  "dt": 1654612897,
+  "sys": {
+    "type": 2,
+    "id": 2020173,
+    "country": "CZ",
+    "sunrise": 1654570466,
+    "sunset": 1654628880
+  },
+  "timezone": 7200,
+  "id": 3061412,
+  "name": "Žižkov",
+  "cod": 200
+}
