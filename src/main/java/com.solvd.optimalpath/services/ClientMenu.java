@@ -8,6 +8,7 @@ import com.solvd.optimalpath.services.algorythm.Graph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
@@ -135,5 +136,32 @@ public class ClientMenu {
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
         LOGGER.info(random_int + sb.toString());
     }
+    public static void foodTicket(){
+        LOGGER.info("Do you want added some meal?");
+        LOGGER.info("*************************************************");
+        LOGGER.info("Press 1 if yes");
+        LOGGER.info("Press 2 if no");
+        LOGGER.info("Press 3 to back to main menu");
+        LOGGER.info("Press 4 to EXIT from program");
+        Scanner in = new Scanner(System.in);
+        String line;
+        line = in.nextLine();
+        if (!line.matches("[0-4]")) {
+            System.out.println("Wrong input, please try again");
+            foodTicket();
+        } else {
+            switch (line) {
+                case "1" -> {
+                    LOGGER.info("Please, write number of meal: ");
+                   // ticket.setPrice(ticket.getPrice()+30);
+                }
+                case "2" -> LOGGER.info(" add here next step") ;
+                case "3" -> start();
+                case "4" -> System.exit(0);
+                default -> LOGGER.info("Incorrect option selected. Please try again.");
+            }
+        }
+    }
+
 
 }

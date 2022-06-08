@@ -17,7 +17,7 @@ public class TicketsDao implements ITicketsDao {
     private static final Logger LOGGER = LogManager.getLogger(TicketsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?, ?)";
+    final String INSERT = "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE tickets SET seatsNum = ? WHERE id = ?";
     final String DELETE = "DELETE FROM tickets WHERE id = ? ";
     final String GET = "SELECT * FROM tickets WHERE id = ? ";
@@ -29,12 +29,13 @@ public class TicketsDao implements ITicketsDao {
         try {
             statement = dbConnect.prepareStatement(INSERT);
             statement.setInt(1, ticketsModel.getId());
-            statement.setInt(2, ticketsModel.getAnimalsModel().getId());
-            statement.setInt(3, ticketsModel.getAirlinesModel().getId());
-            statement.setInt(4, ticketsModel.getCitiesModel().getId());
-            statement.setInt(5, ticketsModel.getClassTypesModel().getId());
-            statement.setInt(6, ticketsModel.getClientsModel().getId());
+            statement.setInt(2, ticketsModel.getAirlinesModel().getId());
+            statement.setInt(3, ticketsModel.getCitiesModel().getId());
+            statement.setInt(4, ticketsModel.getClassTypesModel().getId());
+            statement.setInt(5, ticketsModel.getClientsModel().getId());
+            statement.setString(6, ticketsModel.getDestinationCity());
             statement.setInt(7, ticketsModel.getSeatsNum());
+            statement.setInt(8, ticketsModel.getPrice());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -47,7 +48,6 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -69,7 +69,6 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -90,14 +89,12 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
     public TicketsModel getTicketsById(int id) {
         Connection dbConnect = DataBaseConnection.getConnection();
         TicketsModel ticketsModel = new TicketsModel();
-        AnimalsModel animalsModel = new AnimalsModel();
         AirlinesModel airlinesModel = new AirlinesModel();
         CitiesModel citiesModel = new CitiesModel();
         ClassTypesModel classTypesModel = new ClassTypesModel();
@@ -109,17 +106,17 @@ public class TicketsDao implements ITicketsDao {
             result = statement.executeQuery();
             while (result.next()) {
                 ticketsModel.setId(result.getInt(1));
-                animalsModel.setId(result.getInt(2));
-                ticketsModel.setAnimalsModel(animalsModel);
-                airlinesModel.setId(result.getInt(3));
+                airlinesModel.setId(result.getInt(2));
                 ticketsModel.setAirlinesModel(airlinesModel);
-                citiesModel.setId(result.getInt(4));
+                citiesModel.setId(result.getInt(3));
                 ticketsModel.setCitiesModel(citiesModel);
-                classTypesModel.setId(result.getInt(5));
+                classTypesModel.setId(result.getInt(4));
                 ticketsModel.setClassTypesModel(classTypesModel);
-                clientsModel.setId(result.getInt(6));
+                clientsModel.setId(result.getInt(5));
                 ticketsModel.setClientsModel(clientsModel);
+                ticketsModel.setDestinationCity(result.getString(6));
                 ticketsModel.setSeatsNum(result.getInt(7));
+                ticketsModel.setPrice(result.getInt(8));
                 ticketsModel.toString();
             }
         } catch (Exception e) {
@@ -134,8 +131,6 @@ public class TicketsDao implements ITicketsDao {
             }
         }
         return ticketsModel;
-
-
     }
 
     @Override

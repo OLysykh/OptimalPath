@@ -18,7 +18,7 @@ public class ClassTypesDao implements IClassTypesDao {
     private static final Logger LOGGER = LogManager.getLogger(ClassTypesModel.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO classTypes VALUES (?, ?, ?, ?)";
+    final String INSERT = "INSERT INTO classTypes VALUES (?, ?, ?)";
     final String UPDATE = "UPDATE classTypes SET typeName=? WHERE id=?";
     final String DELETE = "DELETE FROM classTypes WHERE id = ?";
     final String GET = "SELECT * FROM classTypes WHERE id=?";
@@ -33,7 +33,6 @@ public class ClassTypesDao implements IClassTypesDao {
             statement.setInt(1, classTypesModel.getId());
             statement.setString(2, classTypesModel.getTypeName());
             statement.setInt(3, classTypesModel.getCitiesModel().getId());
-            statement.setInt(4, classTypesModel.getPrice());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -105,7 +104,6 @@ public class ClassTypesDao implements IClassTypesDao {
                 classTypesModel.setTypeName(result.getString(2));
                 citiesModel.setId(result.getInt(3));
                 classTypesModel.setCitiesModel(citiesModel);
-                classTypesModel.setPrice(result.getInt(4));
                 classTypesModel.toString();
             }
         } catch (Exception e) {
@@ -135,7 +133,6 @@ public class ClassTypesDao implements IClassTypesDao {
                 classTypes.setTypeName(result.getString(2));
                 CitiesDao dao = new CitiesDao();
                 classTypes.setCitiesModel(dao.getCitiesById(result.getInt("citiesId")));
-                classTypes.setPrice(result.getInt(4));
                 classTypesModel.add(classTypes);
                 classTypes.toString();
             }
