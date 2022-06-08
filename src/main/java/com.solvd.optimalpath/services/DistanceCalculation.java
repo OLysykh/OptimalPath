@@ -9,7 +9,6 @@ public class DistanceCalculation {
         lat2 = Math.toRadians(lat2);
         lon2 = Math.toRadians(lon2);
         double earthRadius = 6371.01; //Kilometers
-//        return Math.floor(earthRadius * Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon1 - lon2)));
         return (int)(earthRadius * Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon1 - lon2)));
     }
 

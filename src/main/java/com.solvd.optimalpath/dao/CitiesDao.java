@@ -17,7 +17,7 @@ public class CitiesDao implements ICitiesDao {
     private static final Logger LOGGER = LogManager.getLogger(CitiesDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO cities VALUES (?, ?, ?, ?)";
+    final String INSERT = "INSERT INTO cities VALUES (?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE cities SET name = ? WHERE id = ?";
     final String DELETE = "DELETE FROM cities WHERE id = ? ";
     final String GET = "SELECT * FROM cities WHERE id = ? ";
@@ -33,6 +33,7 @@ public class CitiesDao implements ICitiesDao {
             statement.setString(2, citiesModel.getName());
             statement.setDouble(3, citiesModel.getLatitude());
             statement.setDouble(4, citiesModel.getLongitude());
+            statement.setInt(5, citiesModel.getStandartTariff());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -101,6 +102,7 @@ public class CitiesDao implements ICitiesDao {
                 citiesModel.setName(result.getString(2));
                 citiesModel.setLatitude(result.getDouble(3));
                 citiesModel.setLongitude(result.getDouble(4));
+                citiesModel.setStandartTariff(result.getInt(5));
                 citiesModel.toString();
             }
         } catch (Exception e) {
@@ -130,6 +132,8 @@ public class CitiesDao implements ICitiesDao {
                 citiesModel.setName(result.getString(2));
                 citiesModel.setLatitude(result.getDouble(3));
                 citiesModel.setLongitude(result.getDouble(4));
+                citiesModel.setStandartTariff(result.getInt(5));
+
                 citiesModels.add(citiesModel);
                 citiesModel.toString();
             }

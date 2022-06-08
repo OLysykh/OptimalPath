@@ -1,9 +1,9 @@
 package com.solvd.optimalpath.dao;
 
 import com.solvd.optimalpath.configuration.DataBaseConnection;
-import com.solvd.optimalpath.interfaces.IClassTypesDao;
+import com.solvd.optimalpath.interfaces.IAnimalsDao;
+import com.solvd.optimalpath.models.AnimalsModel;
 import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.models.ClassTypesModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,25 +14,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassTypesDao implements IClassTypesDao {
-    private static final Logger LOGGER = LogManager.getLogger(ClassTypesModel.class);
+public class AnimalsDao implements IAnimalsDao {
+    private static final Logger LOGGER = LogManager.getLogger(AnimalsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO classTypes VALUES (?, ?, ?)";
-    final String UPDATE = "UPDATE classTypes SET typeName=? WHERE id=?";
-    final String DELETE = "DELETE FROM classTypes WHERE id = ?";
-    final String GET = "SELECT * FROM classTypes WHERE id=?";
-    private static final String GET_ALL = "SELECT * FROM classTypes";
-
+    final String INSERT = "INSERT INTO animals VALUES (?, ?)";
+    final String UPDATE = "UPDATE animals SET typeOfAnimal = ? WHERE id = ? ";
+    final String DELETE = "DELETE FROM animals WHERE id = ?";
+    final String GET = "SELECT * FROM animals WHERE id = ? ";
+    private static final String GET_ALL = "SELECT * FROM animals";
 
     @Override
-    public void createClassTypes(ClassTypesModel classTypesModel) {
+    public void createAnimals(AnimalsModel animalsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(INSERT);
-            statement.setInt(1, classTypesModel.getId());
-            statement.setString(2, classTypesModel.getTypeName());
-            statement.setInt(3, classTypesModel.getCitiesModel().getId());
+            statement.setInt(1, (animalsModel.getId()));
+            statement.setString(2, animalsModel.getTypeOfAnimal());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -47,13 +45,18 @@ public class ClassTypesDao implements IClassTypesDao {
         }
     }
 
+
+
+
+
+
     @Override
-    public void updateClassTypes(ClassTypesModel classTypesModel) {
+    public void updateAnimals(AnimalsModel animalsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(UPDATE);
-            statement.setString(1, classTypesModel.getTypeName());
-            statement.setInt(2, classTypesModel.getId());
+            statement.setString(1, animalsModel.getTypeOfAnimal());
+            statement.setInt(2, animalsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
         } catch (Exception e) {
@@ -69,12 +72,13 @@ public class ClassTypesDao implements IClassTypesDao {
 
     }
 
+
     @Override
-    public void deleteClassTypesById(ClassTypesModel classTypesModel) {
+    public void deleteAnimalsById(AnimalsModel animalsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(DELETE);
-            statement.setInt(1, classTypesModel.getId());
+            statement.setInt(1, animalsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records deleted");
         } catch (Exception e) {
@@ -87,24 +91,21 @@ public class ClassTypesDao implements IClassTypesDao {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
-    public ClassTypesModel getClassTypesById(int id) {
+    public AnimalsModel getAnimalsById(int id) {
         Connection dbConnect = DataBaseConnection.getConnection();
-        ClassTypesModel classTypesModel = new ClassTypesModel();
-        CitiesModel citiesModel = new CitiesModel();
-
+        AnimalsModel animalsModel = new AnimalsModel();
         try {
             statement = dbConnect.prepareStatement(GET);
             statement.setInt(1, id);
             result = statement.executeQuery();
             while (result.next()) {
-                classTypesModel.setId(result.getInt(1));
-                classTypesModel.setTypeName(result.getString(2));
-                citiesModel.setId(result.getInt(3));
-                classTypesModel.setCitiesModel(citiesModel);
-                classTypesModel.toString();
+                animalsModel.setId(result.getInt(1));
+                animalsModel.setTypeOfAnimal(result.getString(2));
+                animalsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -117,36 +118,36 @@ public class ClassTypesDao implements IClassTypesDao {
                 e.printStackTrace();
             }
         }
-        return classTypesModel;
+        return animalsModel;
+
     }
 
     @Override
-    public List<ClassTypesModel> getALLClassTypes() {
-        ArrayList<ClassTypesModel> classTypesModel = new ArrayList<>();
-        Connection dbConnect = DataBaseConnection.getConnection();
-        try {
-            statement = dbConnect.prepareStatement(GET_ALL);
-            result = statement.executeQuery();
-            while (result.next()) {
-                ClassTypesModel classTypes = new ClassTypesModel();
-                classTypes.setId(result.getInt(1));
-                classTypes.setTypeName(result.getString(2));
-                CitiesDao dao = new CitiesDao();
-                classTypes.setCitiesModel(dao.getCitiesById(result.getInt("citiesId")));
-                classTypesModel.add(classTypes);
-                classTypes.toString();
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
+    public List<AnimalsModel> getALLAnimals() {
+            ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
+            Connection dbConnect = DataBaseConnection.getConnection();
             try {
-                DataBaseConnection.close(dbConnect);
-                statement.close();
-                result.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                statement = dbConnect.prepareStatement(GET_ALL);
+                result = statement.executeQuery();
+                while (result.next()) {
+                    AnimalsModel animalsModel = new AnimalsModel();
+                    animalsModel.setId(result.getInt(1));
+                    animalsModel.setTypeOfAnimal(result.getString(2));
+                    animalsModels.add(animalsModel);
+                    animalsModel.toString();
+                }
+            } catch (Exception e) {
+                LOGGER.error(e);
+            } finally {
+                try {
+                    DataBaseConnection.close(dbConnect);
+                    statement.close();
+                    result.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
+            return animalsModels;
         }
-        return classTypesModel;
-    }
+
 }

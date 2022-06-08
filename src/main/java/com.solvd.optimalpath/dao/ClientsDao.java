@@ -1,9 +1,9 @@
 package com.solvd.optimalpath.dao;
 
 import com.solvd.optimalpath.configuration.DataBaseConnection;
-import com.solvd.optimalpath.interfaces.IClassTypesDao;
+import com.solvd.optimalpath.interfaces.IClientsDao;
 import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.models.ClassTypesModel;
+import com.solvd.optimalpath.models.ClientsModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,25 +14,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassTypesDao implements IClassTypesDao {
-    private static final Logger LOGGER = LogManager.getLogger(ClassTypesModel.class);
+public class ClientsDao implements IClientsDao {
+    private static final Logger LOGGER = LogManager.getLogger(ClientsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO classTypes VALUES (?, ?, ?)";
-    final String UPDATE = "UPDATE classTypes SET typeName=? WHERE id=?";
-    final String DELETE = "DELETE FROM classTypes WHERE id = ?";
-    final String GET = "SELECT * FROM classTypes WHERE id=?";
-    private static final String GET_ALL = "SELECT * FROM classTypes";
-
+    final String INSERT = "INSERT INTO clients VALUES (?, ?, ?, ?, ?)";
+    final String UPDATE = "UPDATE clients SET firstName = ? WHERE id = ?";
+    final String DELETE = "DELETE FROM clients WHERE id = ? ";
+    final String GET = "SELECT * FROM clients WHERE id = ? ";
+    private static final String GET_ALL = "SELECT * FROM clients";
 
     @Override
-    public void createClassTypes(ClassTypesModel classTypesModel) {
+    public void createClients(ClientsModel clientsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(INSERT);
-            statement.setInt(1, classTypesModel.getId());
-            statement.setString(2, classTypesModel.getTypeName());
-            statement.setInt(3, classTypesModel.getCitiesModel().getId());
+            statement.setInt(1, clientsModel.getId());
+            statement.setString(2, clientsModel.getFirstName());
+            statement.setString(3, clientsModel.getLastName());
+            statement.setString(4, clientsModel.getPassportNum());
+            statement.setString(5, clientsModel.getPhoneNum());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -48,12 +49,12 @@ public class ClassTypesDao implements IClassTypesDao {
     }
 
     @Override
-    public void updateClassTypes(ClassTypesModel classTypesModel) {
+    public void updateClients(ClientsModel clientsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(UPDATE);
-            statement.setString(1, classTypesModel.getTypeName());
-            statement.setInt(2, classTypesModel.getId());
+            statement.setString(1, clientsModel.getFirstName());
+            statement.setInt(2, clientsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
         } catch (Exception e) {
@@ -66,15 +67,14 @@ public class ClassTypesDao implements IClassTypesDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
-    public void deleteClassTypesById(ClassTypesModel classTypesModel) {
+    public void deleteClientsById(ClientsModel clientsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(DELETE);
-            statement.setInt(1, classTypesModel.getId());
+            statement.setInt(1, clientsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records deleted");
         } catch (Exception e) {
@@ -90,21 +90,20 @@ public class ClassTypesDao implements IClassTypesDao {
     }
 
     @Override
-    public ClassTypesModel getClassTypesById(int id) {
+    public ClientsModel getClientsById(int id) {
         Connection dbConnect = DataBaseConnection.getConnection();
-        ClassTypesModel classTypesModel = new ClassTypesModel();
-        CitiesModel citiesModel = new CitiesModel();
-
+        ClientsModel clientsModel = new ClientsModel();
         try {
             statement = dbConnect.prepareStatement(GET);
             statement.setInt(1, id);
             result = statement.executeQuery();
             while (result.next()) {
-                classTypesModel.setId(result.getInt(1));
-                classTypesModel.setTypeName(result.getString(2));
-                citiesModel.setId(result.getInt(3));
-                classTypesModel.setCitiesModel(citiesModel);
-                classTypesModel.toString();
+                clientsModel.setId(result.getInt(1));
+                clientsModel.setFirstName(result.getString(2));
+                clientsModel.setLastName(result.getString(3));
+                clientsModel.setPassportNum(result.getString(4));
+                clientsModel.setPhoneNum(result.getString(5));
+                clientsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -117,24 +116,25 @@ public class ClassTypesDao implements IClassTypesDao {
                 e.printStackTrace();
             }
         }
-        return classTypesModel;
+        return clientsModel;
     }
 
     @Override
-    public List<ClassTypesModel> getALLClassTypes() {
-        ArrayList<ClassTypesModel> classTypesModel = new ArrayList<>();
+    public List<ClientsModel> getALLClients() {
+        ArrayList<ClientsModel> clientsModels = new ArrayList<>();
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(GET_ALL);
             result = statement.executeQuery();
             while (result.next()) {
-                ClassTypesModel classTypes = new ClassTypesModel();
-                classTypes.setId(result.getInt(1));
-                classTypes.setTypeName(result.getString(2));
-                CitiesDao dao = new CitiesDao();
-                classTypes.setCitiesModel(dao.getCitiesById(result.getInt("citiesId")));
-                classTypesModel.add(classTypes);
-                classTypes.toString();
+                ClientsModel clientsModel = new ClientsModel();
+                clientsModel.setId(result.getInt(1));
+                clientsModel.setFirstName(result.getString(2));
+                clientsModel.setLastName(result.getString(3));
+                clientsModel.setPassportNum(result.getString(4));
+                clientsModel.setPhoneNum(result.getString(5));
+                clientsModels.add(clientsModel);
+                clientsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -147,6 +147,6 @@ public class ClassTypesDao implements IClassTypesDao {
                 e.printStackTrace();
             }
         }
-        return classTypesModel;
+        return clientsModels;
     }
 }

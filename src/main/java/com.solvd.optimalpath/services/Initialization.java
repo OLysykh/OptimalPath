@@ -94,17 +94,4 @@ public class Initialization {
         return graph;
     }
 
-
-
-//    public static ArrayList<CitiesModel> citiesInitialization(){
-////        List<CitiesModel> list = new ArrayList<>();
-//        ICitiesDao iCitiesDao = new CitiesDao();
-//        return (ArrayList<CitiesModel>) iCitiesDao.getALLCities();
-//    }
-//
-//    public static citiesInitialization(){
-//        ICitiesDao iCitiesDao = new CitiesDao();
-//        iCitiesDao.getALLCities();
-//    }
-
 }
