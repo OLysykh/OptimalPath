@@ -1,13 +1,17 @@
 package com.solvd.optimalpath.services;
 
+import com.solvd.optimalpath.configuration.DataBaseConnection;
 import com.solvd.optimalpath.dao.AirlinesDao;
+import com.solvd.optimalpath.dao.AnimalsDao;
 import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.dao.TicketsDao;
 import com.solvd.optimalpath.enums.Drinks;
 import com.solvd.optimalpath.enums.Menu;
 import com.solvd.optimalpath.interfaces.IAirlinesDao;
+import com.solvd.optimalpath.interfaces.IAnimalsDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.interfaces.ITicketsDao;
+import com.solvd.optimalpath.models.AnimalsModel;
 import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
@@ -19,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.sql.Connection;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
@@ -72,14 +77,13 @@ public class ClientMenu {
             }
             cityId = Integer.parseInt(line);
             ticket.setId(cityId);
-//            ICitiesDao iCitiesDao1 = new CitiesDao();
             IAirlinesDao iAirlinesDao = new AirlinesDao();
             ticket.setPrice(iCitiesDao.getCitiesById(cityId).getStandartTariff());
             ticket.setAirlineName(iAirlinesDao.getAirlinesById(cityId).getName());
             ticket.setCityArrival(iCitiesDao.getCitiesById(cityId).getName());
 
             double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(), iCitiesDao.getCitiesById(1).getLongitude(), iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
-            ticket.setTimeFlight(Math.round((distance/950.00+0.95)*100)/100.00);//
+            ticket.setTimeFlight(Math.round((distance / 950.00 + 0.95) * 100) / 100.00);//
             showInfo(cityId);
         }
     }
@@ -101,7 +105,7 @@ public class ClientMenu {
                     LOGGER.info("-->");
                 }
                 ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number)+" your flight will take: "+ ticket.getTimeFlight()+" hours");
+                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number) + " your flight will take: " + ticket.getTimeFlight() + " hours");
                 System.out.println("-------------");
                 WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
                 WeatherData weatherData = WeatherMethods.readFromJson();
@@ -128,23 +132,6 @@ public class ClientMenu {
         } else {
             switch (line) {
                 case "1" -> {
-//                    LOGGER.info("Please choose a place in the cabin where you want to fly:");
-//                    LOGGER.info("----------------------------------------------------------");
-//                    // add random to business class;
-//                    LOGGER.info("Press 1 to choose A1");
-//                    LOGGER.info("Press 2 to choose B1");
-//                    LOGGER.info("Press 3 to choose C1");
-//                    LOGGER.info("Press 4 to choose D1");
-//                    LOGGER.info("Press 5 to choose E1");
-//                    LOGGER.info("Press 6 to choose F1");
-//                    LOGGER.info("Press 7 to back to main menu");
-//                    LOGGER.info("Press 8 to EXIT from program");
-//                    String temp = in.nextLine();
-//                    if (!line.matches("[1-8]")) {
-//                        System.out.println("Wrong input, please try again");
-//                        chooseYourSeat();
-//                    } else {
-//                        LOGGER.info("we should add here method saving into DB place!");
                     ticket.setPrice(ticket.getPrice() + 300);
                     generateRandomBusinessPlace();
                     foodTicket();
@@ -178,7 +165,6 @@ public class ClientMenu {
         ticket.setSeatsNum(a);
     }
 
-
     public static void generateRandomPlace() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int min = 30;
@@ -211,12 +197,10 @@ public class ClientMenu {
         } else {
             switch (line) {
                 case "1" -> {
-//                    LOGGER.info(Drinks.valueOf())
-//                    LOGGER.info(Menu.valueOf());
                     LOGGER.info("Please, write number of meal: ");
                     ticket.setPrice(ticket.getPrice() + 30);
                 }
-                case "2" -> LOGGER.info(" add here next step");
+                case "2" -> animalTicket();//TEMPORARY P;ACE MUST BE MOVED
                 case "3" -> start();
                 case "4" -> System.exit(0);
                 default -> LOGGER.info("Incorrect option selected. Please try again.");
@@ -224,10 +208,73 @@ public class ClientMenu {
         }
     }
 
-
     public static void animalTicket() {
-        //do you have animal?
-        //Ianima animal= animalDAO
+        LOGGER.info("Do you have animals?, Please make your choice: ");
+        LOGGER.info("------------------------------------------");
+        LOGGER.info("Press 1, if you are have animals");
+        LOGGER.info("Press 2 if you haven't animals");
+        LOGGER.info("Press 3 to back to main menu");
+        LOGGER.info("Press 4 to EXIT from program");
+
+        Scanner in = new Scanner(System.in);
+        String line = in.nextLine();
+        if (!line.matches("[1-4]")) {
+            System.out.println("Wrong input, please try again");
+            animalTicket();
+        } else {
+            switch (line) {
+                case "1" -> { LOGGER.info("Please choose your type of animal:");
+                    IAnimalsDao iAnimalsDao = new AnimalsDao();
+                    LOGGER.info("----------------------------------------------------------");
+                    LOGGER.info("Press 1, if you have a CAT");
+                    LOGGER.info("Press 2, if you have a DOG");
+                    LOGGER.info("Press 3, if you have a RABBIT");
+                    LOGGER.info("Press 4, if you have a CHINCHILLA");
+                    LOGGER.info("Press 5, if you have a MOUSE");
+                    LOGGER.info("Press 6, if you have a other animal");
+                    Scanner input = new Scanner(System.in);
+                    String lineAnimal;
+                    lineAnimal = input.nextLine();
+                    if (!lineAnimal.matches("[1-6]")) {
+                        System.out.println("Wrong input, please try again");
+                        animalTicket();
+
+
+                    } else if (lineAnimal.matches("6")) {
+                        LOGGER.info("Please write type of your animal:");
+                        int i = iAnimalsDao.getMaxId();
+                        Scanner writeTypeAnimal = new Scanner(System.in);
+                        String inputTypeOfAnimal = writeTypeAnimal.nextLine();
+                        AnimalsModel animalsModel = new AnimalsModel(++i,inputTypeOfAnimal, new TicketsModel());
+                        iAnimalsDao.createAnimals(animalsModel);
+
+                        LOGGER.info(iAnimalsDao.getAnimalsById(i));
+                        LOGGER.info("Your ticket will expensive on 50");
+                        ticket.setPrice(ticket.getPrice()+50);
+                        LOGGER.info("Price of your ticket = " + ticket.getPrice());
+                    }
+                    else {
+                        LOGGER.info(iAnimalsDao.getAnimalsById(Integer.parseInt(lineAnimal)));
+                        LOGGER.info("Your ticket will expensive on 50");
+                        ticket.setPrice(ticket.getPrice()+50);
+                        LOGGER.info("Price of your ticket = " + ticket.getPrice());
+                    }
+                }
+                case "2" -> { LOGGER.info("Thank you for your choice, your ticket price:");
+                    LOGGER.info(ticket.getPrice());
+                }
+                case "3" -> start();
+                case "4" -> {
+                    LOGGER.info("Thank you for visiting our Airport, will be glad see you soon");
+                    System.exit(0);
+                }
+                default -> {
+                    LOGGER.info("Incorrect option selected. Please try again.");
+                    animalTicket();
+                }
+            }
+        }
 
     }
+
 }

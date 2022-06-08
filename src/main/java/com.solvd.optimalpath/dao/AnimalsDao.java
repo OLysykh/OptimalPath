@@ -22,6 +22,7 @@ public class AnimalsDao implements IAnimalsDao {
     final String UPDATE = "UPDATE animals SET typeOfAnimal = ? WHERE id = ? ";
     final String DELETE = "DELETE FROM animals WHERE id = ?";
     final String GET = "SELECT * FROM animals WHERE id = ? ";
+    final String GET_MAX_ID = "SELECT MAX(id) FROM animals";
     private static final String GET_ALL = "SELECT * FROM animals";
 
     @Override
@@ -44,11 +45,6 @@ public class AnimalsDao implements IAnimalsDao {
             }
         }
     }
-
-
-
-
-
 
     @Override
     public void updateAnimals(AnimalsModel animalsModel) {
@@ -149,5 +145,30 @@ public class AnimalsDao implements IAnimalsDao {
             }
             return animalsModels;
         }
+
+    @Override
+    public int getMaxId() {
+        Connection dbConnect = DataBaseConnection.getConnection();
+        int maxId = 0;
+        try {
+            statement = dbConnect.prepareStatement(GET_MAX_ID);
+            result = statement.executeQuery();
+            while (result.next()) {
+                maxId = result.getInt(1);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return maxId;
+
+    }
 
 }

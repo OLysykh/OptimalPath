@@ -1,3 +1,5 @@
+
+
 CREATE TABLE `cities` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),
@@ -39,11 +41,7 @@ CREATE TABLE `tickets` (
   `classTypesId` int,
   `clientsId` int,
   `destinationCity` varchar(255),
-<<<<<<< HEAD:src/main/resources/optimalPath.sql
-  `seatsNum` int,
-=======
   `seatsNum` varchar(255),
->>>>>>> 30557b5609514c365fbda19a5eff1b918a1e9e55:src/main/resources/OptimalPath.sql
   `price` int
 );
 
@@ -61,30 +59,31 @@ ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypesId`) REFERENCES `classTypes` (
 
 ALTER TABLE `tickets` ADD FOREIGN KEY (`clientsId`) REFERENCES `clients` (`id`);
 
-INSERT INTO cities (name, latitude, longitude)
-VALUES ('Kyiv','50.45','30.51'),
-('Dnipro','48.28', '35.01'),
-('Vinnytsia','49.14','28.28'),
-('Lutsk','50.44','25.19'),
-('Lviv','49.50','24.00'),
-('Khmelnytskiy','49.25','27.00'),
-('Uzhhorod','48.37','22.17'),
-('Kalush','49.00','24.22'),
-('Ivano-Frankivsk','48.55','24.42'),
-('Chernivtsi','48.17','25.56'),
-('Kryvyi Rih','47.54','33.22'),
-('Odesa','46.28','30.43'),
-('Mykolaiv','46.57','31.59'),
-('Kherson','46.39','32.37'),
-('Simferopol','44.57','34.06'),
-('Sevastopol','44.35','33.31'),
-('Kharkiv','49.58','36.15'),
-('Chernihiv','51.30','31.17'),
-('Sumy','50.55','34.48'),
-('Luhansk','48.34','39.19'),
-('Donetsk','48.01','37.48'),
-('Zaporizhzhia','47.49','35.11'),
-('Mariupol','47.05','37.32');
+INSERT INTO cities (name, latitude, longitude, standartTariff)
+VALUES ('Kyiv','50.45','30.51',0),
+('Dnipro','48.28', '35.01',800),
+('Vinnytsia','49.14','28.28',600),
+('Lutsk','50.44','25.19',2000),
+('Lviv','49.50','24.00',2200),
+('Khmelnytskiy','49.25','27.00',1600),
+('Uzhhorod','48.37','22.17',2400),
+('Kalush','49.00','24.22',1500),
+('Ivano-Frankivsk','48.55','24.42',1300),
+('Chernivtsi','48.17','25.56',1600),
+('Kryvyi Rih','47.54','33.22',1200),
+('Odesa','46.28','30.43',2300),
+('Mykolaiv','46.57','31.59',2500),
+('Kherson','46.39','32.37',2100),
+('Simferopol','44.57','34.06',2600),
+('Sevastopol','44.35','33.31',2900),
+('Kharkiv','49.58','36.15',1500),
+('Chernihiv','51.30','31.17',1000),
+('Sumy','50.55','34.48',1100),
+('Luhansk','48.34','39.19',1700),
+('Donetsk','48.01','37.48',1750),
+('Zaporizhzhia','47.49','35.11',1600),
+('Mariupol','47.05','37.32',1800);
+
 
 INSERT INTO classTypes (typeName, citiesId)
 VALUES ('Business','1'),
@@ -181,4 +180,3 @@ VALUES ('Cat', 1),
 ('Rabbit', 3),
 ('Chinchilla', 4),
 ('Mouse', 5);
-
