@@ -1,15 +1,7 @@
 package com.solvd.optimalpath.services;
 
-import com.solvd.optimalpath.dao.AirlinesDao;
-import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.dao.TicketsDao;
-import com.solvd.optimalpath.interfaces.IAirlinesDao;
-import com.solvd.optimalpath.interfaces.ICitiesDao;
-import com.solvd.optimalpath.interfaces.ITicketsDao;
-import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.TicketsModel;
-import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
-import com.solvd.optimalpath.services.algorythm.Graph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -90,8 +82,14 @@ public class AdminMenu {
 
     public static void infoSeatsSold() {
         TicketsDao ticketsDao = new TicketsDao();
+        for (TicketsModel ticket : ticketsDao.getALLTickets()) {
+            System.out.println("Number of ticket is: " + ticket.getId() +
+                    " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
+                    ticket.getClientsModel().getLastName() + " Number of passport: " + ticket.getClientsModel().getPassportNum() +
+                    " Where client will fly " + ticket.getCitiesModel().getName());
+            System.out.println();
+        }
         System.out.println(ticketsDao.getALLTickets());
-        deleteTicket();
 
     }
 
