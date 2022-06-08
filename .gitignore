@@ -26,3 +26,4 @@ target
 desktop.ini
 OptimalPath.iml
 src/main/resources/db.properties
+Main.java
