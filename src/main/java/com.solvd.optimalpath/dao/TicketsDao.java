@@ -3,7 +3,12 @@ package com.solvd.optimalpath.dao;
 import com.solvd.optimalpath.configuration.DataBaseConnection;
 import com.solvd.optimalpath.interfaces.ITicketsDao;
 
-import com.solvd.optimalpath.models.*;
+import com.solvd.optimalpath.models.AirlinesModel;
+import com.solvd.optimalpath.models.AnimalsModel;
+import com.solvd.optimalpath.models.CitiesModel;
+import com.solvd.optimalpath.models.ClassTypesModel;
+import com.solvd.optimalpath.models.ClientsModel;
+import com.solvd.optimalpath.models.TicketsModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

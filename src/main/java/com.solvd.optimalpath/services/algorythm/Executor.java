@@ -1,6 +1,7 @@
 package com.solvd.optimalpath.services.algorythm;
 
 import com.solvd.optimalpath.services.ClientMenu;
+import com.solvd.optimalpath.services.AdminMenu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,7 @@ public class Executor {
 
 
 //        WeatherMethods.createCityRequest(50.0755, 14.4378);//this feature is in production!
-         ClientMenu.start();
+         AdminMenu.start0();
 
     }
 }
