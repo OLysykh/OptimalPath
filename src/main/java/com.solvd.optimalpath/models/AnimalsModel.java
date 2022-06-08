@@ -17,6 +17,11 @@ public class AnimalsModel {
         this.ticketsModel = ticketsModel;
     }
 
+    public AnimalsModel(int id, String typeOfAnimal) {
+        this.id = id;
+        this.typeOfAnimal = typeOfAnimal;
+    }
+
     public int getId() {
         return id;
     }
@@ -43,10 +48,8 @@ public class AnimalsModel {
 
     @Override
     public String toString() {
-        return "AnimalsModel{" +
-                "id=" + id +
-                ", typeOfAnimal='" + typeOfAnimal + '\'' +
-                ", ticketsModel=" + ticketsModel +
-                '}';
+        return "You choose animal with ID: " +
+                + id +
+                ", Animal Type: " + typeOfAnimal;
     }
 }

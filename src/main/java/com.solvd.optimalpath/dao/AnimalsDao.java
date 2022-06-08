@@ -18,10 +18,12 @@ public class AnimalsDao implements IAnimalsDao {
     private static final Logger LOGGER = LogManager.getLogger(AnimalsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO animals VALUES (?, ?)";
+    final String INSERT = "INSERT INTO animals VALUES (?, ?, ?)";
     final String UPDATE = "UPDATE animals SET typeOfAnimal = ? WHERE id = ? ";
     final String DELETE = "DELETE FROM animals WHERE id = ?";
     final String GET = "SELECT * FROM animals WHERE id = ? ";
+    final String GET_MAX_ID = "SELECT MAX(id) FROM animals";
+
     private static final String GET_ALL = "SELECT * FROM animals";
 
     @Override
@@ -31,6 +33,7 @@ public class AnimalsDao implements IAnimalsDao {
             statement = dbConnect.prepareStatement(INSERT);
             statement.setInt(1, (animalsModel.getId()));
             statement.setString(2, animalsModel.getTypeOfAnimal());
+            statement.setInt(3, animalsModel.getTicketsModel().getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -57,6 +60,7 @@ public class AnimalsDao implements IAnimalsDao {
             statement = dbConnect.prepareStatement(UPDATE);
             statement.setString(1, animalsModel.getTypeOfAnimal());
             statement.setInt(2, animalsModel.getId());
+            statement.setInt(3,animalsModel.getTicketsModel().getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
         } catch (Exception e) {
@@ -133,6 +137,8 @@ public class AnimalsDao implements IAnimalsDao {
                     AnimalsModel animalsModel = new AnimalsModel();
                     animalsModel.setId(result.getInt(1));
                     animalsModel.setTypeOfAnimal(result.getString(2));
+                    TicketsDao ticketsDao = new TicketsDao();
+                    animalsModel.setTicketsModel(ticketsDao.getTicketsById(result.getInt("ticketsId")));
                     animalsModels.add(animalsModel);
                     animalsModel.toString();
                 }
@@ -148,6 +154,32 @@ public class AnimalsDao implements IAnimalsDao {
                 }
             }
             return animalsModels;
-        }
+    }
 
+    @Override
+    public int getMaxId() {
+        Connection dbConnect = DataBaseConnection.getConnection();
+        int maxId = 0;
+        try {
+            statement = dbConnect.prepareStatement(GET_MAX_ID);
+            result = statement.executeQuery();
+            while (result.next()) {
+                maxId=result.getInt(1);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return maxId;
+
+
+
+    }
 }
