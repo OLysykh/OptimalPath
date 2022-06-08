@@ -91,12 +91,15 @@ public class AdminMenu {
     public static void infoSeatsSold() {
         TicketsDao ticketsDao = new TicketsDao();
         System.out.println(ticketsDao.getALLTickets());
+        deleteTicket();
 
     }
 
     public static void deleteTicket() {
         LOGGER.info("Please, input number of ticket");
-        //deleteTicketsById(TicketsModel ticketsModel);
+        TicketsDao ticketsDao = new TicketsDao();
+        TicketsModel ticketsModel = ticketsDao.getTicketsById(1);
+        ticketsDao.deleteTicketsById(ticketsModel);
     }
 
     public static void infoAboutSystem() {
