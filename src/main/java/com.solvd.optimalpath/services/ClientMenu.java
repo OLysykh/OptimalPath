@@ -223,9 +223,7 @@ public class ClientMenu {
                     int idDrink = scanner.nextInt();
                     Drinks selectedDrink = Drinks.values()[idDrink];
                     LOGGER.info("Selected meal - " + selectedMeal + " and " + selectedDrink);
-                   // LOGGER.info(ticket.getPrice());
-                    ticket.setPrice((int) (ticket.getPrice() + selectedMeal.getPrice() + selectedDrink.getPrice()));
-                   // LOGGER.info(ticket.getPrice());
+                    ticket.setPrice(ticket.getPrice() + selectedMeal.getPrice() + selectedDrink.getPrice());
                 }
                 case "2" -> LOGGER.info(" add here next step");
                 case "3" -> start();
