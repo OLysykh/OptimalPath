@@ -225,7 +225,7 @@ public class ClientMenu {
                     LOGGER.info("Selected meal - " + selectedMeal + " and " + selectedDrink);
                     ticket.setPrice(ticket.getPrice() + selectedMeal.getPrice() + selectedDrink.getPrice());
                 }
-                case "2" -> LOGGER.info(" add here next step");
+                case "2" -> LOGGER.info(" add here next step");//animalTicket
                 case "3" -> start();
                 case "4" -> System.exit(0);
                 default -> LOGGER.info("Incorrect option selected. Please try again.");
