@@ -79,7 +79,6 @@ public class AdminMenu {
 
     }
 
-
     public static void infoSeatsSold() {
         TicketsDao ticketsDao = new TicketsDao();
         for (TicketsModel ticket : ticketsDao.getALLTickets()) {
@@ -89,14 +88,14 @@ public class AdminMenu {
                     " Where client will fly " + ticket.getCitiesModel().getName());
             System.out.println();
         }
-        System.out.println(ticketsDao.getALLTickets());
-
     }
 
     public static void deleteTicket() {
-        LOGGER.info("Please, input number of ticket");
+        LOGGER.info("Please, input id number of ticket");
+        Scanner in = new Scanner(System.in);
+        String line = in.nextLine();
         TicketsDao ticketsDao = new TicketsDao();
-        TicketsModel ticketsModel = ticketsDao.getTicketsById(1);
+        TicketsModel ticketsModel = ticketsDao.getTicketsById(Integer.parseInt(line));
         ticketsDao.deleteTicketsById(ticketsModel);
     }
 
