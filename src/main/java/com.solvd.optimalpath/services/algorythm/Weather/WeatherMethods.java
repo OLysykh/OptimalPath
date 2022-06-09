@@ -21,11 +21,11 @@ public class WeatherMethods {
 
     private static final Logger LOGGER = LogManager.getLogger(Executor.class);
 
-//    private static String query = "https://api.openweathermap.org/data/2.5/weather?lat=50.0755&lon=14.4378&appid=46ad646a46ebd0606746c40d0f19d357&units=metric";
     private static String queryStart = "https://api.openweathermap.org/data/2.5/weather?lat=";
     private static String queryMiddle = "&lon=";
     private static String queryEnd = "&appid=46ad646a46ebd0606746c40d0f19d357&units=metric";
 
+    //тут мы генерируем ссылку длоя каждого
     public static void createCityRequest(double lang, double lon){
         getWeather(queryStart + lang + queryMiddle + lon + queryEnd);
     }

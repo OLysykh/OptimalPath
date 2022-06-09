@@ -3,6 +3,8 @@ package com.solvd.optimalpath.services;
 import com.solvd.optimalpath.dao.AirlinesDao;
 import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.dao.TicketsDao;
+import com.solvd.optimalpath.enums.Drinks;
+import com.solvd.optimalpath.enums.Menu;
 import com.solvd.optimalpath.interfaces.IAirlinesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.interfaces.ITicketsDao;
@@ -10,14 +12,12 @@ import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
-import com.solvd.optimalpath.services.algorythm.Weather.Main;
 import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
 import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.util.InputMismatchException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -26,7 +26,6 @@ public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
     private static TicketsModel ticket = new TicketsModel();
     private static ITicketsDao iTicketsDao = new TicketsDao();
-
 
 
     public static void start() {
@@ -66,6 +65,9 @@ public class ClientMenu {
             System.out.println("Wrong input, please try again");
             start();
         } else {
+            if (line.equals("0")) {
+                System.exit(0);
+            }
             cityId = Integer.parseInt(line);
             ticket.setId(cityId);
 //            ICitiesDao iCitiesDao1 = new CitiesDao();
@@ -74,9 +76,8 @@ public class ClientMenu {
             ticket.setAirlineName(iAirlinesDao.getAirlinesById(cityId).getName());
             ticket.setCityArrival(iCitiesDao.getCitiesById(cityId).getName());
 
-            double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(),iCitiesDao.getCitiesById(1).getLongitude(),iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
-            System.out.println("kvigijgijgijg"+ distance);
-            ticket.setTimeFlight(Math.round(distance/950.00+0.85)); //два знака после запятой реализация!
+            double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(), iCitiesDao.getCitiesById(1).getLongitude(), iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
+            ticket.setTimeFlight(Math.round((distance/950.00+0.95)*100)/100.00);//
             showInfo(cityId);
         }
     }
@@ -98,7 +99,7 @@ public class ClientMenu {
                     LOGGER.info("-->");
                 }
                 ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number));
+                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number)+" your flight will take: "+ ticket.getTimeFlight()+" hours");
                 System.out.println("-------------");
                 WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
                 WeatherData weatherData = WeatherMethods.readFromJson();
@@ -125,33 +126,30 @@ public class ClientMenu {
         } else {
             switch (line) {
                 case "1" -> {
-                    LOGGER.info("Please choose a place in the cabin where you want to fly:");
-                    LOGGER.info("----------------------------------------------------------");
-                    // add random to business class;
-                    LOGGER.info("Press 1 to choose A1");
-                    LOGGER.info("Press 2 to choose B1");
-                    LOGGER.info("Press 3 to choose C1");
-                    LOGGER.info("Press 4 to choose D1");
-                    LOGGER.info("Press 5 to choose E1");
-                    LOGGER.info("Press 6 to choose F1");
-                    LOGGER.info("Press 7 to back to main menu");
-                    LOGGER.info("Press 8 to EXIT from program");
-                    String temp = in.nextLine();
-                    if (!line.matches("[1-8]")) {
-                        System.out.println("Wrong input, please try again");
-                        chooseYourSeat();
-                    } else {
-                        LOGGER.info("we should add here method saving into DB place!");
-                        ticket.setPrice(ticket.getPrice()+300);
-                        // add to Ticket price+300;
-                        // add to ticket place
-                        foodTicket();
-                    }
-                }
-                case "2" -> {generateRandomPlace();
+//                    LOGGER.info("Please choose a place in the cabin where you want to fly:");
+//                    LOGGER.info("----------------------------------------------------------");
+//                    // add random to business class;
+//                    LOGGER.info("Press 1 to choose A1");
+//                    LOGGER.info("Press 2 to choose B1");
+//                    LOGGER.info("Press 3 to choose C1");
+//                    LOGGER.info("Press 4 to choose D1");
+//                    LOGGER.info("Press 5 to choose E1");
+//                    LOGGER.info("Press 6 to choose F1");
+//                    LOGGER.info("Press 7 to back to main menu");
+//                    LOGGER.info("Press 8 to EXIT from program");
+//                    String temp = in.nextLine();
+//                    if (!line.matches("[1-8]")) {
+//                        System.out.println("Wrong input, please try again");
+//                        chooseYourSeat();
+//                    } else {
+//                        LOGGER.info("we should add here method saving into DB place!");
+                    ticket.setPrice(ticket.getPrice() + 300);
+                    generateRandomBusinessPlace();
                     foodTicket();
-
-
+                }
+                case "2" -> {
+                    generateRandomPlace();
+                    foodTicket();
                 }
                 case "3" -> start();
                 case "4" -> {
@@ -166,6 +164,19 @@ public class ClientMenu {
         }
     }
 
+    public static void generateRandomBusinessPlace() {
+        String chars = "ABCD";
+        int len = 1;
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        String a = null;
+        for (int i = 0; i < len; i++) {
+            a = String.valueOf(sb.append(chars.charAt(rnd.nextInt(chars.length()))) + "1");
+        }
+        ticket.setSeatsNum(a);
+    }
+
+
     public static void generateRandomPlace() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int min = 30;
@@ -177,11 +188,12 @@ public class ClientMenu {
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         }
         int random_int = (int) Math.floor(Math.random() * (max - min + 1) + min);
-        LOGGER.info("Your seat is: "+sb.toString()+ random_int);
+        LOGGER.info("Your seat is: " + sb.toString() + random_int);
         ticket.setSeatsNum(sb.toString() + random_int);
         LOGGER.info(ticket);
     }
-    public static void foodTicket(){
+
+    public static void foodTicket() {
         LOGGER.info("Do you want added some meal?");
         LOGGER.info("*************************************************");
         LOGGER.info("Press 1 if yes");
@@ -191,16 +203,31 @@ public class ClientMenu {
         Scanner in = new Scanner(System.in);
         String line;
         line = in.nextLine();
-        if (!line.matches("[0-4]")) {
-            System.out.println("Wrong input, please try again");
+        if (!line.matches("[1-4]")) {
+            LOGGER.info("Wrong input, please try again");
             foodTicket();
         } else {
             switch (line) {
                 case "1" -> {
                     LOGGER.info("Please, write number of meal: ");
-                    ticket.setPrice(ticket.getPrice()+30);
+                    Arrays.stream(Menu.values())
+                            .forEach(item -> LOGGER.info(item.ordinal() + " - " + item + " - " + item.getPrice()));
+                    Scanner scanner = new Scanner(System.in);
+                    int idMeal = scanner.nextInt();
+                    Menu selectedMeal = Menu.values()[idMeal];
+                    LOGGER.info("Got it. Do you want some drink? Write number of drink: ");
+
+                    Arrays.stream(Drinks.values())
+                            .forEach(item -> LOGGER.info(item.ordinal() + " - " + item + " - " + item.getPrice()));
+
+                    int idDrink = scanner.nextInt();
+                    Drinks selectedDrink = Drinks.values()[idDrink];
+                    LOGGER.info("Selected meal - " + selectedMeal + " and " + selectedDrink);
+                   // LOGGER.info(ticket.getPrice());
+                    ticket.setPrice((int) (ticket.getPrice() + selectedMeal.getPrice() + selectedDrink.getPrice()));
+                   // LOGGER.info(ticket.getPrice());
                 }
-                case "2" -> LOGGER.info(" add here next step") ;
+                case "2" -> LOGGER.info(" add here next step");
                 case "3" -> start();
                 case "4" -> System.exit(0);
                 default -> LOGGER.info("Incorrect option selected. Please try again.");
@@ -209,7 +236,7 @@ public class ClientMenu {
     }
 
 
-    public static void animalTicket(){
+    public static void animalTicket() {
         //do you have animal?
         //Ianima animal= animalDAO
 
