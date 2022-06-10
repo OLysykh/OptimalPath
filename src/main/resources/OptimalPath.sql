@@ -178,3 +178,18 @@ VALUES ('Cat', 1),
 ('Chinchilla', 4),
 ('Mouse', 5);
 
+use optimalpath;
+CREATE TABLE `userpass` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `user` varchar(255),
+  `pass` varchar(255)
+);
+
+INSERT INTO userpass (user, pass)
+VALUES ('roma', 'roma'),
+('alex', 'alex'),
+('taras', 'taras'),
+('olga', 'olga'),
+('yura', 'yura');
+
+

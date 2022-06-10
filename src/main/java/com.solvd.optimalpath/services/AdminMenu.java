@@ -1,6 +1,7 @@
 package com.solvd.optimalpath.services;
 
 import com.solvd.optimalpath.dao.TicketsDao;
+import com.solvd.optimalpath.dao.UserPassDao;
 import com.solvd.optimalpath.models.TicketsModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,92 +12,93 @@ public class AdminMenu {
     private static final Logger LOGGER = LogManager.getLogger(AdminMenu.class);
 
     public static void start0() {
-        LOGGER.info("Please choose a mode of work you need:");
-        LOGGER.info("*************************************************");
-        LOGGER.info("Press 1 to choose administrate mode");
-        //LOGGER.info("Press 2 to choose clients mode");
-        LOGGER.info("Press 3 to see information about program");
-        LOGGER.info("Press 4 to EXIT from program\n");
-        Scanner in = new Scanner(System.in);
-        String line;
-        line = in.nextLine();
-        if (!line.matches("[1-4]")) {
-            System.out.println("Wrong input, please try again");
-            start0();
-        } else {
-            switch (line) {
-                case "1":
-                    ckeckPassword();
-                    LOGGER.info("----------------------------------------------------------");
-                    LOGGER.info("Press 1 choose delete ticket");
-                    LOGGER.info("Press 2 choose information about sold place");
-                    LOGGER.info("Press 3 choose information about programm software");
-                    LOGGER.info("Press 4 to back to main menu");
-                    LOGGER.info("Press 5 to EXIT from program");
+        ckeckPassword();
+        while(true) {
+            LOGGER.info("Please choose a mode of work you need:");
+            LOGGER.info("*************************************************");
+            LOGGER.info("Press 1 choose information about sold place");
+            LOGGER.info("Press 2 choose information about the amount for which the tickets were sold");
+            LOGGER.info("Press 3 choose information about sold place of client");
+            LOGGER.info("Press 4 choose delete ticket by client's last name");
+            LOGGER.info("Press 5 choose information about programm software");
+            LOGGER.info("Press 6 to EXIT from program");
+            Scanner in = new Scanner(System.in);
+            String line = in.nextLine();
 
-                    line = in.nextLine();
-                    if (!line.matches("[1-5]")) {
-                        System.out.println("Wrong input, please try again");
-                        start0();
-                    } else {
-                        switch (line) {
-                            case "1":
-                                deleteTicket();
-                                start0();
-                            case "2":
-                                infoSeatsSold();
-                                start0();
-                            case "3":
-                                infoAboutSystem();
-                                start0();
-                                break;
-                            case "4":
-                                start0();
-                            case "5":
-                                LOGGER.info("You have selected to exit our program! Thanks for visiting!");
-                                System.exit(0);
-                            default:
-                                LOGGER.info("Incorrect option selected. Please try again.");
-                                break;
-                        }
-                    }
-                    break;
-                case "2":
-                    System.out.println("Client menu. Thanks for use our service.");
-                    break;
-                case "3":
-                    infoAboutSystem();
-                    start0();
-                case "4":
-                    LOGGER.info("You have selected to exit our program! Thanks for visiting!");
-                    System.exit(0);
-                default:
-                    LOGGER.info("Incorrect option selected. Please try again.");
-                    break;
+            if (!line.matches("[1-6]")) {
+                System.out.println("Wrong input, please try again");
+                continue;
+            } else {
+                switch (line) {
+                    case "1":
+                        infoSeatsSold();
+                        break;
+                    case "2":
+                        infoSeatsSoldSum();
+                        break;
+                    case "3":
+                        Scanner in1 = new Scanner(System.in);
+                        String line1;
+                        line1 = in1.nextLine();
+                        infoTicketClient(line1);
+                        break;
+                    case "4":
+                        deleteTicketByLastName();
+                        break;
+                    case "5":
+                        infoAboutSystem();
+                        break;
+                    case "6":
+                        LOGGER.info("You have selected to exit our program! Thanks for visiting!");
+                        System.exit(0);
+                }
+                continue;
             }
-        }
-
-
-    }
+                }
+            }
 
     public static void infoSeatsSold() {
         TicketsDao ticketsDao = new TicketsDao();
         for (TicketsModel ticket : ticketsDao.getALLTickets()) {
-            System.out.println("Number of ticket is: " + ticket.getId() +
+            LOGGER.info("Number of ticket is: " + ticket.getId() +
                     " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
                     ticket.getClientsModel().getLastName() + " Number of passport: " + ticket.getClientsModel().getPassportNum() +
                     " Where client will fly " + ticket.getCitiesModel().getName());
-            System.out.println();
         }
     }
 
-    public static void deleteTicket() {
-        LOGGER.info("Please, input id number of ticket");
-        Scanner in = new Scanner(System.in);
-        String line = in.nextLine();
+    public static void infoSeatsSoldSum() {
         TicketsDao ticketsDao = new TicketsDao();
-        TicketsModel ticketsModel = ticketsDao.getTicketsById(Integer.parseInt(line));
-        ticketsDao.deleteTicketsById(ticketsModel);
+        long sum = 0;
+        for (TicketsModel ticket : ticketsDao.getALLTickets()) {
+            sum = sum + ticket.getPrice();
+        }
+        LOGGER.info("Tickets sold for " + sum +  " hryvnias;");
+    }
+
+    public static void infoTicketClient(String lastName) {
+        TicketsDao ticketsDao = new TicketsDao();
+        for (TicketsModel ticket : ticketsDao.getALLTickets()) {
+            if (lastName.equals(ticket.getClientsModel().getLastName())) {
+                LOGGER.info("Number of ticket is: " + ticket.getId() +
+                        " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
+                        ticket.getClientsModel().getLastName() + " Number of passport: " + ticket.getClientsModel().getPassportNum() +
+                        " Where client will fly " + ticket.getCitiesModel().getName());
+            }
+        }
+    }
+
+    public static void deleteTicketByLastName() {
+        LOGGER.info("Please, input last name of client");
+        Scanner in = new Scanner(System.in);
+        String lastName = in.nextLine();
+        TicketsDao ticketsDao = new TicketsDao();
+        for (TicketsModel ticket : ticketsDao.getALLTickets()) {
+            if (lastName.equals(ticket.getClientsModel().getLastName())) {
+                TicketsModel ticketsModel = ticketsDao.getTicketsById(ticket.getId());
+                ticketsDao.deleteTicketsById(ticketsModel);
+            }
+        }
     }
 
     public static void infoAboutSystem() {
@@ -104,29 +106,33 @@ public class AdminMenu {
     }
 
     public static void ckeckPassword() {
+        UserPassDao userPassDao = new UserPassDao();
+        LOGGER.info(userPassDao.getUserPassById(6));
         Scanner sc = new Scanner(System.in);
-
         for (int i = 0; i < 3; i++) {
-            System.out.println("Enter admin's name:");
+            LOGGER.info("Enter admin's name:");
             String userName = sc.nextLine();
-            System.out.println("Enter password:");
+            LOGGER.info("Enter password:");
             String password = sc.nextLine();
-            if ("admin".equals(userName) && "12345".equals(password)) {
-                LOGGER.info("Welkome, " + userName + "!");
-                LOGGER.info("Please choose a mode of administrator you need:");
+            boolean isPassCorect = false;
+            int index = 1;
+            while(userPassDao.getUserPassById(index).getPass() != null){
+                if (password.equals(userPassDao.getUserPassById(index).getPass())) {
+                    LOGGER.info("Welkome, " + userName + "!");
+                    isPassCorect = true;
+                    break;
+                }
+                index++;
+            }   if(isPassCorect) {
                 break;
+            } if(i==2) {
+                LOGGER.info("You haven't more oportunity!");
+                System.exit(0);
             } else {
-                if(i == 2) {
-                    LOGGER.info("You have exhausted all attempts.");
-                    System.exit(0);
-                }
-                else{
-                    LOGGER.info("Login or pasword is not correct. Try again.");
-                }
+                LOGGER.info("Name or password isn't correct. You have three oportunity. Try again.");
+
             }
+
         }
-        LOGGER.info("Login or pasword is not correct. Try again.");
     }
-
-
 }

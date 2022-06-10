@@ -45,11 +45,6 @@ public class AnimalsDao implements IAnimalsDao {
         }
     }
 
-
-
-
-
-
     @Override
     public void updateAnimals(AnimalsModel animalsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
