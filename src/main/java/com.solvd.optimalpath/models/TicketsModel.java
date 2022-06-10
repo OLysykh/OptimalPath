@@ -1,7 +1,12 @@
 package com.solvd.optimalpath.models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonAutoDetect
+@JsonIgnoreProperties(value = { "airlinesModel", "citiesModel", "classTypesModel", "clientsModel", "animalsModelsList",  "destinationCity"})
 public class TicketsModel {
     private int id;
     private AirlinesModel airlinesModel;

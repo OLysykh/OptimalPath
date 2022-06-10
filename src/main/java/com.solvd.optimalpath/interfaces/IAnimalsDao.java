@@ -12,6 +12,8 @@ public interface IAnimalsDao {
 
     void deleteAnimalsById(AnimalsModel animalsModel);
 
+    void createAnimalsWithID(AnimalsModel animalsModel, int ticket);
+
     AnimalsModel getAnimalsById(int id);
 
     List<AnimalsModel> getALLAnimals();

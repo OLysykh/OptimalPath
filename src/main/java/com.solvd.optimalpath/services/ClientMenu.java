@@ -1,5 +1,7 @@
 package com.solvd.optimalpath.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.solvd.optimalpath.dao.AirlinesDao;
 import com.solvd.optimalpath.dao.AnimalsDao;
 import com.solvd.optimalpath.dao.CitiesDao;
@@ -20,6 +22,8 @@ import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -59,7 +63,7 @@ public class ClientMenu {
         LOGGER.info("Press 21 if you choose Donetsk");
         LOGGER.info("Press 22 if you choose Zaporizhzhia");
         LOGGER.info("Press 23 if you choose Mariupol");
-        LOGGER.info("If you want to EXIT from program press 0");
+        LOGGER.info("If you are not interested in travelling and want to leave our ticket office just press 0");
         Scanner in = new Scanner(System.in);
         String line;
         line = in.nextLine();
@@ -95,28 +99,28 @@ public class ClientMenu {
 
         for (CitiesModel nod : graph.getNodes()) {
             if (nod.getId() == number) {
-                LOGGER.info("distance is  " + nod.getDistance() + " km to " + nod.getName());
+                LOGGER.info("Your travel distance is  " + nod.getDistance() + " km to " + nod.getName() + " city.");
                 List<CitiesModel> list = nod.getShortestPath();
-                LOGGER.info("Your paths through");
+                LOGGER.info("Your flight will pass through following cities:");
                 for (CitiesModel ele : list) {
                     LOGGER.info(ele.getName());
                     LOGGER.info("-->");
                 }
                 ICitiesDao iCity = new CitiesDao();
-                LOGGER.info(iCity.getCitiesById(number).getName() + " your airline is: " + airlinesDao.getAirlinesById(number) + " your flight will take: " + ticket.getTimeFlight() + " hours");
-                LOGGER.info("-------------");
-                sleepNSeconds(2);
+                LOGGER.info(" your flight will take: " + ticket.getTimeFlight() + " hours to " + iCity.getCitiesById(number).getName() + "and your airline is: " + airlinesDao.getAirlinesById(number).getName()+".");
+                LOGGER.info("*************************************************\n");
+                sleepNSeconds(1);
                 WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
                 WeatherData weatherData = WeatherMethods.readFromJson();
                 LOGGER.info(weatherData);
             }
         }
-        sleepNSeconds(4);
+        sleepNSeconds(1);
         chooseYourSeat();
     }
 
     public static void chooseYourSeat() {
-        LOGGER.info("Please choose class in which you want to fly:");
+        LOGGER.info("Please choose class in which you want to fly:\n");
         LOGGER.info("*************************************************");
         LOGGER.info("Press 1 to choose business class");
         LOGGER.info("Press 2 to choose economy class");
@@ -182,10 +186,10 @@ public class ClientMenu {
     }
 
     public static void foodTicket() {
-        LOGGER.info("Do you want added some meal?");
+        LOGGER.info("Would you like to have a lunch, during your flight?");
         LOGGER.info("*************************************************");
-        LOGGER.info("Press 1 if yes");
-        LOGGER.info("Press 2 if no");
+        LOGGER.info("Press 1 to choose meal from our delicious menu");
+        LOGGER.info("Press 2 if you are not interested");
         LOGGER.info("Press 3 to back to main menu");
         LOGGER.info("Press 4 to EXIT from program");
         Scanner in = new Scanner(System.in);
@@ -260,17 +264,18 @@ public class ClientMenu {
                         Scanner writeTypeAnimal = new Scanner(System.in);
                         String inputTypeOfAnimal = writeTypeAnimal.nextLine();
                         AnimalsModel animalsModel = new AnimalsModel(++i, inputTypeOfAnimal, new TicketsModel());
-                        iAnimalsDao.createAnimals(animalsModel);
+                        iAnimalsDao.createAnimalsWithID(animalsModel,ticket.getId());
 
                         LOGGER.info(iAnimalsDao.getAnimalsById(i));
                         LOGGER.info("Your ticket will expensive on 50");
+                        LOGGER.info("fkfmimgf"+ticket.getId());
+
                         ticket.setPrice(ticket.getPrice() + 50);
                         LOGGER.info("Price of your ticket = " + ticket.getPrice());
                     } else {
-                        LOGGER.info(iAnimalsDao.getAnimalsById(Integer.parseInt(lineAnimal)));
-                        LOGGER.info("Your ticket will expensive on 50 UAH");
+                        LOGGER.info("50 UAH will be added to your ticket for animal, travelling with you");
                         ticket.setPrice(ticket.getPrice() + 50);
-                        LOGGER.info("Price of your ticket = " + ticket.getPrice() + " UAH");
+//                        LOGGER.info("Price of your ticket = " + ticket.getPrice() + " UAH");
                     }
                 }
                 case "2" -> {
@@ -288,6 +293,8 @@ public class ClientMenu {
                 }
             }
         }
+        LOGGER.info(ticket);
+        ticketToFile(ticket);
     }
     public static int delay = 1000;
 
@@ -298,4 +305,19 @@ public class ClientMenu {
             e.printStackTrace();
         }
     }
+
+    public static void ticketToFile(TicketsModel ticket){
+            ObjectMapper om = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+            File file = new File("src/main/resources/ticket.json");
+            try {
+                if (!file.exists())
+                    file.createNewFile();
+                om.writeValue(file, ticket);
+                LOGGER.info("created!");
+            } catch (IOException e) {
+                LOGGER.error(e);
+            }
+
+        }
+
 }

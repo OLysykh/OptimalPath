@@ -118,7 +118,6 @@ public class TicketsDao implements ITicketsDao {
                 ticketsModel.setDestinationCity(result.getString(6));
                 ticketsModel.setSeatsNum(result.getString(7));
                 ticketsModel.setPrice(result.getInt(8));
-                ticketsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -156,7 +155,6 @@ public class TicketsDao implements ITicketsDao {
                 ticketsModel.setSeatsNum(result.getString(7));
                 ticketsModel.setPrice(result.getInt(8));
                 ticketsModels.add(ticketsModel);
-                ticketsModels.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -171,7 +169,6 @@ public class TicketsDao implements ITicketsDao {
         }
         return ticketsModels;
     }
-
 }
 
 

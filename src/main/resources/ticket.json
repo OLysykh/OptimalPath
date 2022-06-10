@@ -1,0 +1,8 @@
+{
+  "id" : 2,
+  "seatsNum" : "D1",
+  "airlineName" : "Ryanair",
+  "cityArrival" : "Dnipro",
+  "price" : 1150,
+  "timeFlight" : 1.38
+}

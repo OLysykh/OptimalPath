@@ -46,7 +46,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return   "on the sky there is/are ='" + main + '\'' +
-                ", in details='" + description + '\'';
+        return   "on the sky there is/are ='" + main  +
+                ", in details='" + description;
     }
 }

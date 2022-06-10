@@ -43,7 +43,7 @@ public class WeatherData {
     @Override
     public String toString() {
         return "Please take a look on the Weather in your city destination: " +
-                weather +
-                main;
+                weather + "\n"+
+                main + "\n";
     }
 }
