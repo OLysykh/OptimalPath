@@ -11,10 +11,10 @@ import com.solvd.optimalpath.services.ClientMenu;
 
 public class Main {
     public static void main(String[] args) {
-//        TicketsModel ticketsModel = new TicketsModel();
-//        TicketsDao ticketsDao = new TicketsDao();
-//        System.out.println(ticketsDao.getTicketsById(3));
-//        System.out.println(ticketsDao.getALLTickets());
+        TicketsModel ticketsModel = new TicketsModel();
+        TicketsDao ticketsDao = new TicketsDao();
+        System.out.println(ticketsDao.getTicketsById(3));
+        System.out.println(ticketsDao.getALLTickets());
 //        AirlinesModel airlinesModel = new AirlinesModel();
 //        AnimalsDao animalsDaoDao = new AnimalsDao();
 //        System.out.println(animalsDaoDao.getAnimalsById(2));

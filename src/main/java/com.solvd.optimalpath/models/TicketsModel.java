@@ -19,7 +19,9 @@ public class TicketsModel {
     public TicketsModel() {
     }
 
-    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel, ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity, String seatsNum, int price) {
+    public TicketsModel(int id, AirlinesModel airlinesModel, CitiesModel citiesModel, ClassTypesModel classTypesModel,
+                        ClientsModel clientsModel, List<AnimalsModel> animalsModelsList, String destinationCity,
+                        String seatsNum, String airlineName, String cityArrival, int price, double timeFlight) {
         this.id = id;
         this.airlinesModel = airlinesModel;
         this.citiesModel = citiesModel;
@@ -28,7 +30,10 @@ public class TicketsModel {
         this.animalsModelsList = animalsModelsList;
         this.destinationCity = destinationCity;
         this.seatsNum = seatsNum;
+        this.airlineName = airlineName;
+        this.cityArrival = cityArrival;
         this.price = price;
+        this.timeFlight = timeFlight;
     }
 
 
@@ -96,14 +101,6 @@ public class TicketsModel {
         this.seatsNum = seatsNum;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getAirlineName() {
         return airlineName;
     }
@@ -118,6 +115,14 @@ public class TicketsModel {
 
     public void setCityArrival(String cityArrival) {
         this.cityArrival = cityArrival;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public double getTimeFlight() {

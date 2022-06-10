@@ -25,5 +25,9 @@ hs_err_pid*
 target
 desktop.ini
 OptimalPath.iml
-src/main/resources/db.properties
 src/main/java/com.solvd.optimalpath/Main.java
+Main.java
+.DS_Store
+
+src/main/resources/db.properties
+
