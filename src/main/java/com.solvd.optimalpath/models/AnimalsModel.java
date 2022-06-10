@@ -43,10 +43,8 @@ public class AnimalsModel {
 
     @Override
     public String toString() {
-        return "AnimalsModel{" +
-                "id=" + id +
-                ", typeOfAnimal='" + typeOfAnimal + '\'' +
-                ", ticketsModel=" + ticketsModel +
-                '}';
+        return "You choose animal with ID: " +
+                + id +
+                ", Animal Type: " + typeOfAnimal;
     }
 }
