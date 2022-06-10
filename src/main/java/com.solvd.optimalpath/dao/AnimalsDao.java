@@ -22,6 +22,7 @@ public class AnimalsDao implements IAnimalsDao {
     final String UPDATE = "UPDATE animals SET typeOfAnimal = ? WHERE id = ? ";
     final String DELETE = "DELETE FROM animals WHERE id = ?";
     final String GET = "SELECT * FROM animals WHERE id = ? ";
+    final String GET_MAX_ID = "SELECT MAX(id) FROM animals";
     private static final String GET_ALL = "SELECT * FROM animals";
 
     @Override
@@ -44,10 +45,6 @@ public class AnimalsDao implements IAnimalsDao {
             }
         }
     }
-
-
-
-
 
 
     @Override
@@ -124,30 +121,55 @@ public class AnimalsDao implements IAnimalsDao {
 
     @Override
     public List<AnimalsModel> getALLAnimals() {
-            ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
-            Connection dbConnect = DataBaseConnection.getConnection();
-            try {
-                statement = dbConnect.prepareStatement(GET_ALL);
-                result = statement.executeQuery();
-                while (result.next()) {
-                    AnimalsModel animalsModel = new AnimalsModel();
-                    animalsModel.setId(result.getInt(1));
-                    animalsModel.setTypeOfAnimal(result.getString(2));
-                    animalsModels.add(animalsModel);
-                    animalsModel.toString();
-                }
-            } catch (Exception e) {
-                LOGGER.error(e);
-            } finally {
-                try {
-                    DataBaseConnection.close(dbConnect);
-                    statement.close();
-                    result.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
+        Connection dbConnect = DataBaseConnection.getConnection();
+        try {
+            statement = dbConnect.prepareStatement(GET_ALL);
+            result = statement.executeQuery();
+            while (result.next()) {
+                AnimalsModel animalsModel = new AnimalsModel();
+                animalsModel.setId(result.getInt(1));
+                animalsModel.setTypeOfAnimal(result.getString(2));
+                animalsModels.add(animalsModel);
+                animalsModel.toString();
             }
-            return animalsModels;
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return animalsModels;
+    }
+
+    @Override
+    public int getMaxId() {
+        Connection dbConnect = DataBaseConnection.getConnection();
+        int maxId = 0;
+        try {
+            statement = dbConnect.prepareStatement(GET_MAX_ID);
+            result = statement.executeQuery();
+            while (result.next()) {
+                maxId = result.getInt(1);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return maxId;
+
+    }
 
 }

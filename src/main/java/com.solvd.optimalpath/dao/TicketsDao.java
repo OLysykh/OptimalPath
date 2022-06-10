@@ -49,7 +49,6 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -71,7 +70,6 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -92,7 +90,6 @@ public class TicketsDao implements ITicketsDao {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -135,8 +132,6 @@ public class TicketsDao implements ITicketsDao {
             }
         }
         return ticketsModel;
-
-
     }
 
     @Override

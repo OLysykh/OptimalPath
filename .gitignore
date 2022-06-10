@@ -26,4 +26,8 @@ target
 desktop.ini
 OptimalPath.iml
 db.properties
+Main.java
+.DS_Store
+optimalPathModel.mwb.beforefix
+
 

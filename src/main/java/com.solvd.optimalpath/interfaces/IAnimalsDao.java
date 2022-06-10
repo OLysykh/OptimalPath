@@ -15,4 +15,6 @@ public interface IAnimalsDao {
     AnimalsModel getAnimalsById(int id);
 
     List<AnimalsModel> getALLAnimals();
+
+    int getMaxId();
 }
