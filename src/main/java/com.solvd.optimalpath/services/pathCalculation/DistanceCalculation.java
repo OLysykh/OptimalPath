@@ -1,4 +1,4 @@
-package com.solvd.optimalpath.services;
+package com.solvd.optimalpath.services.pathCalculation;
 
 public class DistanceCalculation {
 

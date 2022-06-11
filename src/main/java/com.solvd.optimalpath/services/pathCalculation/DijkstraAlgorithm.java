@@ -1,4 +1,4 @@
-package com.solvd.optimalpath.services.algorythm;
+package com.solvd.optimalpath.services.pathCalculation;
 
 import com.solvd.optimalpath.models.CitiesModel;
 

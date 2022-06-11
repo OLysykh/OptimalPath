@@ -156,6 +156,7 @@ public class AnimalsDao implements IAnimalsDao {
                 animalsModel.setTypeOfAnimal(result.getString(2));
                 TicketsDao ticketsDao = new TicketsDao();
                 animalsModel.setTicketsModel(ticketsDao.getTicketsById(result.getInt("ticketsId")));
+
                 animalsModels.add(animalsModel);
                 animalsModel.toString();
             }
@@ -172,6 +173,7 @@ public class AnimalsDao implements IAnimalsDao {
         }
         return animalsModels;
     }
+
 
     @Override
     public int getMaxId() {

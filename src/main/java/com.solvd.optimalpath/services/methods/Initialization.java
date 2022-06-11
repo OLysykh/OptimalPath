@@ -1,12 +1,10 @@
-package com.solvd.optimalpath.services;
+package com.solvd.optimalpath.services.methods;
 
 import com.solvd.optimalpath.dao.CitiesDao;
 import com.solvd.optimalpath.interfaces.ICitiesDao;
 import com.solvd.optimalpath.models.CitiesModel;
-import com.solvd.optimalpath.services.algorythm.Graph;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.solvd.optimalpath.services.pathCalculation.DistanceCalculation;
+import com.solvd.optimalpath.services.pathCalculation.Graph;
 
 public class Initialization {
 

@@ -1,8 +1,8 @@
 {
-  "id" : 2,
-  "seatsNum" : "D1",
-  "airlineName" : "Ryanair",
-  "cityArrival" : "Dnipro",
-  "price" : 1150,
-  "timeFlight" : 1.38
+  "id" : 20,
+  "seatsNum" : "D16",
+  "airlineName" : "Wizzair",
+  "cityArrival" : "Luhansk",
+  "price" : 1778,
+  "timeFlight" : 1.66
 }

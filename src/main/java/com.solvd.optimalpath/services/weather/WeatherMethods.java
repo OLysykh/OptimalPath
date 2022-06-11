@@ -1,11 +1,10 @@
-package com.solvd.optimalpath.services.algorythm.Weather;
+package com.solvd.optimalpath.services.weather;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.solvd.optimalpath.services.algorythm.Executor;
+import com.solvd.optimalpath.Executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +12,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class WeatherMethods {
 

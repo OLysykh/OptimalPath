@@ -1,4 +1,4 @@
-package com.solvd.optimalpath.services.algorythm.Weather;
+package com.solvd.optimalpath.services.weather;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
