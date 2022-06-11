@@ -91,7 +91,7 @@ public class AdminMenu {
                         infoSeatsSoldSum();
                         break;
                     case "3":
-                        LOGGER.info("input last name of client");
+                        LOGGER.info("Input last name of client");
                         Scanner in1 = new Scanner(System.in);
                         String line1;
                         line1 = in1.nextLine();
@@ -138,12 +138,21 @@ public class AdminMenu {
 
     public static void infoSeatsSold() {
         TicketsDao ticketsDao = new TicketsDao();
+
+        LOGGER.info("+-----------------+-------------+----------------+-------------------+-----------------------+");
+        LOGGER.info(" Number of ticket" + "    First name " + "   Last name " + "      Number of passport " + " Where client will fly ");
+        LOGGER.info("+-----------------+-------------+----------------+-------------------+-----------------------+");
         for (TicketsModel ticket : ticketsDao.getALLTickets()) {
-            LOGGER.info("Number of ticket is: " + ticket.getId() +
-                    " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
-                    ticket.getClientsModel().getLastName() + " Number of passport: " + ticket.getClientsModel().getPassportNum() +
-                    " Where client will fly " + ticket.getCitiesModel().getName());
+            LOGGER.info("  " + ticket.getId() + "                    " + ticket.getClientsModel().getFirstName() + "       " +
+                    ticket.getClientsModel().getLastName() + "          " + ticket.getClientsModel().getPassportNum() +
+                    "                " + ticket.getCitiesModel().getName());
+
+//            LOGGER.info("Number of ticket is: " + ticket.getId() +
+//                    " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
+//                    ticket.getClientsModel().getLastName() + " Number of passport: " + ticket.getClientsModel().getPassportNum() +
+//                    " Where client will fly " + ticket.getCitiesModel().getName());
         }
+        LOGGER.info("+-----------------+-------------+----------------+-------------------+-----------------------+");
     }
 
     public static void infoSeatsSoldSum() {
@@ -152,18 +161,24 @@ public class AdminMenu {
         for (TicketsModel ticket : ticketsDao.getALLTickets()) {
             sum = sum + ticket.getPrice();
         }
+        LOGGER.info("*************************************************");
         LOGGER.info("Tickets sold for " + sum +  " hryvnias;");
+        LOGGER.info("*************************************************");
     }
 
     public static void infoTicketClient(String lastName) {
         TicketsDao ticketsDao = new TicketsDao();
         for (TicketsModel ticket : ticketsDao.getALLTickets()) {
             if (lastName.equals(ticket.getClientsModel().getLastName())) {
+                LOGGER.info("************************************************************" +
+                        "****************************************************************");
                 LOGGER.info("Number of ticket is: " + ticket.getId() +
                         " First name: " + ticket.getClientsModel().getFirstName() + " Last name: " +
                         ticket.getClientsModel().getLastName() + " Number of passport: " +
                         ticket.getClientsModel().getPassportNum() +
                         " Where client will fly " + ticket.getCitiesModel().getName());
+                LOGGER.info("************************************************************" +
+                        "****************************************************************");
             }
         }
     }
@@ -182,8 +197,9 @@ public class AdminMenu {
     }
 
     public static void infoAboutSystem() {
+        LOGGER.info("**********************************************************************************");
         LOGGER.info("Ticketing system. Version 1.0. Written by a team of SOLVD's interns. May of 2022.");
-        LOGGER.info("\n");
+        LOGGER.info("**********************************************************************************");
     }
 
     public static void ckeckPasswordAdmin() {
@@ -196,9 +212,9 @@ public class AdminMenu {
             String password = sc.nextLine();
             boolean isPassCorect = false;
             int index = 1;
-            while(true){
+            while(userPassDao.getUserPassById(index).getUser()!=null){
                 if (user.equals(userPassDao.getUserPassById(index).getUser()) &&
-                        password.equals(userPassDao.getUserPassById(index).getPass())) {
+                    password.equals(userPassDao.getUserPassById(index).getPass())) {
                     LOGGER.info("Welkome, " + user + "!");
                     isPassCorect = true;
                     break;
@@ -224,7 +240,7 @@ public class AdminMenu {
             String password = sc.nextLine();
             boolean isPassCorect = false;
             int index = 1;
-            while(true){
+            while(userPassDao.getUserPassById(index).getUser()!=null){
                 if ("supervisor".equals(userPassDao.getUserPassById(index).getUser()) &&
                         password.equals(userPassDao.getUserPassById(index).getPass())) {
                     LOGGER.info("Welkome, supervisor !");

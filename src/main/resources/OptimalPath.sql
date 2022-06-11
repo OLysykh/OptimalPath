@@ -177,7 +177,6 @@ VALUES ('Cat', 1),
 ('Rabbit', 3),
 ('Chinchilla', 4),
 ('Mouse', 5);
-
 use optimalpath;
 CREATE TABLE `userpass` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -190,6 +189,6 @@ VALUES ('roma', 'roma'),
 ('alex', 'alex'),
 ('taras', 'taras'),
 ('olga', 'olga'),
-('yura', 'yura');
-
+('yura', 'yura'),
+('supervisor', 'supervisor');
 
