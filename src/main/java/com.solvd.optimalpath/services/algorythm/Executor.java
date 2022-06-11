@@ -13,7 +13,7 @@ public class Executor {
 
 
 //        WeatherMethods.createCityRequest(50.0755, 14.4378);//this feature is in production!
-         AdminMenu.start0();
+         AdminMenu.supervisor();
 
     }
 }

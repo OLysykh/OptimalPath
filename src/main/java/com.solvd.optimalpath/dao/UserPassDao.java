@@ -30,7 +30,7 @@ public class UserPassDao implements IUserPassDao {
                 statement = dbConnect.prepareStatement(INSERT);
                 statement.setInt(1, (userPassModel.getId()));
                 statement.setString(2, userPassModel.getUser());
-                statement.setString(2, userPassModel.getPass());
+                statement.setString(3, userPassModel.getPass());
                 int i = statement.executeUpdate();
                 LOGGER.info(i + " records inserted");
             } catch (Exception e) {
@@ -64,10 +64,7 @@ public class UserPassDao implements IUserPassDao {
                     e.printStackTrace();
                 }
             }
-
-        }
-
-
+    }
 
     @Override
     public void deleteUserPass(UserPassModel userPassModel) {
@@ -87,10 +84,7 @@ public class UserPassDao implements IUserPassDao {
                     e.printStackTrace();
                 }
             }
-
-        }
-
-
+    }
 
     @Override
     public UserPassModel getUserPassById(int id) {
@@ -118,32 +112,7 @@ public class UserPassDao implements IUserPassDao {
             }
         }
         return userPassModel;
-
-//            Connection dbConnect = DataBaseConnection.getConnection();
-//            UserPassModel userPassModel = new UserPassModel();
-//            try {
-//                statement = dbConnect.prepareStatement(GET);
-//                statement.setString(1, user);
-//                result = statement.executeQuery();
-//                while (result.next()) {
-//                    userPassModel.setUser(result.getString(1));
-//                    userPassModel.setPass(result.getString(2));
-//                    userPassModel.toString();
-//                }
-//            } catch (Exception e) {
-//                LOGGER.error(e);
-//            } finally {
-//                try {
-//                    DataBaseConnection.close(dbConnect);
-//                    statement.close();
-//                    result.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            return userPassModel;
-
-        }
+    }
 
     @Override
     public List<UserPassModel> getALLUserPass() {
@@ -172,7 +141,6 @@ public class UserPassDao implements IUserPassDao {
         }
         return userPassModels;
     }
-
 }
 
 
