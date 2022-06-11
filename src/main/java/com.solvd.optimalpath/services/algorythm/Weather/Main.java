@@ -7,16 +7,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize
 @JsonAutoDetect
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"tempMin", "tempMax"}, ignoreUnknown = true)
+
 public class Main {
 
     @JsonProperty
     private double temp;
     @JsonProperty("feels_like")
     private double feelslike;
-    @JsonProperty("temp_min")
+//    @JsonProperty("temp_min")
     private double tempMin;
-    @JsonProperty("temp_max")
+//    @JsonProperty("temp_max")
     private double tempMax;
     @JsonProperty
     private int pressure;
@@ -88,8 +89,8 @@ public class Main {
         return
                 "temperature is = " + temp +"C "+
                 ", feels like= " + feelslike +"C "+
-                ", minimum temperature =" + tempMin +"C "+
-                ", maximum temperature=" + tempMax +"C "+
+//                ", minimum temperature =" + tempMin +"C "+
+//                ", maximum temperature=" + tempMax +"C "+
                 ", pressure=" + pressure + "Mpa" +
                 ", humidity= " + humidity + " %";
     }
