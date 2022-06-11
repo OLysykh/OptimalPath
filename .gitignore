@@ -25,10 +25,17 @@ hs_err_pid*
 target
 desktop.ini
 OptimalPath.iml
+<<<<<<< HEAD
 
+=======
+db.properties
+>>>>>>> 2e5578fc46712b7bb061e0ee0f86c0e836c94639
 Main.java
 .DS_Store
 
+<<<<<<< HEAD
 src/main/resources/db.properties
 
+=======
+>>>>>>> 2e5578fc46712b7bb061e0ee0f86c0e836c94639
 
