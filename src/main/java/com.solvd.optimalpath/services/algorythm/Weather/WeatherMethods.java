@@ -57,7 +57,7 @@ public class WeatherMethods {
             }
         }
         JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
-        try (PrintWriter out = new PrintWriter(new FileWriter("src/main/resources/test.json"))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter("src/main/resources/projectMaterials/jsonFiles/Weather.json"))) {
             out.write(jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class WeatherMethods {
     }
 
     public static WeatherData readFromJson() {
-        File file = new File("src/main/resources/test.json");
+        File file = new File("src/main/resources/projectMaterials/jsonFiles/Weather.json");
         ObjectMapper objectMapper = new ObjectMapper();
         WeatherData weatherData = new WeatherData();
         try {

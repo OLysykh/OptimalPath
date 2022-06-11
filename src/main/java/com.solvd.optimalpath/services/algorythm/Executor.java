@@ -1,10 +1,15 @@
 package com.solvd.optimalpath.services.algorythm;
 
+import com.solvd.optimalpath.dao.CitiesDao;
+import com.solvd.optimalpath.models.CitiesModel;
 import com.solvd.optimalpath.services.ClientMenu;
-import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
-import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class Executor {
 
@@ -14,11 +19,8 @@ public class Executor {
 
 
 //        WeatherMethods.createCityRequest(50.0755, 14.4378);//this feature is in production!
-         ClientMenu.start();
-//      WeatherData weatherData = WeatherMethods.readFromJson();
-//        System.out.println(weatherData);
-
-
-
+        ClientMenu.start();
     }
+
+
 }

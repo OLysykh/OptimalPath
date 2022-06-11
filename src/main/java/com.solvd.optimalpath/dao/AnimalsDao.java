@@ -120,31 +120,31 @@ public class AnimalsDao implements IAnimalsDao {
 
     @Override
     public List<AnimalsModel> getALLAnimals() {
-            ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
-            Connection dbConnect = DataBaseConnection.getConnection();
-            try {
-                statement = dbConnect.prepareStatement(GET_ALL);
-                result = statement.executeQuery();
-                while (result.next()) {
-                    AnimalsModel animalsModel = new AnimalsModel();
-                    animalsModel.setId(result.getInt(1));
-                    animalsModel.setTypeOfAnimal(result.getString(2));
-                    animalsModels.add(animalsModel);
-                    animalsModel.toString();
-                }
-            } catch (Exception e) {
-                LOGGER.error(e);
-            } finally {
-                try {
-                    DataBaseConnection.close(dbConnect);
-                    statement.close();
-                    result.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
+        Connection dbConnect = DataBaseConnection.getConnection();
+        try {
+            statement = dbConnect.prepareStatement(GET_ALL);
+            result = statement.executeQuery();
+            while (result.next()) {
+                AnimalsModel animalsModel = new AnimalsModel();
+                animalsModel.setId(result.getInt(1));
+                animalsModel.setTypeOfAnimal(result.getString(2));
+                animalsModels.add(animalsModel);
+                animalsModel.toString();
             }
-            return animalsModels;
+        } catch (Exception e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                DataBaseConnection.close(dbConnect);
+                statement.close();
+                result.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return animalsModels;
+    }
 
     @Override
     public int getMaxId() {
