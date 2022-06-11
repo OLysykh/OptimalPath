@@ -1,0 +1,13 @@
+{
+  "id" : 23,
+  "seatsNum" : "C1",
+  "airlineName" : "Wizzair",
+  "cityArrival" : "Mariupol",
+  "price" : 2100,
+  "timeFlight" : 1.58,
+  "animal" : "no animal",
+  "name" : "Ana",
+  "lastName" : "asde",
+  "passport" : "dfgh56",
+  "phone" : "667788"
+}

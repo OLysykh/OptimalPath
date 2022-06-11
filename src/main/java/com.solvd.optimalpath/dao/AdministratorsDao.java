@@ -1,9 +1,9 @@
 package com.solvd.optimalpath.dao;
 
 import com.solvd.optimalpath.configuration.DataBaseConnection;
-import com.solvd.optimalpath.interfaces.IAnimalsDao;
-import com.solvd.optimalpath.models.AnimalsModel;
-import com.solvd.optimalpath.models.CitiesModel;
+import com.solvd.optimalpath.interfaces.IAdministratorsDao;
+import com.solvd.optimalpath.models.AdministratorsModel;
+import com.solvd.optimalpath.models.AirlinesModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,26 +14,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalsDao implements IAnimalsDao {
-    private static final Logger LOGGER = LogManager.getLogger(AnimalsDao.class);
+public class AdministratorsDao implements IAdministratorsDao {
+
+    private static final Logger LOGGER = LogManager.getLogger(AdministratorsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO animals VALUES (?, ?, ?)";
-    final String UPDATE = "UPDATE animals SET typeOfAnimal = ? WHERE id = ? ";
-    final String DELETE = "DELETE FROM animals WHERE id = ?";
-    final String GET = "SELECT * FROM animals WHERE id = ? ";
-    final String GET_MAX_ID = "SELECT MAX(id) FROM animals";
-
-    private static final String GET_ALL = "SELECT * FROM animals";
+    final String INSERT = "INSERT INTO administrators VALUES (?, ?, ?)";
+    final String UPDATE = "UPDATE administrators SET name = ? WHERE id = ? ";
+    final String DELETE = "DELETE FROM administrators WHERE id = ?";
+    final String GET = "SELECT * FROM administrators WHERE id = ? ";
+    private static final String GET_ALL = "SELECT * FROM administrators";
+    final String GET_BY_NAME = "SELECT * FROM administrators WHERE adminName = ?";
 
     @Override
-    public void createAnimals(AnimalsModel animalsModel) {
+    public void createAdministrators(AdministratorsModel administratorsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(INSERT);
-            statement.setInt(1, (animalsModel.getId()));
-            statement.setString(2, animalsModel.getTypeOfAnimal());
-            statement.setInt(3, animalsModel.getTicketsModel().getId());
+            statement.setInt(1, (administratorsModel.getId()));
+            statement.setString(2, administratorsModel.getAdminName());
+            statement.setString(3, administratorsModel.getPass());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
@@ -46,16 +46,16 @@ public class AnimalsDao implements IAnimalsDao {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
-    public void updateAnimals(AnimalsModel animalsModel) {
+    public void updateAdministrators(AdministratorsModel administratorsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(UPDATE);
-            statement.setString(1, animalsModel.getTypeOfAnimal());
-            statement.setInt(2, animalsModel.getId());
-            statement.setInt(3, animalsModel.getTicketsModel().getId());
+            statement.setString(1, administratorsModel.getAdminName());
+            statement.setInt(2, administratorsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records updated");
         } catch (Exception e) {
@@ -71,13 +71,12 @@ public class AnimalsDao implements IAnimalsDao {
 
     }
 
-
     @Override
-    public void deleteAnimalsById(AnimalsModel animalsModel) {
+    public void deleteAdministratorsById(AdministratorsModel administratorsModel) {
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(DELETE);
-            statement.setInt(1, animalsModel.getId());
+            statement.setInt(1, administratorsModel.getId());
             int i = statement.executeUpdate();
             LOGGER.info(i + " records deleted");
         } catch (Exception e) {
@@ -94,17 +93,20 @@ public class AnimalsDao implements IAnimalsDao {
     }
 
     @Override
-    public AnimalsModel getAnimalsById(int id) {
+    public AdministratorsModel getAdministratorsById(int id) {
+
         Connection dbConnect = DataBaseConnection.getConnection();
-        AnimalsModel animalsModel = new AnimalsModel();
+        AdministratorsModel administratorsModel = new AdministratorsModel();
         try {
+
             statement = dbConnect.prepareStatement(GET);
             statement.setInt(1, id);
             result = statement.executeQuery();
             while (result.next()) {
-                animalsModel.setId(result.getInt(1));
-                animalsModel.setTypeOfAnimal(result.getString(2));
-                animalsModel.toString();
+                administratorsModel.setId(result.getInt(1));
+                administratorsModel.setAdminName(result.getString(2));
+                administratorsModel.setPass(result.getString(3));
+                administratorsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -117,27 +119,26 @@ public class AnimalsDao implements IAnimalsDao {
                 e.printStackTrace();
             }
         }
-        return animalsModel;
+        return administratorsModel;
 
     }
 
     @Override
-    public List<AnimalsModel> getALLAnimals() {
-        ArrayList<AnimalsModel> animalsModels = new ArrayList<>();
+    public List<AdministratorsModel> getALLAdministrators() {
+
+        ArrayList<AdministratorsModel> administratorsModels = new ArrayList<>();
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
             statement = dbConnect.prepareStatement(GET_ALL);
             result = statement.executeQuery();
             while (result.next()) {
-                AnimalsModel animalsModel = new AnimalsModel();
-                animalsModel.setId(result.getInt(1));
-                animalsModel.setTypeOfAnimal(result.getString(2));
+                AdministratorsModel administratorsModel = new AdministratorsModel();
+                administratorsModel.setId(result.getInt(1));
+                administratorsModel.setAdminName(result.getString(2));
+                administratorsModel.setPass(result.getString(3));
 
-                TicketsDao ticketsDao = new TicketsDao();
-                animalsModel.setTicketsModel(ticketsDao.getTicketsById(result.getInt("ticketsId")));
-
-                animalsModels.add(animalsModel);
-                animalsModel.toString();
+                administratorsModels.add(administratorsModel);
+                administratorsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -150,22 +151,24 @@ public class AnimalsDao implements IAnimalsDao {
                 e.printStackTrace();
             }
         }
-        return animalsModels;
+        return administratorsModels;
+
     }
 
     @Override
-    public int getMaxId() {
+    public AdministratorsModel getAdministratorsByName(String adminName) {
         Connection dbConnect = DataBaseConnection.getConnection();
-        int maxId = 0;
+        AdministratorsModel administratorsModel = new AdministratorsModel();
         try {
-            statement = dbConnect.prepareStatement(GET_MAX_ID);
+
+            statement = dbConnect.prepareStatement(GET_BY_NAME);
+            statement.setString(1, adminName);
             result = statement.executeQuery();
             while (result.next()) {
-
-                maxId = result.getInt(1);
-
-                maxId = result.getInt(1);
-
+                administratorsModel.setId(result.getInt(1));
+                administratorsModel.setAdminName(result.getString(2));
+                administratorsModel.setPass(result.getString(3));
+                administratorsModel.toString();
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -178,8 +181,9 @@ public class AnimalsDao implements IAnimalsDao {
                 e.printStackTrace();
             }
         }
-        return maxId;
-
+        return administratorsModel;
 
     }
+
+
 }

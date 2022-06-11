@@ -1,7 +1,11 @@
 package com.solvd.optimalpath.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+@JsonAutoDetect
+@JsonIgnoreProperties(value = { "airlinesModel", "citiesModel", "classTypesModel", "clientsModel", "animalsModelsList",  "destinationCity"})
 public class TicketsModel {
     private int id;
     private AirlinesModel airlinesModel;
@@ -15,6 +19,12 @@ public class TicketsModel {
     private String cityArrival;
     private int price;
     private double timeFlight;
+    private String animal = "no animal";
+    private String name;
+    private String lastName;
+    private String passport;
+    private String phone;
+    private AdministratorsModel administratorsModel;
 
     public TicketsModel() {
     }
@@ -36,6 +46,45 @@ public class TicketsModel {
         this.timeFlight = timeFlight;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(String animal) {
+        this.animal = animal;
+    }
 
     public int getId() {
         return id;
@@ -132,6 +181,11 @@ public class TicketsModel {
     public void setTimeFlight(double timeFlight) {
         this.timeFlight = timeFlight;
     }
+
+    public AdministratorsModel getAdministratorsModel() { return administratorsModel; }
+
+    public void setAdministratorsModel(AdministratorsModel administratorsModel) {
+        this.administratorsModel = administratorsModel; }
 
     @Override
     public String toString() {
