@@ -1,12 +1,12 @@
 package com.solvd.optimalpath.enums;
 
 public enum Menu {
-    LASAGNA(25),
-    SALAD(18),
-    PASTA(20),
-    PANINI(15),
-    BURGER(12),
-    TAPAS(10);
+    LASAGNA(270),
+    SALAD(200),
+    PASTA(250),
+    PANINI(130),
+    BURGER(150),
+    TAPAS(80);
 
     private int price;
 

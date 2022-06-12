@@ -1,13 +1,13 @@
 package com.solvd.optimalpath.enums;
 
 public enum Drinks {
-    SODA(5),
-    WATER(2),
-    TEA(8),
-    COFFEE(10),
-    JUICE(6),
-    BEER(12),
-    VINE(15);
+    SODA(35),
+    WATER(30),
+    TEA(50),
+    COFFEE(70),
+    JUICE(45),
+    BEER(75),
+    VINE(100);
 
     private int price;
 

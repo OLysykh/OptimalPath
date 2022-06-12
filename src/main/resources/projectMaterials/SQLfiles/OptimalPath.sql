@@ -1,63 +1,62 @@
-
-
-CREATE TABLE `cities` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(255),
-  `latitude` double,
-  `longitude` double,
-  `standartTariff` int 
+Use optimalpath;
+CREATE TABLE cities (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  name varchar(255),
+  latitude double,
+  longitude double,
+  standartTariff int 
 );
 
-CREATE TABLE `airlines` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(255),
-  `citiesId` int
+CREATE TABLE airlines (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  name varchar(255),
+  citiesId int
 );
 
-CREATE TABLE `classTypes` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `typeName` varchar(255),
-  `citiesId` int
+CREATE TABLE classTypes (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  typeName varchar(255),
+  citiesId int
 );
 
-CREATE TABLE `clients` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `firstName` varchar(255),
-  `lastName` varchar(255),
-  `passportNum` varchar(255),
-  `phoneNum` varchar(255)
+CREATE TABLE clients (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  firstName varchar(255),
+  lastName varchar(255),
+  passportNum varchar(255),
+  phoneNum varchar(255)
 );
 
-CREATE TABLE `animals` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `typeOfAnimal` varchar(255),
-  `ticketsId` int
+CREATE TABLE animals (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  typeOfAnimal varchar(255),
+  ticketsId int
 );
 
-CREATE TABLE `tickets` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `airlinesId` int,
-  `citiesId` int,
-  `classTypesId` int,
-  `clientsId` int,
-  `destinationCity` varchar(255),
-  `seatsNum` varchar(255),
-  `price` int
+CREATE TABLE tickets (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  airlinesId int,
+  citiesId int,
+  classTypesId int,
+  clientsId int,
+  destinationCity varchar(255),
+  seatsNum varchar(255),
+  price int
 );
 
-ALTER TABLE `airlines` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE airlines ADD FOREIGN KEY (citiesId) REFERENCES cities (id);
 
-ALTER TABLE `classTypes` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE classTypes ADD FOREIGN KEY (citiesId) REFERENCES cities (id);
 
-ALTER TABLE `animals` ADD FOREIGN KEY (`ticketsId`) REFERENCES `tickets` (`id`);
+ALTER TABLE animals ADD FOREIGN KEY (ticketsId) REFERENCES tickets (id);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`airlinesId`) REFERENCES `airlines` (`id`);
+ALTER TABLE tickets ADD FOREIGN KEY (airlinesId) REFERENCES airlines (id);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`citiesId`) REFERENCES `cities` (`id`);
+ALTER TABLE tickets ADD FOREIGN KEY (citiesId) REFERENCES cities (id);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`classTypesId`) REFERENCES `classTypes` (`id`);
+ALTER TABLE tickets ADD FOREIGN KEY (classTypesId) REFERENCES classTypes (id);
 
-ALTER TABLE `tickets` ADD FOREIGN KEY (`clientsId`) REFERENCES `clients` (`id`);
+ALTER TABLE tickets ADD FOREIGN KEY (clientsId) REFERENCES clients (id);
 
 INSERT INTO cities (name, latitude, longitude, standartTariff)
 VALUES ('Kyiv','50.45','30.51',0),
@@ -167,16 +166,9 @@ VALUES ('Peter','Vasilishvili', 'CE280564', "+38067101010"),
 ('Lilia','Flower', 'OP2805659', "+38069701041"),
 ('Alon','Freeman', 'PT2805653', "+38067102311");
 
-INSERT INTO tickets (airlinesId, citiesId, classTypesId, clientsId, price)
-VALUES ('1','1','2','1','400'),
-('2','2','3','2','200'),
-('3','3','4','3','400'),
-('4','4','5','4','200'),
-('5','5','6','5','50');
-
 INSERT INTO animals (typeOfAnimal, ticketsId)
-VALUES ('Cat', 1),
-('Dog', 2),
-('Rabbit', 3),
-('Chinchilla', 4),
-('Mouse', 5);
+VALUES ('Cat', null),
+('Dog', null),
+('Rabbit', null),
+('Chinchilla', null),
+('Mouse', null);

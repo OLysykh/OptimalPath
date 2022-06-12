@@ -1,14 +1,9 @@
 package com.solvd.optimalpath.services;
 
 
-import com.solvd.optimalpath.configuration.DataBaseConnection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.solvd.optimalpath.dao.AirlinesDao;
-import com.solvd.optimalpath.dao.AnimalsDao;
-import com.solvd.optimalpath.dao.CitiesDao;
-import com.solvd.optimalpath.dao.ClientsDao;
-import com.solvd.optimalpath.dao.TicketsDao;
+import com.solvd.optimalpath.dao.*;
 import com.solvd.optimalpath.enums.Drinks;
 import com.solvd.optimalpath.enums.Menu;
 import com.solvd.optimalpath.interfaces.IAirlinesDao;
@@ -21,14 +16,17 @@ import com.solvd.optimalpath.models.ClientsModel;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.services.algorythm.DijkstraAlgorithm;
 import com.solvd.optimalpath.services.algorythm.Graph;
-import com.solvd.optimalpath.services.algorythm.Weather.Main;
 import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
 import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class ClientMenu {
     private static final Logger LOGGER = LogManager.getLogger(ClientMenu.class);
@@ -56,7 +54,7 @@ public class ClientMenu {
                 }
             }
         }
-        LOGGER.info("If you are not interested in travelling and want to leave our ticket office just press 0");
+        LOGGER.info("If you aren't interested in travelling and want to leave our ticket office press 0");
         Scanner in = new Scanner(System.in);
         String line;
         line = in.nextLine();
@@ -84,8 +82,8 @@ public class ClientMenu {
 
             double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(), iCitiesDao.getCitiesById(1).getLongitude(), iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
 
-            ticket.setTimeFlight(Math.round((distance / 950.00 + 0.85) * 100) / 100.00);//
-            if (ticket.getTimeFlight() > 1.6) {
+            ticket.setTimeFlight(Math.round((distance / 950.00 + 0.92) * 100) / 100.00);//
+            if (ticket.getTimeFlight() >= 1.6) {
                 ticket.setTimeFlight(2.0 + ticket.getTimeFlight() - 1.6);
             }
 
@@ -103,6 +101,7 @@ public class ClientMenu {
 
         for (CitiesModel nod : graph.getNodes()) {
             if (nod.getId() == number) {
+
                 LOGGER.info("Your travel distance is  " + nod.getDistance() + " km to " + nod.getName() + " city.");
                 List<CitiesModel> list = nod.getShortestPath();
                 LOGGER.info("Your flight will pass through following cities:");
@@ -114,7 +113,7 @@ public class ClientMenu {
 
                 LOGGER.info(" your flight will take: " + ticket.getTimeFlight() + " hours to " + iCity.getCitiesById(number).getName() + " and your airline is: " + airlinesDao.getAirlinesById(number).getName() + ".");
                 LOGGER.info("*************************************************\n");
-                sleepNSeconds(1);
+                sleepNSeconds(2);
                 WeatherMethods.createCityRequest(iCitiesDao.getCitiesById(number).getLatitude(), iCitiesDao.getCitiesById(number).getLongitude());
                 WeatherData weatherData = WeatherMethods.readFromJson();
                 LOGGER.info(weatherData);
@@ -298,14 +297,6 @@ public class ClientMenu {
         userTicket();
     }
 
-    public static void sleepNSeconds(int n) {
-        try {
-            Thread.sleep(n * delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void ticketToFile(TicketsModel ticket) {
         ObjectMapper om = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         File file = new File("src/main/resources/projectMaterials/jsonFiles/ticket.json");
@@ -321,11 +312,12 @@ public class ClientMenu {
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
         if (!line.matches("[1-4]")) {
-            System.out.println("Wrong input, please try again");
+            LOGGER.info("Wrong input, please try again");
             animalTicket();
         } else {
             switch (line) {
-                case "1" -> { LOGGER.info("Please choose your type of animal:");
+                case "1" -> {
+                    LOGGER.info("Please choose your type of animal:");
                     IAnimalsDao iAnimalsDao = new AnimalsDao();
                     LOGGER.info("----------------------------------------------------------");
                     LOGGER.info("Press 1, if you have a CAT");
@@ -338,31 +330,29 @@ public class ClientMenu {
                     String lineAnimal;
                     lineAnimal = input.nextLine();
                     if (!lineAnimal.matches("[1-6]")) {
-                        System.out.println("Wrong input, please try again");
+                        LOGGER.info("Wrong input, please try again");
                         animalTicket();
-
-
                     } else if (lineAnimal.matches("6")) {
                         LOGGER.info("Please write type of your animal:");
                         int i = iAnimalsDao.getMaxId();
                         Scanner writeTypeAnimal = new Scanner(System.in);
                         String inputTypeOfAnimal = writeTypeAnimal.nextLine();
-                        AnimalsModel animalsModel = new AnimalsModel(++i,inputTypeOfAnimal, new TicketsModel());
+                        AnimalsModel animalsModel = new AnimalsModel(++i, inputTypeOfAnimal, new TicketsModel());
                         iAnimalsDao.createAnimals(animalsModel);
 
                         LOGGER.info(iAnimalsDao.getAnimalsById(i));
                         LOGGER.info("Your ticket will expensive on 50");
-                        ticket.setPrice(ticket.getPrice()+50);
+                        ticket.setPrice(ticket.getPrice() + 50);
                         LOGGER.info("Price of your ticket = " + ticket.getPrice());
-                    }
-                    else {
+                    } else {
                         LOGGER.info(iAnimalsDao.getAnimalsById(Integer.parseInt(lineAnimal)));
-                        LOGGER.info("Your ticket will expensive on 50");
-                        ticket.setPrice(ticket.getPrice()+50);
-                        LOGGER.info("Price of your ticket = " + ticket.getPrice());
+                        LOGGER.info("Your ticket will expensive on 50 UAH");
+                        ticket.setPrice(ticket.getPrice() + 50);
+                        LOGGER.info("Price of your ticket = " + ticket.getPrice() + " UAH");
                     }
                 }
-                case "2" -> { LOGGER.info("Thank you for your choice, your ticket price:");
+                case "2" -> {
+                    LOGGER.info("Thank you for your choice, your ticket price:");
                     LOGGER.info(ticket.getPrice());
                 }
                 case "3" -> start();
@@ -378,6 +368,13 @@ public class ClientMenu {
         }
     }
 
+    public static void sleepNSeconds(int n) {
+        try {
+            Thread.sleep(n * delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     public static void userTicket() {
         LOGGER.info("Do you want to by this ticket?");
         LOGGER.info("------------------------------------------");
