@@ -1,0 +1,14 @@
+{
+  "id" : 2,
+  "seatsNum" : "B1",
+  "airlineName" : "Ryanair",
+  "cityArrival" : "Dnipro",
+  "price" : 1100,
+  "timeFlight" : 1.28,
+  "animal" : "no animal",
+  "name" : "555",
+  "lastName" : "555",
+  "passport" : "55",
+  "phone" : "55",
+  "administratorsModel" : null
+}
