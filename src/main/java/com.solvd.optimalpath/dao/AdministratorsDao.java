@@ -19,7 +19,7 @@ public class AdministratorsDao implements IAdministratorsDao {
     private static final Logger LOGGER = LogManager.getLogger(AdministratorsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO administrators VALUES (?, ?, ?)";
+    final String INSERT = "INSERT INTO administrators VALUES ( ?, ?)";
     final String UPDATE = "UPDATE administrators SET name = ? WHERE id = ? ";
     final String DELETE = "DELETE FROM administrators WHERE id = ?";
     final String GET = "SELECT * FROM administrators WHERE id = ? ";

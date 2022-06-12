@@ -179,7 +179,5 @@ public class AnimalsDao implements IAnimalsDao {
             }
         }
         return maxId;
-
-
     }
 }

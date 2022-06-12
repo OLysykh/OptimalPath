@@ -18,7 +18,6 @@ public class TicketsDao implements ITicketsDao {
     private static final Logger LOGGER = LogManager.getLogger(TicketsDao.class);
     PreparedStatement statement = null;
     ResultSet result = null;
-    final String INSERT = "INSERT INTO tickets VALUES (?, ?, ?, ?, ?, ?, ?)";
     final String UPDATE = "UPDATE tickets SET seatsNum = ? WHERE id = ?";
     final String DELETE = "DELETE FROM tickets WHERE id = ? ";
     final String GET = "SELECT * FROM tickets WHERE id = ? ";
@@ -26,15 +25,6 @@ public class TicketsDao implements ITicketsDao {
 
     @Override
     public void createTickets(TicketsModel ticketsModel) {
-
-        LOGGER.info(ticketsModel.getAirlinesModel().getId()+" airlineMOdel");
-        LOGGER.info(ticketsModel.getCitiesModel().getId()+" cityModel");
-        LOGGER.info(ticketsModel.getClassTypesModel().getId()+" classtype");
-        LOGGER.info(ticketsModel.getClientsModel().getId()+" client");
-        LOGGER.info(ticketsModel.getCitiesModel().getName()+" destinatuoon city name");
-        LOGGER.info(ticketsModel.getSeatsNum()+" seat");
-        LOGGER.info(ticketsModel.getPrice()+" price");
-        LOGGER.info("administartor");
 
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
@@ -46,10 +36,7 @@ public class TicketsDao implements ITicketsDao {
             statement.setString(5, ticketsModel.getCityArrival());
             statement.setString(6, ticketsModel.getSeatsNum());
             statement.setInt(7, ticketsModel.getPrice());
-//            statement.setInt(7, ticketsModel.getPrice());
-            statement.execute();
             int i = statement.executeUpdate();
-            LOGGER.info(i + " records inserted");
         } catch (Exception e) {
             LOGGER.error(e);
         } finally {

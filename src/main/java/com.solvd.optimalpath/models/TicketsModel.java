@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 @JsonAutoDetect
-@JsonIgnoreProperties(value = { "airlinesModel", "citiesModel", "classTypesModel", "clientsModel", "animalsModelsList",  "destinationCity"})
+@JsonIgnoreProperties(value = { "airlinesModel", "citiesModel", "classTypesModel", "clientsModel", "animalsModelsList",  "destinationCity","administratorsModel"})
 public class TicketsModel {
     private int id;
     private AirlinesModel airlinesModel;

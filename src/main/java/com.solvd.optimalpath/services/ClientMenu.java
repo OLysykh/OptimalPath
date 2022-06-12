@@ -19,7 +19,6 @@ import com.solvd.optimalpath.services.algorythm.Weather.WeatherData;
 import com.solvd.optimalpath.services.algorythm.Weather.WeatherMethods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -102,8 +101,8 @@ public class ClientMenu {
 
             double distance = DistanceCalculation.distance_Between_LatLong(iCitiesDao.getCitiesById(1).getLatitude(), iCitiesDao.getCitiesById(1).getLongitude(), iCitiesDao.getCitiesById(cityId).getLatitude(), iCitiesDao.getCitiesById(cityId).getLongitude());
 
-            ticket.setTimeFlight(Math.round((distance / 950.00 + 0.85) * 100) / 100.00);//
-            if (ticket.getTimeFlight() > 1.6) {
+            ticket.setTimeFlight(Math.round((distance / 950.00 + 0.92) * 100) / 100.00);//
+            if (ticket.getTimeFlight() >= 1.6) {
                 ticket.setTimeFlight(2.0 + ticket.getTimeFlight() - 1.6);
             }
 
@@ -336,7 +335,7 @@ public class ClientMenu {
             if (!file.exists())
                 file.createNewFile();
             om.writeValue(file, ticket);
-            LOGGER.info("created!");
+            LOGGER.info("Your ticket is created, wish you a safe flight!");
         } catch (IOException e) {
             LOGGER.error(e);
         }
@@ -409,15 +408,8 @@ public class ClientMenu {
     }
 
     public static void ticketToDB(TicketsModel ticket) {
-        temp(ticket);
-//        ITicketsDao iTicketsDao = new TicketsDao();
-//        iTicketsDao.createTickets(ticket);
-
-    }
-
-    public static void temp(TicketsModel ticket) {
         ITicketsDao iTicketsDao = new TicketsDao();
         iTicketsDao.createTickets(ticket);
-        LOGGER.info("hello from here");
+
     }
 }

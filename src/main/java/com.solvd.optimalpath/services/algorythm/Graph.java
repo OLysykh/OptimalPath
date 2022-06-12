@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Graph {
 
-    //https://www.baeldung.com/java-dijkstra
+    //https://www.baeldung.com/java-dijkstra - source of algorythm
 
     private Set<CitiesModel> nodes = new HashSet<>();
 
@@ -27,15 +27,15 @@ public class Graph {
         nodes.add(nodeA);
     }
 
-    public CitiesModel getIt(){
+    public CitiesModel getIt() {
         CitiesModel temp = null;
-        for (CitiesModel element: nodes){
-            if (element.getName().equals("Kyiv")){
+        for (CitiesModel element : nodes) {
+            if (element.getName().equals("Kyiv")) {
                 temp = element;
             }
-        }return temp;
+        }
+        return temp;
     }
-
 
 
     @Override

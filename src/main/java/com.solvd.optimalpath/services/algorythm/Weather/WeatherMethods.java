@@ -2,10 +2,9 @@ package com.solvd.optimalpath.services.algorythm.Weather;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.solvd.optimalpath.services.algorythm.Executor;
+import com.solvd.optimalpath.Executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +12,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class WeatherMethods {
 
@@ -25,7 +21,6 @@ public class WeatherMethods {
     private static String queryMiddle = "&lon=";
     private static String queryEnd = "&appid=46ad646a46ebd0606746c40d0f19d357&units=metric";
 
-    //тут мы генерируем ссылку длоя каждого
     public static void createCityRequest(double lang, double lon){
         getWeather(queryStart + lang + queryMiddle + lon + queryEnd);
     }
@@ -69,10 +64,7 @@ public class WeatherMethods {
         ObjectMapper objectMapper = new ObjectMapper();
         WeatherData weatherData = new WeatherData();
         try {
-//            String result = RequestHolding.getStringFromResponse(lat, lon);
-//            StringReader reader = new StringReader(result);
             weatherData = objectMapper.readValue(file, WeatherData.class);
-//            objectMapper.writeValue(new File(path), weatherInfo);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

@@ -20,7 +20,7 @@ public class DijkstraAlgorithm {
         while (unsettledNodes.size() != 0) {
             CitiesModel currentNode = getLowestDistanceNode(unsettledNodes);
             unsettledNodes.remove(currentNode);
-            for (Map.Entry<CitiesModel, Integer> adjacencyPair:
+            for (Map.Entry<CitiesModel, Integer> adjacencyPair :
                     currentNode.getAdjacentNodes().entrySet()) {
                 CitiesModel adjacentNode = adjacencyPair.getKey();
                 Integer edgeWeight = adjacencyPair.getValue();
@@ -34,10 +34,10 @@ public class DijkstraAlgorithm {
         return graph;
     }
 
-    private static CitiesModel getLowestDistanceNode(Set < CitiesModel > unsettledNodes) {
+    private static CitiesModel getLowestDistanceNode(Set<CitiesModel> unsettledNodes) {
         CitiesModel lowestDistanceNode = null;
         int lowestDistance = Integer.MAX_VALUE;
-        for (CitiesModel node: unsettledNodes) {
+        for (CitiesModel node : unsettledNodes) {
             int nodeDistance = node.getDistance();
             if (nodeDistance < lowestDistance) {
                 lowestDistance = nodeDistance;

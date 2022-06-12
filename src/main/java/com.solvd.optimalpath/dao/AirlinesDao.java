@@ -146,8 +146,5 @@ public class AirlinesDao implements IAirlinesDao {
             }
         }
         return airlinesModels;
-
     }
-
-
 }

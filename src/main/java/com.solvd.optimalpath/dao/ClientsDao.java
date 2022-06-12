@@ -35,7 +35,6 @@ public class ClientsDao implements IClientsDao {
             statement.setString(4, clientsModel.getPassportNum());
             statement.setString(5, clientsModel.getPhoneNum());
             int i = statement.executeUpdate();
-            LOGGER.info(i + " records inserted");
         } catch (Exception e) {
             LOGGER.error(e);
         } finally {

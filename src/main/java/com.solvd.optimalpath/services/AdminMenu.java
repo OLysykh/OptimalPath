@@ -1,17 +1,19 @@
 package com.solvd.optimalpath.services;
+
 import com.solvd.optimalpath.dao.AdministratorsDao;
 import com.solvd.optimalpath.dao.TicketsDao;
 import com.solvd.optimalpath.models.TicketsModel;
 import com.solvd.optimalpath.models.AdministratorsModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.util.Scanner;
 
 public class AdminMenu {
     private static final Logger LOGGER = LogManager.getLogger(AdminMenu.class);
 
     public static void supervisor() {
-        while(true) {
+        while (true) {
             LOGGER.info("Please, choose work mode: ");
             LOGGER.info("*************************************************");
             LOGGER.info("Press 1, to choose Superuser mode");
@@ -65,7 +67,7 @@ public class AdminMenu {
 
     public static void administrator() {
         checkPasswordAdmin();
-        while(true) {
+        while (true) {
             LOGGER.info("Please, choose work mode: ");
             LOGGER.info("*************************************************");
             LOGGER.info("Press 1, if you want to see information about solded places");
@@ -126,7 +128,7 @@ public class AdminMenu {
         String confirmPass = in2.nextLine();
 
         if (pass.equals(confirmPass)) {
-            AdministratorsModel administratorsModel = new AdministratorsModel (adminName, confirmPass);
+            AdministratorsModel administratorsModel = new AdministratorsModel(adminName, confirmPass);
             administratorsDao.createAdministrators(administratorsModel);
         } else {
             LOGGER.info("Passwords are not equivalent. Please, try again");
@@ -155,7 +157,7 @@ public class AdminMenu {
             sum = sum + ticket.getPrice();
         }
         LOGGER.info("*************************************************");
-        LOGGER.info("tickets sold out for " + sum +  " hryvnias;");
+        LOGGER.info("tickets sold out for " + sum + " hryvnias;");
         LOGGER.info("*************************************************");
     }
 
@@ -208,15 +210,15 @@ public class AdminMenu {
 
             if (user.equals(userPassDao.getAdministratorsByName(user).getAdminName()) &&
                     password.equals(userPassDao.getAdministratorsByName(user).getPass())) {
-                    LOGGER.info("Welcome, " + user + "!");
-                    isPassCorrect = true;
-                    break;
+                LOGGER.info("Welcome, " + user + "!");
+                isPassCorrect = true;
+                break;
 
-            } else if(i==2) {
+            } else if (i == 2) {
                 LOGGER.info("You haven't more opportunity!");
                 System.exit(0);
             } else {
-                LOGGER.info("Name or password isn't correct. You have " + (2-i) + " opportunity. Try again.");
+                LOGGER.info("Name or password isn't correct. You have " + (2 - i) + " opportunity. Try again.");
             }
 
         }
@@ -231,7 +233,7 @@ public class AdminMenu {
             boolean isPassCorrect = false;
             int index = 1;
             String user = "SuperUser";
-            while(userPassDao.getAdministratorsById(index).getAdminName()!=null){
+            while (userPassDao.getAdministratorsById(index).getAdminName() != null) {
                 if (user.equals(userPassDao.getAdministratorsByName(user).getAdminName()) &&
                         password.equals(userPassDao.getAdministratorsByName(user).getPass())) {
                     LOGGER.info("Welcome, SuperUser !");
@@ -239,13 +241,15 @@ public class AdminMenu {
                     break;
                 }
                 index++;
-            }  if(isPassCorrect) {
+            }
+            if (isPassCorrect) {
                 break;
-            } if(i==2) {
+            }
+            if (i == 2) {
                 LOGGER.info("You haven't more opportunity!");
                 System.exit(0);
             } else {
-                LOGGER.info("Password isn't correct. You have " + (2-i) + " opportunity. Try again.");
+                LOGGER.info("Password isn't correct. You have " + (2 - i) + " opportunity. Try again.");
             }
         }
     }

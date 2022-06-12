@@ -10,7 +10,6 @@ public class ClassTypesModel {
     private String typeName;
     private CitiesModel citiesModel;
 
-
     public ClassTypesModel() {
 
     }
