@@ -1,4 +1,4 @@
-Use optimalpath;
+
 CREATE TABLE cities (
   id int PRIMARY KEY AUTO_INCREMENT,
   name varchar(255),
@@ -41,7 +41,14 @@ CREATE TABLE tickets (
   clientsId int,
   destinationCity varchar(255),
   seatsNum varchar(255),
-  price int
+  price int,
+  administratorsId int
+);
+
+CREATE TABLE administrators (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  adminName varchar(255),
+  pass varchar(255)
 );
 
 ALTER TABLE airlines ADD FOREIGN KEY (citiesId) REFERENCES cities (id);
@@ -57,6 +64,8 @@ ALTER TABLE tickets ADD FOREIGN KEY (citiesId) REFERENCES cities (id);
 ALTER TABLE tickets ADD FOREIGN KEY (classTypesId) REFERENCES classTypes (id);
 
 ALTER TABLE tickets ADD FOREIGN KEY (clientsId) REFERENCES clients (id);
+
+ALTER TABLE tickets ADD FOREIGN KEY (administratorsId) REFERENCES administrators (id);
 
 INSERT INTO cities (name, latitude, longitude, standartTariff)
 VALUES ('Kyiv','50.45','30.51',0),
@@ -172,3 +181,11 @@ VALUES ('Cat', null),
 ('Rabbit', null),
 ('Chinchilla', null),
 ('Mouse', null);
+
+INSERT INTO administrators (adminName, pass)
+VALUES ('Roma', 'roma'),
+('Alex', 'alex'),
+('Olga', 'olga'),
+('Taras', 'taras'),
+('Yurii', 'yurii'),
+('SuperUser', 'superuser');

@@ -17,6 +17,11 @@ public class AnimalsModel {
         this.ticketsModel = ticketsModel;
     }
 
+    public AnimalsModel(int id, String typeOfAnimal) {
+        this.id = id;
+        this.typeOfAnimal = typeOfAnimal;
+    }
+
     public int getId() {
         return id;
     }

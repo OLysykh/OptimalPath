@@ -24,6 +24,7 @@ public class TicketsModel {
     private String lastName;
     private String passport;
     private String phone;
+    private AdministratorsModel administratorsModel;
 
     public TicketsModel() {
     }
@@ -180,6 +181,11 @@ public class TicketsModel {
     public void setTimeFlight(double timeFlight) {
         this.timeFlight = timeFlight;
     }
+
+    public AdministratorsModel getAdministratorsModel() { return administratorsModel; }
+
+    public void setAdministratorsModel(AdministratorsModel administratorsModel) {
+        this.administratorsModel = administratorsModel; }
 
     @Override
     public String toString() {
