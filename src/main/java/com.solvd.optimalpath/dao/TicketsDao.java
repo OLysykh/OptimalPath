@@ -26,10 +26,19 @@ public class TicketsDao implements ITicketsDao {
 
     @Override
     public void createTickets(TicketsModel ticketsModel) {
+
+        LOGGER.info(ticketsModel.getAirlinesModel().getId()+" airlineMOdel");
+        LOGGER.info(ticketsModel.getCitiesModel().getId()+" cityModel");
+        LOGGER.info(ticketsModel.getClassTypesModel().getId()+" classtype");
+        LOGGER.info(ticketsModel.getClientsModel().getId()+" client");
+        LOGGER.info(ticketsModel.getCitiesModel().getName()+" destinatuoon city name");
+        LOGGER.info(ticketsModel.getSeatsNum()+" seat");
+        LOGGER.info(ticketsModel.getPrice()+" price");
+        LOGGER.info("administartor");
+
         Connection dbConnect = DataBaseConnection.getConnection();
         try {
-            statement = dbConnect.prepareStatement(INSERT);
-//            statement.setInt(1, ticketsModel.getId());
+            statement = dbConnect.prepareStatement("INSERT INTO tickets (airlinesId,citiesId,classTypesId,clientsId,destinationCity,seatsNum,price) VALUES(?,?,?,?,?,?,?)");
             statement.setInt(1, ticketsModel.getAirlinesModel().getId());
             statement.setInt(2, ticketsModel.getCitiesModel().getId());
             statement.setInt(3, ticketsModel.getClassTypesModel().getId());
@@ -38,6 +47,7 @@ public class TicketsDao implements ITicketsDao {
             statement.setString(6, ticketsModel.getSeatsNum());
             statement.setInt(7, ticketsModel.getPrice());
 //            statement.setInt(7, ticketsModel.getPrice());
+            statement.execute();
             int i = statement.executeUpdate();
             LOGGER.info(i + " records inserted");
         } catch (Exception e) {
